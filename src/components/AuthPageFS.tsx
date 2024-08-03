@@ -16,7 +16,9 @@ const AuthPageFS = () => {
           <div className='flex flex-col items-center'>
             <input type="button" name="valider" id="" value={"Continuer"} className='w-96 h-12 border-[1px] border-[#9f9d9d] rounded-3xl px-3 bg-[#E35E07] text-white ' />
           </div>
-          <span className='rounded-full border-[1px] border-[#9F9D9D] px-2 text-[#9F9D9D]'>
+          
+        </form>
+        <span className='rounded-full border-[1px] border-[#9F9D9D] px-2 text-[#9F9D9D]'>
             ou
           </span>
           <button name="oauthGoogle" id="oauthGoogle" className='w-96 h-12 border-[1px] border-[#9f9d9d] rounded-3xl px-3 text-[#4F4B4B] flex flex-row justify-center items-center gap-4'>
@@ -28,16 +30,15 @@ const AuthPageFS = () => {
           </span>
           <div className='flex flex-row gap-4'>
             <button>
-          <FaFacebook className='text-[#314698] h-7 w-6 '/>
+              <FaFacebook className='text-[#314698] h-7 w-6 ' />
             </button>
-          <button>
-          <FaApple className=' text-[#484848] rounded-md h-7 w-6 '/>
-          </button>
+            <button>
+              <FaApple className=' text-[#484848] rounded-md h-7 w-6 ' />
+            </button>
           </div>
-        </form>
       </div>
       <div className='bg-white w-1/2 h-full hidden lg:flex'>
-        <Image src="/assets/images/Rectangle 9.svg" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto ' width={800} height={0} />
+        <Image src="/assets/images/auth-image.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto ' width={800} height={0} />
       </div>
 
     </div>

@@ -1,10 +1,11 @@
-import AuthPageFS from "@/pages/AuthPageFS";
-import Image from "next/image";
+import AuthPageFS from "@/components/AuthPageFS";
+import AuthPageTT from "@/components/AuthPageTT";
 
 export default function Home() {
   return (
     <div >
-      <AuthPageFS />
+      {/* <AuthPageFS /> */}
+      <AuthPageTT />
     </div>
   );
 }
