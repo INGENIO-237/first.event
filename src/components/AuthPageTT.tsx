@@ -1,32 +1,38 @@
+'use client';
 import Image from 'next/image'
-import React from 'react'
-import { FaApple, FaFacebook } from 'react-icons/fa'
-import { FcGoogle } from 'react-icons/fc'
+import React, { useState } from 'react'
 
 const AuthPageTT = () => {
+  const otpLength = 6;
+  const [otp, setOtp] = useState(Array<number|null>(6));
+  const [focus, setFocus] = useState();
+  console.log(otp);
+  
+
   return (
-    <div className='w-screen h-screen lg:flex justify-center items-center mx-auto flex-row py-0 '>
-    <div className='flex lg:w-1/2 gap-6 h-full flex-col justify-center  items-center text-center bg-white' >
-      <Image src="/assets/logo.png" alt="Next.js Logo" className='w-72' width={427} height={99} />
-      <h1 className='text-3xl font-bold text-[#270B87] mt-12' >Confirmation OTP</h1>
-      <span className='text-[#484848] flex flex-col font-normal w-3/4 px-12 text-start'>Pour des mesures de securité, nous avons besoin de confirmer votre identite. Veiller inserer le code de validation à 6 chiffres que vous avez reçu par mail ou par SMS.</span>
-      <form className='flex flex-col gap-8 justify-center items-center '>
-      <div className="flex justify-center space-x-2">
-      <input className="otp-input" />
-      <input type="text"  className="otp-input" />
-      <input type="text"  className="otp-input" />
-      <input type="text"  className="otp-input" />
-      <input type="text"  className="otp-input" />
-      <input type="text"  className="otp-input" />
-    </div>
-      </form>
-    </div>
-    <div className='bg-white w-1/2 h-full hidden lg:flex'>
-      <Image src="/assets/images/auth-image2.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto ' width={800} height={0} />
+    <div className='w-full h-screen md:flex flex-row bg-white'>
+      <div className='flex lg:w-1/2 gap-6 w-full flex-col justify-center items-center ' >
+        <div className='flex justify-center max-sm:relative  max-sm:top-10'>
+        <Image src="/assets/logo.png" alt="Next.js Logo" className='w-3/4' width={350} height={99} />
+        </div>
+        <div className='flex flex-col items-center gap-6'>
+          <h1 className='text-3xl font-bold text-[#270B87] mt-9 lg:mt-6' >Confirmation OTP</h1>
+          <span className='text-[#484848] font-normal text-sm w-8/12 md:w-6/12'>
+            Pour des mesures de securité, nous avons besoin de confirmer votre identite. Veiller inserer le code de validation à 6 chiffres que vous avez reçu par mail ou par SMS.
+            </span>
+        </div>
+        <form className='flex flex-col gap-8 justify-center items-center '>
+          <div className="flex justify-center items-center">
+            
+          </div>
+        </form>
+      </div>
+      <div className='bg-white w-1/2 h-full hidden lg:flex'>
+        <Image src="/assets/images/auth-image2.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto ' width={800} height={0} />
+
+      </div>
 
     </div>
-
-  </div>
   )
 }
 
