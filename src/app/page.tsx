@@ -1,4 +1,4 @@
-import AuthPageFS from "@/components/AuthPageFS";
+import AuthPageFS from "@/app/(auth)/login/page";
 import AuthPageTT from "@/components/AuthPageTT";
 
 export default function Home() {
