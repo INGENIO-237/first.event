@@ -28,10 +28,10 @@ const Footer: React.FC = () => {
         icon: FaInstagram,
     }]
     return (
-        <footer className="bg-indigo-900 text-white">
-            <div className="container mx-auto px-4 py-8">
-                <div className="flex justify-between gap-8 m-8">
-                    <div className="flex flex-row md:flex-col justify-between items-center mb-8">
+        <footer className="bg-indigo-900 text-white w-screen">
+            <div className="container mx-0 py-8">
+                <div className="flex flex-col lg:flex-row justify-between gap-8 m-8">
+                    <div className="flex flex-col lg:flex-row justify-between items-center mb-8">
                         <div className="flex space-x-4">
                             {socials.map((social, index) => {
 
@@ -50,13 +50,13 @@ const Footer: React.FC = () => {
                             <Image src={logo} alt="FirstEvent Logo" width={250} height={40}/>
                         </div>
                     </div>
-                    <div className="flex justify-between gap-8 mb-8">
+                    <div className="grid grid-cols-2 lg:grid-cols-1 gap-8 mb-8">
                         <div>
                             <h3 className="font-bold mb-2">Liens rapides</h3>
                             <ul className="space-y-2">
                                 <li><Link href="#">Tous les événements</Link></li>
                                 <li><Link href="#">Créer un événement</Link></li>
-                                <li><Link href="#">Se connecter / S&lsquo;inscrire</Link></li>
+                                <li><Link href="#">Se connecter</Link> / <Link href="#">S&lsquo;inscrire</Link></li>
                             </ul>
                         </div>
                         <div>
@@ -76,11 +76,10 @@ const Footer: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
-                <div className="text-center text-sm">
-                    <p>Copyright © 2024 FirstEvent | Tous droits réservés | Conçu et développé par <Link
-                        href="https://mentalists.ca" className="text-blue-300 hover:underline">Mentalists</Link></p>
-                </div>
+            </div>
+            <div className="text-center text-sm">
+                <p>Copyright © 2024 FirstEvent | Tous droits réservés | Conçu et développé par <Link
+                    href="https://mentalists.ca" className="text-blue-300 hover:underline">Mentalists</Link></p>
             </div>
         </footer>
     );
