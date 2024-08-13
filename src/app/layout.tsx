@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import Footer from "@/app/components/Footer";
+import {cn} from "@/lib/utils";
 
 const poppins = Poppins({weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], subsets: ["latin-ext"] });
 
@@ -18,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body className={cn(poppins.className,'overflow-x-hidden')}>
       {children}
       <Footer />
       </body>

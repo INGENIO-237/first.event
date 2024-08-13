@@ -16,7 +16,9 @@
   }
 }
 
-
+input{
+  @apply placeholder-gray-500;
+}
 
 @layer utilities {
   .text-balance {
