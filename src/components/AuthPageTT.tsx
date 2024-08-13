@@ -10,39 +10,49 @@ const AuthPageTT = () => {
 
 
   return (
-    <div className='w-full h-screen md:flex flex-row bg-white'>
-      <div className='flex lg:w-1/2 gap-6 w-full flex-col justify-center items-center ' >
-        <div className='flex justify-center max-sm:relative  max-sm:top-10'>
-          <Image src="/assets/logo.png" alt="Next.js Logo" className='w-3/4' width={350} height={99} />
-        </div>
-        <div className='flex flex-col items-center gap-6'>
-          <h1 className='text-3xl font-bold text-[#270B87] mt-9 lg:mt-6' >Confirmation OTP</h1>
+    <div className='w-screen h-screen md:flex flex-row overflow-x-hidden'>
+      <div className='w-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
+        <div className="max-w-md mx-auto w-full">
+          <div className="flex justify-start items-center">
+            <Image src="/assets/logo.png" alt="Next.js Logo" className='w-3/4' width={350} height={99} />
+          </div>
+
+          <h1 className='text-2xl lg:text-3xl font-bold mb-6 text-[#270B87]' >Confirmation OTP</h1>
           <span className='text-[#484848] font-normal text-sm w-8/12 md:w-6/12'>
             Pour des mesures de securité, nous avons besoin de confirmer votre identite. Veiller inserer le code de validation à 6 chiffres que vous avez reçu par mail ou par SMS.
           </span>
+          <form className='flex flex-col gap-3 lg:gap-6 mb-4  ' >
+            <span className='font-bold text-2xl text-[#484848] '>Saisir le Code OTP</span>
+            <div className=''>
+              <InputOTP
+                className=''
+                id='otp'
+                maxLength={otpLength}
+                pattern={REGEXP_ONLY_DIGITS}
+                value={otp}
+                onChange={setOtp}
+              >
+                {[...Array(otpLength)].map((_, index) => {
+                  return (
+                    <InputOTPGroup key={index}>
+                      <InputOTPSlot
+                        index={index}
+
+                      />
+                    </InputOTPGroup>
+                  )
+                })}
+              </InputOTP>
+            </div>
+          </form>
+          <div className='flex items-center gap-5 justify-center'>
+            <span className='font-bold text-lg text-[#484848] '>Je n&apos;ai pas reçu de code</span>
+            <button className='rounded bg-[#270B87] text-white p-2 mt-2' >Renvoyer le code</button>
+          </div>
+          <div className='flex flex-col items-center my-12'>
+            <button name="valider" id="" className='w-full p-2 border rounded  bg-[#E35E07] text-white ' >Confirmer</button>
+          </div>
         </div>
-        <form className='flex flex-col gap-3 lg:gap-6  ' >
-            <div className='font-bold text-2xl text-[#484848] pl-5 '>Saisir le Code OTP</div>
-        <InputOTP
-              className=''
-              id='otp'
-              maxLength={otpLength}
-              pattern={REGEXP_ONLY_DIGITS}
-              value={otp}
-              onChange={setOtp}
-            >
-              {[...Array(otpLength)].map((_, index) => {
-                return(
-                <InputOTPGroup key={index}>
-                  <InputOTPSlot
-                    index={index}
-                    
-                  />
-                </InputOTPGroup>
-              )})}
-            </InputOTP>
-        </form>
-        
       </div>
       <div className='bg-white w-1/2 h-full hidden lg:flex'>
         <Image src="/assets/images/auth-image2.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto ' width={800} height={0} />

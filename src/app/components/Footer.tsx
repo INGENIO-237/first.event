@@ -3,9 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import logo from '/public/assets/logo-white.png';
-import {IconType} from 'react-icons'
-import {FaFacebookF, FaInstagram, FaLinkedin} from "react-icons/fa";
-import {FaX} from "react-icons/fa6";
+import { IconType } from 'react-icons'
+import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Footer: React.FC = () => {
     // on fait une interface pour les réseaux sociaux qui aura le nom du réseau et l'icône
@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
         icon: FaFacebookF,
     }, {
         name: 'Twitter',
-        icon: FaX,
+        icon: FaXTwitter,
     }, {
         name: 'LinkedIn',
         icon: FaLinkedin,
@@ -28,35 +28,35 @@ const Footer: React.FC = () => {
         icon: FaInstagram,
     }]
     return (
-        <footer className="bg-indigo-900 text-white">
-            <div className="container mx-auto px-4 py-8">
-                <div className="flex justify-between gap-8 m-8">
-                    <div className="flex flex-row md:flex-col justify-between items-center mb-8">
+        <footer className="bg-indigo-900 text-white w-screen overflow-hidden">
+            <div className="container mx-0 py-8 w-screen">
+                <div className="flex flex-col lg:flex-row justify-between gap-10 m-8">
+                    <div className="flex flex-col justify-center  items-center mb-8">
+                        <Link href="/" className="mb-4 md:mb-0">
+
+                            <Image src={logo} alt="FirstEvent Logo" width={250} height={40} />
+                        </Link>
                         <div className="flex space-x-4">
                             {socials.map((social, index) => {
 
                                 const Icon = social.icon
                                 return (
                                     <Link key={index} href="#"
-                                          className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-indigo-900">
+                                        className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-indigo-900">
                                         <span className="sr-only">{social.name}</span>
-                                        <Icon/>
+                                        <Icon />
                                     </Link>
                                 )
                             })}
                         </div>
-                        <div className="mb-4 md:mb-0">
-
-                            <Image src={logo} alt="FirstEvent Logo" width={250} height={40}/>
-                        </div>
                     </div>
-                    <div className="flex justify-between gap-8 mb-8">
+                    <div className="grid  grid-cols-2 lg:grid-cols-3 gap-28 mb-8">
                         <div>
                             <h3 className="font-bold mb-2">Liens rapides</h3>
                             <ul className="space-y-2">
                                 <li><Link href="#">Tous les événements</Link></li>
                                 <li><Link href="#">Créer un événement</Link></li>
-                                <li><Link href="#">Se connecter / S&lsquo;inscrire</Link></li>
+                                <li><Link href="#">Se connecter</Link> / <Link href="#">S&lsquo;inscrire</Link></li>
                             </ul>
                         </div>
                         <div>
@@ -76,11 +76,10 @@ const Footer: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
-                <div className="text-center text-sm">
-                    <p>Copyright © 2024 FirstEvent | Tous droits réservés | Conçu et développé par <Link
-                        href="https://mentalists.ca" className="text-blue-300 hover:underline">Mentalists</Link></p>
-                </div>
+            </div>
+            <div className="text-center text-sm">
+                <p>Copyright © 2024 FirstEvent | Tous droits réservés | Conçu et développé par <Link
+                    href="https://mentalists.ca" className="text-blue-300 hover:underline">Mentalists</Link></p>
             </div>
         </footer>
     );
