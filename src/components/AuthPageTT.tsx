@@ -5,7 +5,7 @@ import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 
 const AuthPageTT = () => {
-  const otpLength = 6;
+  const otpLength = 5;
   const [otp, setOtp] = useState('');
 
 
@@ -19,13 +19,13 @@ const AuthPageTT = () => {
 
           <h1 className='text-2xl lg:text-3xl font-bold mb-6 text-[#270B87]' >Confirmation OTP</h1>
           <span className='text-[#484848] font-normal text-sm w-8/12 md:w-6/12'>
-            Pour des mesures de securité, nous avons besoin de confirmer votre identite. Veiller inserer le code de validation à 6 chiffres que vous avez reçu par mail ou par SMS.
+            Pour des mesures de securité, nous avons besoin de confirmer votre identité. Veuillez insérer le code de validation à 5 chiffres que vous avez reçu par mail ou par SMS.
           </span>
-          <form className='flex flex-col gap-3 lg:gap-6 mb-4  ' >
+          <form className='flex flex-col gap-3 lg:gap-6 my-4  ' >
             <span className='font-bold text-2xl text-[#484848] '>Saisir le Code OTP</span>
-            <div className=''>
+            <div className='w-full'>
               <InputOTP
-                className=''
+                className='flex justify-between'
                 id='otp'
                 maxLength={otpLength}
                 pattern={REGEXP_ONLY_DIGITS}
@@ -39,13 +39,14 @@ const AuthPageTT = () => {
                         index={index}
 
                       />
+                      {index !== otpLength - 1 && <InputOTPSeparator /> }
                     </InputOTPGroup>
                   )
                 })}
               </InputOTP>
             </div>
           </form>
-          <div className='flex items-center gap-5 justify-center'>
+          <div className='flex items-center justify-between'>
             <span className='font-bold text-lg text-[#484848] '>Je n&apos;ai pas reçu de code</span>
             <button className='rounded bg-[#270B87] text-white p-2 mt-2' >Renvoyer le code</button>
           </div>
