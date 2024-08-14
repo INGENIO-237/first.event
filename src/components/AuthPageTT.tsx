@@ -39,7 +39,7 @@ const AuthPageTT = () => {
                         index={index}
 
                       />
-                      {index !== otpLength - 1 && <InputOTPSeparator /> }
+                      {index !== otpLength - 1 && <InputOTPSeparator />}
                     </InputOTPGroup>
                   )
                 })}
