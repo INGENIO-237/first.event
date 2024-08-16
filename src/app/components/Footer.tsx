@@ -1,4 +1,7 @@
-import React from 'react';
+"use client";
+
+import { motion } from "framer-motion";
+import React from "react";
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -38,7 +41,10 @@ const Footer: React.FC = () => {
         color: 'text-[#E4405F]'
     }]
     return (
-        <footer className="bg-[#270B87] text-white w-screen m-0 p-0">
+        <motion.footer  initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ ease: "easeInOut", duration: 0.3 }}
+                        className="bg-[#270B87] text-white w-screen m-0 p-0 absolute bottom-0">
             <div className="mx-0 py-8">
                 <div className="flex flex-col lg:flex-row justify-between gap-8 m-4">
                     <div className="flex flex-col justify-between items-center mb-8">
@@ -47,11 +53,13 @@ const Footer: React.FC = () => {
 
                                 const Icon = social.icon
                                 return (
-                                    <Link key={index} href="#"
+                                    <motion.a whileHover={{ scale: 1.2 }}
+                                              whileTap={{ scale: 0.9 }}
+                                              transition={{ type: "spring", stiffness: 400, damping: 17 }} onHoverStart={e=>{}} onHoverEnd={e=>{}}  key={index} href={social.href}
                                           className={cn(social.color, `w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-white/90 transition-colors`)}>
                                         <span className="sr-only">{social.name}</span>
                                         <Icon/>
-                                    </Link>
+                                    </motion.a>
                                 )
                             })}
                         </div>
@@ -90,12 +98,12 @@ const Footer: React.FC = () => {
             </div>
             <div className="text-center text-sm pb-5">
                 <p>Copyright © 2024 FirstEvent | Tous droits réservés <span className="hidden lg:inline">|</span> Conçu
-                    et développé par <Link
+                    et développé par <motion.a whileHover={{scale: 1.2}} onHoverStart={e=>{}} onHoverEnd={e=>{}}
                         href="https://mentalists.ca"
-                        className="text-[#006FFC] font-medium hover:text-blue-500 transition-colors">Mentalists</Link>
+                        className="text-[#006FFC] font-medium hover:text-blue-500 transition-colors">Mentalists</motion.a>
                 </p>
             </div>
-        </footer>
+        </motion.footer>
     );
 };
 
