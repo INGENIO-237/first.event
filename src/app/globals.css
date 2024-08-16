@@ -15,11 +15,6 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-
-input{
-  @apply placeholder-gray-500;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;

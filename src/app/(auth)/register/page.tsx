@@ -10,6 +10,8 @@ import {z} from "zod";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import InputError from "@/app/components/auth/InputError";
+import {FaApple, FaFacebook, FaGoogle} from "react-icons/fa";
+import {FcGoogle} from "react-icons/fc";
 
 const RegisterSchema = z.object({
     email: z
@@ -76,13 +78,13 @@ export default function Page() {
 
     return (
         <>
-            <div className="w-screen h-screen flex justify-items-center items-center">
+            <div className="w-screen h-[110vh] flex justify-items-center items-center">
                 {/* Form section */}
                 <div className="w-full lg:w-1/2 p-4 lg:p-8 flex flex-col justify-center">
                     <div className="max-w-md mx-auto w-full">
-                        <div className="flex justify-start items-center">
+                        <Link href={'/'} className="flex justify-start items-center">
                             <Image src={logo} alt="FirstEvent Logo" width={150} height={37.5} className="mb-6 w-60"/>
-                        </div>
+                        </Link>
 
                         <h1 className="text-2xl lg:text-3xl font-bold mb-6 text-indigo-900">Créer un compte</h1>
 
@@ -131,29 +133,71 @@ export default function Page() {
                                 </div>
                             </div>
 
-                            <div className="flex items-start">
-                                <input type="checkbox" id="terms" checked={acceptedTerms} {...register('acceptedTerms')}
+                            <div className="flex items-start mb-4">
+                                <div className="flex items-center h-5 mr-2">
+                                    <input id="terms" aria-describedby="terms" type="checkbox"
+                                           checked={acceptedTerms} {...register('acceptedTerms')}
+                                           onChange={() => setAcceptedTerms(!acceptedTerms)}
+                                           className={cn(errors.acceptedTerms ? 'focus:border-red-500 focus:ring-red-600' : 'focus:border-indigo-500 focus:ring-indigo-600', "w-4 h-4 focus:rounded text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600")}/>
+                                </div>
+                                {/*<input type="checkbox" id="terms" checked={acceptedTerms} {...register('acceptedTerms')}
                                        onChange={() => setAcceptedTerms(!acceptedTerms)}
-                                       className={cn(errors.acceptedTerms ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300', "mt-1 mr-2 checked:bg-blue-500 p-2 ")}/>
-                                <label htmlFor="terms" className="text-sm text-[#9F9D9E]">
-                                    J&apos;accepte les <Link href={"#"} className="text-blue-500">conditions
+                                       className={cn(errors.acceptedTerms ? 'focus:border-red-500 focus:ring-red-600' : 'focus:border-indigo-500 focus:ring-indigo-600', "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2")}/>
+                                */}
+                                <label htmlFor="terms" className="text-sm ">
+                                    J&apos;accepte les <Link href={"#"}
+                                                             className="text-blue-500 hover:text-blue-700 transition-colors duration-300">conditions
                                     d&apos;utilisation</Link> et les
-                                    <Link href={"#"} className="text-blue-500"> directives de la communauté de
+                                    <Link href={"#"}
+                                          className="text-blue-500 hover:text-blue-700 transition-colors duration-300"> directives
+                                        de la communauté de
                                         FirstEvent</Link> et j&apos;ai lu
-                                    la <Link href={"#"} className="text-blue-500">politique de confidentialité</Link>.
+                                    la <Link href={"#"}
+                                             className="text-blue-500 hover:text-blue-700 transition-colors duration-300">politique
+                                    de confidentialité</Link>.
                                 </label>
                             </div>
                             <button type="submit"
                                     disabled={isButtonDisabled()}
-                                    className={cn(isButtonDisabled() ? 'cursor-not-allowed' : '', "w-full bg-orange-500 text-white p-2 rounded hover:bg-orange-600 transition duration-300")}>
+                                    className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-orange-400' : 'bg-orange-500 hover:bg-orange-600 transition duration-300', "w-full text-white p-2 rounded")}>
                                 Créer un compte
                             </button>
                         </form>
 
-                        <p className="mt-4 text-center">
+                        <div
+                            className="mt-4 text-center bg-gray-300 p-2 rounded cursor-pointer hover:bg-gray-400 transition-colors duration-300">
                             <Link href={'/login'}
-                                  className="text-[#270B87] font-medium hover:text-blue-700 transition-colors  duration-300">Connectez-vous</Link>
-                        </p>
+                                  className="text-[#270B87] font-medium  transition-colors  duration-300">Se
+                                connecter</Link>
+                        </div>
+
+                        {/* <div className='flex flex-col justify-center items-center py-4'>
+                             <span
+                                 className='rounded-full w-20 h-10 border-2 text-center border-[#9F9D9D] p-2 text-[#9F9D9D]'>
+                                ou
+                              </span>
+                        </div>*/}
+                        <div
+                            className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">Ou
+                        </div>
+
+                        <div className='flex flex-col justify-center items-center gap-4 '>
+
+                            <button name="oAuthGoogle" id="oAuthGoogle"
+                                    className='w-full py-2 border bg-gray-50 hover:bg-gray-100 transition-colors duration-300 rounded px-3 text-[#4F4B4B] flex flex-row justify-center items-center gap-4 font-medium'>
+                                <FcGoogle className='h-7 w-6'/>
+                                Continuer avec Google
+                            </button>
+                            <span className='block text-[#9F9D9E]'>Autres Methods de connexion</span>
+                            <div className='flex flex-row gap-4'>
+                                <button>
+                                    <FaFacebook className='text-[#314698] h-7 w-6'/>
+                                </button>
+                                <button>
+                                    <FaApple className=' text-[#484848] rounded-md h-7 w-6 '/>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
