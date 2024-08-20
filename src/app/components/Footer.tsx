@@ -28,10 +28,10 @@ const Footer: React.FC = () => {
         icon: FaInstagram,
     }]
     return (
-        <footer className="bg-indigo-900 text-white w-screen overflow-hidden">
-            <div className="container mx-0 py-8 w-screen">
-                <div className="flex flex-col lg:flex-row justify-between gap-10 m-8">
-                    <div className="flex flex-col justify-center  items-center mb-8">
+        <footer className="bg-indigo-900 text-white ">
+            <div className="px-4 md:px-8 md:py-8 mx-auto w-full">
+                <div className="flex flex-col md:flex-row justify-between gap-10 lg:px-8">
+                    <div className="flex flex-col justify-center items-center mb-8">
                         <Link href="/" className="mb-4 md:mb-0">
 
                             <Image src={logo} alt="FirstEvent Logo" width={250} height={40} />
@@ -50,13 +50,13 @@ const Footer: React.FC = () => {
                             })}
                         </div>
                     </div>
-                    <div className="grid  grid-cols-2 lg:grid-cols-3 gap-28 mb-8">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-8">
                         <div>
                             <h3 className="font-bold mb-2">Liens rapides</h3>
-                            <ul className="space-y-2">
+                            <ul className="space-y-2 text-sm">
                                 <li><Link href="#">Tous les événements</Link></li>
                                 <li><Link href="#">Créer un événement</Link></li>
-                                <li><Link href="#">Se connecter</Link> / <Link href="#">S&lsquo;inscrire</Link></li>
+                                <li><Link href="/login">Se connecter</Link> / <Link href="/register">S&lsquo;inscrire</Link></li>
                             </ul>
                         </div>
                         <div>
@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
                             <h3 className="font-bold mb-2">Support</h3>
                             <ul className="space-y-2">
                                 <li><Link href="#">FAQ</Link></li>
-                                <li><Link href="#">Nous-contacter</Link></li>
+                                <li><Link href="/contact-us">Nous-contacter</Link></li>
                             </ul>
                         </div>
                     </div>

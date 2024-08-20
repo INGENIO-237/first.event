@@ -3,8 +3,11 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import Footer from "@/app/components/Footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { cn } from "@/lib/utils";
 
-const poppins = Poppins({weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], subsets: ["latin-ext"] });
+const poppins = Poppins({ weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"], subsets: ["latin-ext"] });
 
 export const metadata: Metadata = {
   title: "First Event",
@@ -18,9 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
-      {children}
-      <Footer />
+      <body className={cn(' ', poppins.className)}>
+        <div className="">
+          {children}
+        <ToastContainer position='bottom-right' theme="colored" autoClose={3000} />
+        </div>
+        <Footer />
       </body>
     </html>
   );

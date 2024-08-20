@@ -4,4 +4,4 @@ const Welcome = () => {
   )
 }
 
-export default page
+export default Welcome;
