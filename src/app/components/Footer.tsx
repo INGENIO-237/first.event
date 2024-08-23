@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
         icon: FaInstagram,
     }]
     return (
-        <footer className="bg-indigo-900 text-white ">
+        <footer className="bg-first_violet text-white ">
             <div className="px-4 md:px-8 md:py-8 mx-auto w-full">
                 <div className="flex flex-col md:flex-row justify-between gap-10 lg:px-8">
                     <div className="flex flex-col justify-center items-center mb-8">

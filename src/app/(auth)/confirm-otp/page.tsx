@@ -60,7 +60,7 @@ const OTPPage = () => {
             <Image src="/assets/logo.png" alt="First-Event logo " className='w-3/4' width={350} height={99} />
           </div>
 
-          <h1 className='text-2xl md:text-3xl font-bold mb-6 text-[#270B87]' >Confirmation OTP</h1>
+          <h1 className='text-2xl md:text-3xl font-bold mb-6 text-first_violet' >Confirmation OTP</h1>
           <span className='text-[#484848] font-normal text-sm w-8/12 md:w-6/12'>
             Pour des mesures de securité, nous avons besoin de confirmer votre identité. Veuillez insérer le code de validation à 5 chiffres que vous avez reçu par mail ou par SMS.
           </span>
@@ -95,15 +95,15 @@ const OTPPage = () => {
             </div>
           <div className='flex items-start md:items-center justify-between'>
             <span className='font-bold text-lg text-[#484848] '>Je n&apos;ai pas reçu de code</span>
-            <button style={{ opacity: disabled ? 0.5 : 1 }} onClick={resendCode} disabled={disabled} className='rounded bg-[#270B87] text-white p-2 mt-2' >Renvoyer le code</button>
+            <button style={{ opacity: disabled ? 0.5 : 1 }} onClick={resendCode} disabled={disabled} className='rounded bg-first_violet text-white p-2 mt-2' >Renvoyer le code</button>
           </div>
           <div className='flex flex-col items-center my-12'>
-            <button type="submit" name="valider" id="" className='w-full p-2 border rounded  bg-[#E35E07] text-white ' >Confirmer</button>
+            <button type="submit" name="valider" id="" className='w-full p-2 border rounded  bg-first_orange text-white ' >Confirmer</button>
           </div>
           </form>
         </div>
       </div>
-      <div className='bg-white w-1/2 h-full hidden md:flex'>
+      <div className='bg-white w-1/2 h-full min-h-md hidden md:flex'>
         <Image src="/assets/images/auth-image2.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto ' width={800} height={0} />
 
       </div>

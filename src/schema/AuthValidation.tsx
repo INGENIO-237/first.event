@@ -8,3 +8,7 @@ export const loginSchema = z.object({
     email: z.string({ required_error: "Email requis" }).email({ message: "Email invalide" }),
     password: z.string({ required_error: "Mot de passe requis" }).min(6, { message: 'Mot de passe trop court' }),
 });
+
+export const resetPasswordSchema = z.object({
+    email: z.string({ required_error: "Email requis" }).email({ message: "Email invalide" }),
+});

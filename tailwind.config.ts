@@ -18,6 +18,9 @@ const config = {
     },
     extend: {
       colors: {
+        first_violet: "#270B87",
+        first_gray: "#9F9D9E",
+        first_orange: "#E35E07",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -53,7 +56,6 @@ const config = {
         },
       },
       borderRadius: {
-        md: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
