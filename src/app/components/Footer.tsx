@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import React from "react";
 import Image from 'next/image';
 import Link from 'next/link';
-
 import logo from '/public/assets/logo-white.png';
+import { IconType } from 'react-icons'
+import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 import {ListUrl} from "@/app/components/auth/ListUrl";
 import {Facebook, X, Linkedin, Instagram, LucideIcon, Twitter} from "lucide-react";
@@ -63,18 +65,14 @@ const Footer: React.FC = () => {
                                 )
                             })}
                         </div>
-                        <div className="mb-4 md:mb-0">
-
-                            <Image src={logo} alt="FirstEvent Logo" width={250} height={40}/>
-                        </div>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-8">
                         <div>
                             <h3 className="font-bold mb-2">Liens rapides</h3>
-                            <ul className="space-y-2">
-                                <ListUrl links={[{link: "#", name: "Tous les événements"}]}/>
-                                <ListUrl links={[{link: "#", name: "Créer un événement"}]}/>
-                                <ListUrl links={[{link: "#", name: "Se connecter"}, {link: "#", name: "S'inscrire"}]}/>
+                            <ul className="space-y-2 text-sm">
+                                <li><Link href="#">Tous les événements</Link></li>
+                                <li><Link href="#">Créer un événement</Link></li>
+                                <li><Link href="/login">Se connecter</Link> / <Link href="/register">S&lsquo;inscrire</Link></li>
                             </ul>
                         </div>
                         <div>

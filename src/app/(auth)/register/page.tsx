@@ -202,7 +202,7 @@ export default function Page() {
                 </div>
 
                 {/* Image section - hidden on mobile */}
-                <div className='bg-white w-1/2 h-full hidden lg:flex'>
+                <div className='bg-white w-1/2 h-full hidden md:flex'>
                     <Image src={login} alt="Next.js Logo"
                            className='w-full flex object-cover justify-center h-auto' width={800} height={0}/>
                 </div>
