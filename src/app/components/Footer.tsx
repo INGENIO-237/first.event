@@ -1,7 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
-import React from "react";
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '/public/assets/logo-white.png';
@@ -10,31 +7,24 @@ import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
 const Footer: React.FC = () => {
+    // on fait une interface pour les réseaux sociaux qui aura le nom du réseau et l'icône
     interface Social {
         name: string;
-        icon: LucideIcon;
-        href: string,
-        color: string
+        icon: IconType;
     }
 
     const socials: Social[] = [{
         name: 'Facebook',
-        icon: Facebook,
-        href: 'https://www.facebook.com/',
-        color: 'text-[#0053ff]'
+        icon: FaFacebookF,
     }, {
         name: 'Twitter',
         icon: FaXTwitter,
     }, {
         name: 'LinkedIn',
-        icon: Linkedin,
-        href: 'https://www.linkedin.com/',
-        color: 'text-[#0077B5]'
+        icon: FaLinkedin,
     }, {
         name: 'Instagram',
-        icon: Instagram,
-        href: 'https://www.instagram.com/',
-        color: 'text-[#E4405F]'
+        icon: FaInstagram,
     }]
     return (
         <footer className="bg-first_violet text-white ">
@@ -71,9 +61,9 @@ const Footer: React.FC = () => {
                         <div>
                             <h3 className="font-bold mb-2">Entreprise</h3>
                             <ul className="space-y-2">
-                                <ListUrl links={[{link: "#", name: "À propos de nous"}]}/>
-                                <ListUrl links={[{link: "#", name: "Politique d'utilisation"}]}/>
-                                <ListUrl links={[{link: "#", name: "Événement"}]}/>
+                                <li><Link href="#">À propos de nous</Link></li>
+                                <li><Link href="#">Politique d&lsquo;utilisation</Link></li>
+                                <li><Link href="#">Événement</Link></li>
                             </ul>
                         </div>
                         <div>
@@ -86,14 +76,11 @@ const Footer: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="text-center text-sm pb-5">
-                <p>Copyright © 2024 FirstEvent | Tous droits réservés <span className="hidden lg:inline">|</span> Conçu
-                    et développé par <motion.a whileHover={{scale: 1.2}} onHoverStart={e=>{}} onHoverEnd={e=>{}}
-                        href="https://mentalists.ca"
-                        className="text-[#006FFC] font-medium hover:text-blue-500 transition-colors">Mentalists</motion.a>
-                </p>
+            <div className="text-center text-sm">
+                <p>Copyright © 2024 FirstEvent | Tous droits réservés | Conçu et développé par <Link
+                    href="https://mentalists.ca" className="text-blue-300 hover:underline">Mentalists</Link></p>
             </div>
-        </motion.footer>
+        </footer>
     );
 };
 
