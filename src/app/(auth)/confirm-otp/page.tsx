@@ -30,7 +30,7 @@ const OTPPage = () => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
     } else {
-      setDisabled(false); // Activer le bouton lorsque le timer atteint 0
+      setDisabled(false);
     }
 
     // Nettoyage de l'intervalle lors du démontage du composant ou lors du changement de timer

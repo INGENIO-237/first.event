@@ -1,16 +1,15 @@
-import type {Metadata} from "next";
-import {Poppins, Inter, Roboto_Mono} from "next/font/google";
+import type { Metadata } from "next";
+import { Poppins, Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import Footer from "@/app/components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { cn } from "@/lib/utils";
-import {cn} from "@/lib/utils";
 import Transition from "@/components/Transition";
 
 const poppins = Poppins({
-     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
     subsets: ['latin-ext', 'latin'],
     variable: "--font-poppins",
 });
@@ -27,22 +26,20 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
         <html lang="en">
-        <body
-            className={cn(cn(' ', poppins.variable, roboto_mono.variable, "overflow-x-hidden mx-auto font-sans h-full"))}>
-        <Transition>
-              <div className="pt-10 md:pt-0">
-          {children}
-        </Transition>
-          <ToastContainer position='bottom-right' theme="colored" autoClose={3000} />
-        </div>
-        <Footer/>
-        </body>
+            <body
+                className={cn(cn(' ', poppins.variable, roboto_mono.variable, "overflow-x-hidden mx-auto font-sans h-full"))}>
+                    <div className="pt-10 md:pt-0">
+                        {children}
+                    </div>
+               {/* <ToastContainer position='bottom-right' theme="colored" autoClose={3000} />*/}
+                <Footer />
+            </body>
         </html>
     );
 }

@@ -9,10 +9,6 @@ import { IconType } from 'react-icons'
 import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
-import {ListUrl} from "@/app/components/auth/ListUrl";
-import {Facebook, X, Linkedin, Instagram, LucideIcon, Twitter} from "lucide-react";
-import {cn} from "@/lib/utils";
-
 const Footer: React.FC = () => {
     interface Social {
         name: string;
@@ -27,10 +23,8 @@ const Footer: React.FC = () => {
         href: 'https://www.facebook.com/',
         color: 'text-[#0053ff]'
     }, {
-        name: 'X',
-        icon: Twitter,
-        href: 'https://x.com/',
-        color: 'text-[#1DA1F2]'
+        name: 'Twitter',
+        icon: FaXTwitter,
     }, {
         name: 'LinkedIn',
         icon: Linkedin,
@@ -43,25 +37,24 @@ const Footer: React.FC = () => {
         color: 'text-[#E4405F]'
     }]
     return (
-        <motion.footer  initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ ease: "easeInOut", duration: 0.3 }}
-                        className="bg-[#270B87] text-white w-screen m-0 p-0 absolute bottom-0">
-            <div className="mx-0 py-8">
-                <div className="flex flex-col lg:flex-row justify-between gap-8 m-4">
-                    <div className="flex flex-col justify-between items-center mb-8">
+        <footer className="bg-first_violet text-white ">
+            <div className="px-4 md:px-8 md:py-8 mx-auto w-full">
+                <div className="flex flex-col md:flex-row justify-between gap-10 lg:px-8">
+                    <div className="flex flex-col justify-center items-center mb-8">
+                        <Link href="/" className="mb-4 md:mb-0">
+
+                            <Image src={logo} alt="FirstEvent Logo" width={250} height={40} />
+                        </Link>
                         <div className="flex space-x-4">
                             {socials.map((social, index) => {
 
                                 const Icon = social.icon
                                 return (
-                                    <motion.a whileHover={{ scale: 1.2 }}
-                                              whileTap={{ scale: 0.9 }}
-                                              transition={{ type: "spring", stiffness: 400, damping: 17 }} onHoverStart={e=>{}} onHoverEnd={e=>{}}  key={index} href={social.href}
-                                          className={cn(social.color, `w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-white/90 transition-colors`)}>
+                                    <Link key={index} href="#"
+                                        className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-indigo-900">
                                         <span className="sr-only">{social.name}</span>
-                                        <Icon/>
-                                    </motion.a>
+                                        <Icon />
+                                    </Link>
                                 )
                             })}
                         </div>
@@ -86,9 +79,8 @@ const Footer: React.FC = () => {
                         <div>
                             <h3 className="font-bold mb-2">Support</h3>
                             <ul className="space-y-2">
-                                <ListUrl links={[{link: "#", name: "FAQ"}]}/>
-                                <ListUrl links={[{link: "#", name: "Nous-contacter"}]}/>
-
+                                <li><Link href="#">FAQ</Link></li>
+                                <li><Link href="/contact-us">Nous-contacter</Link></li>
                             </ul>
                         </div>
                     </div>
