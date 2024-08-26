@@ -10,6 +10,8 @@ import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { cn } from "@/lib/utils";
 import { toast } from "react-toastify";
+import logo from '/public/assets/logo.png';
+import Link from "next/link";
 
 type Schema = z.infer<typeof otpConfirmSchema>
 
@@ -41,7 +43,7 @@ const OTPPage = () => {
     // Logique supplémentaire pour renvoyer le code OTP (à implémenter)
   };
 
-  const {register, handleSubmit, formState: {errors}} = useForm<Schema>({
+  const { register, handleSubmit, formState: { errors } } = useForm<Schema>({
     resolver: zodResolver(otpConfirmSchema),
     defaultValues: {
       otp: "",
@@ -57,7 +59,9 @@ const OTPPage = () => {
       <div className='w-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
         <div className="max-w-md mx-auto w-full">
           <div className="flex justify-start items-center">
-            <Image src="/assets/logo.png" alt="First-Event logo " className='w-3/4' width={350} height={99} />
+            <Link href="/" className="mb-4 md:mb-0">
+              <Image src={logo} alt="FirstEvent Logo" width={150} height={37.5} className="mb-6 w-60" />
+            </Link>
           </div>
 
           <h1 className='text-2xl md:text-3xl font-bold mb-6 text-first_violet' >Confirmation OTP</h1>
@@ -88,18 +92,18 @@ const OTPPage = () => {
                   )
                 })}
               </InputOTP>
-              {errors.otp && (<p className="text-red-500">{errors.otp.message}</p>) }
+              {errors?.otp && (<p className="text-red-500">{errors?.otp?.message}</p>)}
             </div>
             <div className="flex justify-end text-[#484848]">
               {`00:${timer < 10 ? `0${timer}` : timer}`} {/* Affichage formaté du timer */}
             </div>
-          <div className='flex items-start md:items-center justify-between'>
-            <span className='font-bold text-lg text-[#484848] '>Je n&apos;ai pas reçu de code</span>
-            <button style={{ opacity: disabled ? 0.5 : 1 }} onClick={resendCode} disabled={disabled} className='rounded bg-first_violet text-white p-2 mt-2' >Renvoyer le code</button>
-          </div>
-          <div className='flex flex-col items-center my-12'>
-            <button type="submit" name="valider" id="" className='w-full p-2 border rounded  bg-first_orange text-white ' >Confirmer</button>
-          </div>
+            <div className='flex items-start md:items-center justify-between'>
+              <span className='font-bold text-lg text-[#484848] '>Je n&apos;ai pas reçu de code</span>
+              <button style={{ opacity: disabled ? 0.5 : 1 }} onClick={resendCode} disabled={disabled} className='rounded bg-first_violet text-white p-2 mt-2' >Renvoyer le code</button>
+            </div>
+            <div className='flex flex-col items-center my-12'>
+              <button type="submit" name="valider" id="" className='w-full p-2 border rounded  bg-first_orange text-white ' >Confirmer</button>
+            </div>
           </form>
         </div>
       </div>

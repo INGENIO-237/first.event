@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(' ', poppins.className)}>
-        <div className="">
+        <div className="pt-10 md:pt-0">
           {children}
         <ToastContainer position='bottom-right' theme="colored" autoClose={3000} />
         </div>
