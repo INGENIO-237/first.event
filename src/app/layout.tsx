@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Poppins, Inter, Roboto_Mono } from "next/font/google";
+import { Poppins, Roboto_Mono } from "next/font/google";
 import "./globals.css";
-import React from "react";
-import Footer from "@/app/components/Footer";
-import { ToastContainer } from "react-toastify";
+import React, { Suspense } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { cn } from "@/lib/utils";
-import Transition from "@/components/Transition";
+import Footer from "@/components/partial/Footer";
 
 const poppins = Poppins({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -33,11 +31,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={cn(cn(' ', poppins.variable, roboto_mono.variable, "overflow-x-hidden mx-auto font-sans h-full"))}>
-                    <div className="pt-10 md:pt-0">
-                        {children}
-                    </div>
-               {/* <ToastContainer position='bottom-right' theme="colored" autoClose={3000} />*/}
+                className={cn(poppins.variable, roboto_mono.variable, "overflow-x-hidden mx-auto font-sans h-full")}>
+                {children}
+                {/* <ToastContainer position='bottom-right' theme="colored" autoClose={3000} />*/}
                 <Footer />
             </body>
         </html>
