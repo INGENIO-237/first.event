@@ -27,7 +27,7 @@ const Login = () => {
   return (
     <Suspense fallback={<Loading />}>
       <div className='md:h-screen md:flex flex-row md:overflow-x-hidden'>
-        <div className='w-full h-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
+        <div className='w-full h-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center'>
           <div className="max-w-md mx-auto w-full">
             <div className="flex justify-start items-center">
               <Link href="/" className="mb-4 md:mb-0">
@@ -75,7 +75,7 @@ const Login = () => {
           </div>
         </div>
         <div className='bg-white w-1/2 h-full min-h-md hidden md:flex'>
-          <Image src="/assets/images/auth-image.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto ' width={800} height={0} />
+          <Image src="/assets/images/auth-image.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto' width={800} height={0} />
         </div>
 
       </div>

@@ -1,10 +1,7 @@
 export default function Loading() {
   return (
-    <main className="text-center w-screen h-screen fixed flex justify-center items-center">
-      <h2 className="text-primary">
-        Loading...
-      </h2>
-     <p>Wait for Loading all element.</p> 
-    </main>
+    <section className="text-center w-screen h-screen fixed flex justify-center items-center">
+      <div className="animate-spin inline-block w-5 h-5 border-t-2 border-b-2 border-gray-700 rounded-full"></div>
+    </section>
   )
 }
