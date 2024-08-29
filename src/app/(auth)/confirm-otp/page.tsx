@@ -22,6 +22,13 @@ const OTPPage = () => {
   const [timer, setTimer] = useState<number>(59); // Initialisation à 60 secondes
   const [disabled, setDisabled] = useState<boolean>(true); // Bouton désactivé au départ
 
+  const isButtonDisabled = () => {
+    if (timer > 0 || otp.length < 5 || errors?.otp) {
+      setDisabled(true);
+    }
+    setDisabled(false);
+  }
+
 
   useEffect((): (() => void) => {
     let countdown: NodeJS.Timeout | undefined;
@@ -102,7 +109,11 @@ const OTPPage = () => {
               <button style={{ opacity: disabled ? 0.5 : 1 }} onClick={resendCode} disabled={disabled} className='rounded bg-first_violet text-white p-2 mt-2' >Renvoyer le code</button>
             </div>
             <div className='flex flex-col items-center my-12'>
-              <button type="submit" name="valider" id="" className='w-full p-2 border rounded  bg-first_orange text-white ' >Confirmer</button>
+              <button type="submit" 
+                name="valider"
+                disabled={disabled} 
+                className={cn(disabled ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300','w-full p-2 border rounded  bg-first_orange text-white ')}>
+                Confirmer</button>
             </div>
           </form>
         </div>

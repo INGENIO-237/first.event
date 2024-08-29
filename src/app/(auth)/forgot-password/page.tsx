@@ -8,10 +8,20 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import { useState } from "react";
+import InputError from "@/app/components/auth/InputError";
 
 type Schema = z.infer<typeof forgotPasswordSchema>
 
 const ForgotPassword = () => {
+    const [email, setEmail] = useState<String>('');
+
+    const isButtonDisabled = (): boolean => {
+        if (errors.email || email == '') {
+            return true;
+        }
+        return false;
+    }
 
     const { register, handleSubmit, formState: { errors } } = useForm<Schema>({
         resolver: zodResolver(forgotPasswordSchema),
@@ -35,12 +45,21 @@ const ForgotPassword = () => {
                         Pour des mesures de securité, pour réinitialiser votre mot de passe nous avons besoin de confirmer votre identité. Veuillez insérer votre adresse email et un code de validation à 5 chiffres vous sera envoyé par mail ou SMS.
                     </span>
                     <form className='space-y-4 mt-5' onSubmit={handleSubmit((d) => onSubmit(d))}>
-                        <div className='flex flex-col items-center'>
-                            <input type="email" id="email" {...register('email')} placeholder='Adresse Email' className={cn('w-full p-2 border rounded  border-first_gray', errors.email && 'border-red-500')} />
-                            {errors?.email && (<p className="text-red-500">{errors?.email?.message}</p>)}
+                        <div className=''>
+                            <input type="email"
+                                id="email"
+                                {...register('email')}
+                                placeholder='Adresse Email'
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                                className={cn(errors.email ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300 hover:border-gray-300', "w-full p-2 border rounded focus:outline-none text-[#4F4B4B] placeholder:text-[#9F9D9D]")} />
+                            {errors?.email && (<InputError message={errors?.email?.message} />)}
                         </div>
-                        <div className='flex flex-col items-center my-12'>
-                            <button type="submit" name="valider" id="" className='w-full p-2 border rounded  bg-first_orange text-white ' >Confirmer</button>
+                        <div className=' my-12'>
+                            <button type="submit"
+                                disabled={isButtonDisabled()}
+                                className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'w-full p-2 border rounded  bg-first_orange text-white ')}>
+                                Confirmer
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -4,15 +4,24 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import logo from '/public/assets/logo.png';
-import React from 'react'
+import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import InputError from '@/app/components/auth/InputError';
 
 type Schema = z.infer<typeof resetPasswordSchema>
 
 const ResetPassword = () => {
+    const [password, setPassword] = useState<string>('');
+
+    const isButtonDisabled = (): boolean => {
+        if (errors.password || password == '') {
+            return true;
+        }
+        return false;
+    }
     const { register, handleSubmit, formState: { errors } } = useForm<Schema>({
         resolver: zodResolver(resetPasswordSchema),
     });
@@ -35,11 +44,15 @@ const ResetPassword = () => {
                         Pour réinitialiser votre mot de passe,
                     </span>
                     <form className='space-y-4 mt-5' onSubmit={handleSubmit((d) => onSubmit(d))}>
-                        <div className='flex flex-col items-center'>
-                            <input type="password" id="password" {...register('password')} placeholder='Nouveau mot de passe' className={cn('w-full p-2 border rounded  border-first_gray', errors.password && 'border-red-500 focus:border-red-500')} />
-                            {errors?.password && (<p className="text-red-500">{errors?.password?.message}</p>)}
+                        <div className=''>
+                            <input type="password" 
+                            id="password" 
+                            {...register('password')} 
+                            placeholder='Nouveau mot de passe' 
+                            className={cn('w-full p-2 border rounded  border-first_gray', errors.password && 'border-red-500 focus:border-red-500')} />
+                            {errors?.password && (<InputError message={errors?.password?.message} />)}
                         </div>
-                        <div className='flex flex-col items-center my-12'>
+                        <div className=' my-12'>
                             <button type="submit" name="valider" id="" className='w-full p-2 border rounded  bg-first_orange text-white ' >Confirmer</button>
                         </div>
                     </form>
