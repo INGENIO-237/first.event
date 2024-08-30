@@ -112,7 +112,7 @@ const OTPPage = () => {
               <button type="submit" 
                 name="valider"
                 disabled={disabled} 
-                className={cn(disabled ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300','w-full p-2 border rounded  bg-first_orange text-white ')}>
+                className={cn(disabled ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300','bg-first_orange hover:bg-orange-600 transition duration-300 ')}>
                 Confirmer</button>
             </div>
           </form>
