@@ -9,30 +9,28 @@ interface CardType {
   image: StaticImageData,
   text: string,
   buttonText: string,
+  link: string,
 }
 
 const cards = [
   {
-    image: image1,
-    text: "Trouver une expérience",
-    buttonText: "Dites nous ce que vous aimez", 
-  },
-  {
     image: image2,
     text: "Organiser des événements",
     buttonText: "Planifiez votre meilleur événement", 
+    link: '/setup-account'
   },
   {
     image: image3,
     text: "Communicateurs événementiels",
     buttonText: "Planifiez votre meilleur événement", 
+    link: '/setup-account'
   }
 ]
 
 const ConfigPage = () => {
   return (
-    <div className="min-h-screen mx-auto p-4 flex flex-col items-center">
-      <div className="  ">
+    <div className="mx-auto p-4 flex flex-col justify-center   items-center">
+      <div className="">
         <Image src={hand} alt="hand" width={90} height={30} />
       </div>
       <div className="p-4 md:p-8 flex items-center text-center justify-start flex-col">
@@ -41,13 +39,10 @@ const ConfigPage = () => {
         </h1>
         <span className="font-medium text-first_violet">Nous sommes heureux que vous soyez ici! En quoi pouvons-nous vous aider en premier?</span>
       </div>
-      <div className="flex flex-col md:flex-row justify-around md:w-2/3 md:flex-wrap pb-5">
+      <div className="flex flex-col md:flex-row justify-around  md:flex-wrap pb-5">
         {cards.map((card: CardType, index:number) => (
-          <Card key={index} image={card.image} illustrationText={card.text} textButton={card.buttonText} />
+          <Card key={index} image={card.image} illustrationText={card.text} textButton={card.buttonText} link={card.link} />
         ))}
-        {/* <Card image={image1} illustrationText="Trouver une expérience" textButton="Dites nous ce que vous aimez" />
-        <Card image={image2} illustrationText="Organiser des événements" textButton="Planifiez votre meilleur événement" />
-        <Card image={image3} illustrationText="Communicateurs événementiels" textButton="Planifiez votre meilleur événement" /> */}
       </div>
     </div>
   )

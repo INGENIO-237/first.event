@@ -4,7 +4,7 @@ export default function Loading() {
       <h2 className="text-primary">
         Loading...
       </h2>
-     <p>Wait for Loading all element.</p> 
+     <p>Wait for the loading of all elements.</p> 
     </main>
   )
 }
