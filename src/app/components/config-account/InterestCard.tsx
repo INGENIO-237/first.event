@@ -29,8 +29,8 @@ const InterestCard = ({
               <div
                 key={tag}
                 className={`flex  px-3 py-1 rounded cursor-pointer ${isSelected
-                    ? "bg-first_orange text-white"
-                    : "bg-gray-200 text-gray-800"
+                    ? "bg-first_orange text-white border-first_orange"
+                    : "bg-white text-first_gray border-first_gray"
                   }`}
                 onClick={() => onInterestToggle(tag)}
               >
