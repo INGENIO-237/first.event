@@ -1,5 +1,5 @@
 import * as z from "zod"
 
-export const FirstSchema = z.object({
+export const FirstStepSchema = z.object({
     location: z.string({ required_error: "Localisation Requise!" }),
 }) 

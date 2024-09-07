@@ -52,13 +52,20 @@ const OTPPage = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm<Schema>({
     resolver: zodResolver(otpConfirmSchema),
-    defaultValues: {
-      otp: "",
-    },
   });
   const onSubmit = (data: Schema) => {
-    toast.success('OK')
+    //get the email store in the local storage
+    const email = localStorage.getItem('email');
+    // TODO: send data to backend and wait for the response
     //Envoi des infos 
+    
+    //if the response is ok just redirect to the login page
+    toast.success('OK')
+    setTimeout(()=>{
+      window.location.href = '/login'
+    }, 2000)
+
+
   }
 
   return (
@@ -109,10 +116,10 @@ const OTPPage = () => {
               <button style={{ opacity: disabled ? 0.5 : 1 }} onClick={resendCode} disabled={disabled} className='rounded bg-first_violet text-white p-2 mt-2' >Renvoyer le code</button>
             </div>
             <div className='flex flex-col items-center my-12'>
-              <button type="submit" 
+              <button type="submit"
                 name="valider"
-                disabled={disabled} 
-                className={cn(disabled ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300','bg-first_orange hover:bg-orange-600 transition duration-300 ')}>
+                disabled={disabled}
+                className={cn(disabled ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'bg-first_orange hover:bg-orange-600 transition duration-300 ')}>
                 Confirmer</button>
             </div>
           </form>

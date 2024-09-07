@@ -5,14 +5,14 @@ import ProgressBar from '@/app/components/config-account/ProgressBar';
 import { FaSearchLocation } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import * as z from "zod"
-import { FirstSchema } from '@/schema/ConfigAccountValidation';
+import { FirstStepSchema } from '@/schema/ConfigAccountValidation';
 import { useState } from 'react';
 import InputError from "@/app/components/auth/InputError";
 import { toast } from "react-toastify";
 
-type Schema = z.infer<typeof FirstSchema>
+type Schema = z.infer<typeof FirstStepSchema>
 const SetupAccount = () => {
-    const [location, setLocation] = useState<String>('');
+    const [location, setLocation] = useState<string>('');
 
     const isButtonDisabled = (): boolean => {
         
@@ -24,15 +24,18 @@ const SetupAccount = () => {
     }
 
     const { register, handleSubmit, formState: { errors } } = useForm<Schema>({
-        resolver: zodResolver(FirstSchema),
+        resolver: zodResolver(FirstStepSchema),
     });
 
     const onSubmit = (data: Schema) => {
+        //Add the location in the localStorage
+        localStorage.setItem('location', data.location)
+
         // TODO: Envoyer au backend 
         toast.success('Localisation enregisté!', );
         console.log(data);
         setTimeout(() => {
-            window.location.href = '/setup-account/second-step'
+            window.location.href = '/setup-account/interests'
         }, 2000)
     }
 

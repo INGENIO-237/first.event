@@ -15,8 +15,8 @@ import InputError from "@/app/components/auth/InputError";
 
 type Schema = z.infer<typeof loginSchema>
 const Login = () => {
-  const [email, setEmail] = useState<String>('');
-  const [password, setPassword] = useState<String>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
 
   const isButtonDisabled = () : boolean => {
@@ -33,6 +33,18 @@ const Login = () => {
 
   const onSubmit = (data: Schema) => {
     console.log(data);
+
+    // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect
+
+    //case if it's the first login
+    setTimeout(() => {
+      window.location.href = '/welcome'
+    }, 2000);
+    //case if it's not the first login
+    // setTimeout(() => {
+    //   window.location.href = '/home'
+    // }, 2000);
+
   }
 
   return (

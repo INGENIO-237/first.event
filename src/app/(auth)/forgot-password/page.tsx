@@ -14,7 +14,7 @@ import InputError from "@/app/components/auth/InputError";
 type Schema = z.infer<typeof forgotPasswordSchema>
 
 const ForgotPassword = () => {
-    const [email, setEmail] = useState<String>('');
+    const [email, setEmail] = useState<string>('');
 
     const isButtonDisabled = (): boolean => {
         if (errors.email || email == '') {
@@ -28,8 +28,13 @@ const ForgotPassword = () => {
     });
 
     const onSubmit = (data: Schema) => {
+        //Save the email in the local storage
+        localStorage.setItem('email', JSON.stringify(email));
+        // TODO: Send payload to backend and wait for a success response to redirect to the reset password page
         toast.success('OK');
-        //Envoi des infos au endpoint
+        setTimeout(() => {
+            window.location.href = '/reset-password';
+        }, 2000);
     }
     return (
         <div className="h-screen flex flex-row md:overflow-x-hidden">

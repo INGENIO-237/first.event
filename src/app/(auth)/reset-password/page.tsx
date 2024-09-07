@@ -15,7 +15,7 @@ type Schema = z.infer<typeof resetPasswordSchema>
 
 const ResetPassword = () => {
     const [password, setPassword] = useState<string>('');
-
+    //TODO: initialize the State and add the otp input and also ad the validation 
     const isButtonDisabled = (): boolean => {
         if (errors.password || password == '') {
             return true;
@@ -28,7 +28,7 @@ const ResetPassword = () => {
 
     const onSubmit = (data: Schema) => {
         toast.success('OK');
-        //Envoi des infos au endpoint
+        //TODO: Send data to backend and wait for the response
     }
     return (
         <div className="h-screen flex flex-row md:overflow-x-hidden">
