@@ -12,14 +12,16 @@ import { FcGoogle } from 'react-icons/fc'
 import { cn } from "@/lib/utils";
 import Loading from "@/components/Loading";
 import InputError from "@/app/components/auth/InputError";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 type Schema = z.infer<typeof loginSchema>
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
 
-  const isButtonDisabled = () : boolean => {
+  const isButtonDisabled = (): boolean => {
     if (errors.password || errors.email || email === '' || password === '' || password.length <= 6) {
       return true;
     }
@@ -55,34 +57,38 @@ const Login = () => {
             <div className="flex justify-start items-center">
               <Link href="/" className="mb-4 md:mb-0">
                 <Image src={logo} alt="FirstEvent Logo" width={150} height={37.5} className="mb-6 w-60" priority />
-              </Link>
+              </Link> 
             </div>
             <h1 className='text-2xl md:text-3xl font-bold mb-6 text-first_violet'>Se connecter</h1>
             <form className='space-y-4' onSubmit={handleSubmit((d) => onSubmit(d))}>
               <div className=''>
-                <input type="email" 
-                  id="email" 
-                  {...register('email')} 
-                  placeholder='Adresse Email' 
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>setEmail(e.target.value)}
+                <input type="email"
+                  id="email"
+                  {...register('email')}
+                  placeholder='Adresse Email'
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                   className={cn(errors.email ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300 hover:border-gray-300', "w-full p-2 border rounded focus:outline-none text-[#4F4B4B] placeholder:text-[#9F9D9D]")} />
                 {errors.email && <InputError message={errors?.email?.message} />}
               </div>
-              <div className=''>
-                <input type="password" 
-                id="password" 
-                {...register('password')} 
-                placeholder='Mot de passe' 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                className={cn(errors.password ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300 hover:border-gray-300', "w-full p-2 border rounded focus:outline-none text-[#4F4B4B] placeholder:text-[#9F9D9D]")} />
+              <div className='relative'>
+                <input type={showPassword ? "text" : "password"}
+                  id="password"
+                  {...register('password')}
+                  placeholder='Mot de passe'
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                  className={cn(errors.password ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300 hover:border-gray-300', "w-full p-2 border rounded focus:outline-none text-[#4F4B4B] placeholder:text-[#9F9D9D]")} />
+                <span onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer">
+                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                </span>
                 {errors?.password && (<InputError message={errors?.password?.message} />)}
               </div>
               <div className=''>
-                <button 
-                  type="submit" 
-                  disabled={isButtonDisabled()} 
-                  name="valider" 
-                  className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300','w-full p-2 border rounded  bg-first_orange text-white ')} >
+                <button
+                  type="submit"
+                  disabled={isButtonDisabled()}
+                  name="valider"
+                  className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'w-full p-2 border rounded  bg-first_orange text-white ')} >
                   Valider
                 </button>
               </div>
