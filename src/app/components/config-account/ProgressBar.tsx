@@ -14,7 +14,7 @@ const ProgressBar = ({ limit, step = 1 }: Props) => {
     const [value, setValue] = useState(previous);
 
     useEffect(() => {
-        const timer = setTimeout(() => setValue(progress), 1200)
+        const timer = setTimeout(() => setValue(progress), 900)
         return () => clearTimeout(timer)
     }, [progress])
     return (

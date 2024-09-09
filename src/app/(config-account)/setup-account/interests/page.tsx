@@ -1,9 +1,10 @@
 'use client';
 import InterestCard from "@/app/components/config-account/InterestCard";
 import ProgressBar from "@/app/components/config-account/ProgressBar";
+import { cn } from "@/lib/utils";
 import { interests } from "@/utils/interests";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 
@@ -13,9 +14,9 @@ interface SelectedInterest {
 }
 const SecondStep = () => {
 
-    const [selectedInterests, setSelectedInterests] = useState<SelectedInterest[]>([]);
+    const [Interests, setInterests] = useState<SelectedInterest[] | Array<Object> >([]);
     const handleInterestToggle = (interestName: string, tag: string) => {
-        setSelectedInterests((prevSelected) => {
+        setInterests((prevSelected) => {
             // Find the interest category
             const existingInterest = prevSelected.find(
                 (item) => item.interest === interestName
@@ -44,12 +45,36 @@ const SecondStep = () => {
         });
     };
 
+    const isButtonDisabled = () => {
+        if (Interests.length == 0) {
+            return true;
+        }
+        return false;
+    }
+    //verify if the location is stored
+
+    //get the stored interest
     useEffect(() => {
-        console.log({ selectedInterests });
-    }, [selectedInterests])
+        if (!localStorage.getItem('location')) {
+            toast.warn('Veillez preciser une localisation!')
+            setTimeout(() => {
+                window.location.href = '/setup-account';
+            }, 1500)
+        }
+
+        let storedInterests = localStorage.getItem('interests')
+
+        if (storedInterests) {
+            storedInterests = JSON.parse(storedInterests)
+            // console.log(storedInterests);
+            setInterests(storedInterests);
+        }
+    }, [])
 
     const handleSubmit = () => {
-        console.log("Selected interests:", selectedInterests);
+        //store interests
+        localStorage.setItem('interests', JSON.stringify(Interests))
+        console.log("Selected interests:", Interests);
         toast.success('OK')
         // TODO: Add the API logic here
     };
@@ -57,7 +82,7 @@ const SecondStep = () => {
     return (
         <div className="grow flex flex-col md:flex-row w-full h-screen">
             <div className="grow md:w-1/2 px-5 flex pt-20 space-y-5 flex-col justify-center md:items-center">
-                <div className="md:w-3/6 flex flex-col justify-between py-9 h-full space-y-5">
+                <div className="md:w-4/6 flex flex-col justify-between py-9 h-full space-y-5">
                     <div className="w-full space-y-4">
                         <h1 className="text-3xl font-bold text-first_violet">Dites nous ce que vous aimez.</h1>
                         <span>Personnalisez vos recommandations d&apos;évenements en fonction de vos interêts.</span>
@@ -79,22 +104,34 @@ const SecondStep = () => {
                 </div>
             </div>
             {/* second side */}
-            <div className="md:w-1/2 grow mx-auto mt-8 md:mt-0 md:bg-[#D9D9D9] overflow-y-scroll md:h-screen md:py-20 no-scrollbar">
-                <div className="space-y-4 w-full flex flex-col items-center justify-center ">
-                    {interests.map((interest) => (
+            <div className="md:w-1/2 grow mx-auto md:mt-0 md:bg-[#D9D9D9] overflow-y-scroll space-y-10 md:h-screen md:py-14 pb-16 md:pb-0 no-scrollbar">
+                <div className="space-y-4 w-full flex flex-col mb-5 items-center justify-center ">
+                    {interests.map((interest, index: React.Key) => (
                         <InterestCard
-                            key={interest.name}
+                            key={index}
                             category={interest.name}
                             tags={interest.tags}
                             icon={interest.icon}
                             selectedInterests={
-                                selectedInterests.find(
+                                Interests.find(
                                     (item) => item.interest === interest.name
                                 )?.tags || []
                             }
                             onInterestToggle={(tag) => handleInterestToggle(interest.name, tag)}
                         />
                     ))}
+                </div>
+                <div className="md:hidden flex  justify-center">
+                    <div className="flex flex-row items-center justify-between w-2/3">
+                        <Link href={'/setup-account'} className=" rg border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white">
+                            Précedent
+                        </Link>
+                        <button
+                            onClick={() => handleSubmit()}
+                            className={cn(isButtonDisabled() ? 'cursor-not-allowed' : 'hover:bg-first_orange hover:text-white', "border border-first_orange bg-white  p-2 rounded text-first_orange  ")}>
+                            Continuer
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

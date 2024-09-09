@@ -1,4 +1,6 @@
+'use client';
 import { Card, CardContent } from "@/components/ui/card"; 
+import { cn } from "@/lib/utils";
 
 interface InterestCardProps {
   category: string;
@@ -23,15 +25,12 @@ const InterestCard = ({
           {category}
         </h1>
         <div className="flex flex-wrap gap-2">
-          {tags.map((tag) => {
+          {tags.map((tag, index) => {
             const isSelected = selectedInterests.includes(tag);
             return (
               <div
                 key={tag}
-                className={`flex  px-3 py-1 rounded cursor-pointer border ${isSelected
-                    ? "bg-first_orange text-white border-first_orange"
-                    : "bg-white text-first_gray border-black"
-                  }`}
+                className={cn('flex px-3 py-1 rounded cursor-pointer hover:ring-2 hover:ring-offset-2 transition duration-300 border ' , isSelected ? "bg-first_orange text-white border-first_orange " : "bg-white text-black border-first_gray ")}
                 onClick={() => onInterestToggle(tag)}
               >
                 {tag}

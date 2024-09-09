@@ -1,6 +1,6 @@
 import { BsCameraReels } from "react-icons/bs";
 import { CiMusicNote1 } from "react-icons/ci";
-import { FaBus, FaCar, FaRunning, FaStopwatch } from "react-icons/fa";
+import { FaBus, FaCar, FaRunning, FaStopwatch, FaUmbrellaBeach } from "react-icons/fa";
 import { Fa9, FaBowlFood, FaHeartPulse, FaMasksTheater, FaPeopleGroup } from "react-icons/fa6";
 import { GiGreenhouse } from "react-icons/gi";
 import { HiBuildingOffice, HiMiniCog } from "react-icons/hi2";
@@ -78,17 +78,17 @@ export const interests: Interests = [
     {
         name: 'Famille et éducation',
         icon: <MdOutlineFamilyRestroom />,
-        tags: ['Éducation'],
+        tags: ['Éducation', 'Anciens élèves', 'Parentalité', 'Bébé', 'Réunion', 'Enfants et jeunes', 'Association des parents d\'élèves', 'Personne àgée'],
     },
     {
-        name: 'Famille et éducation',
-        icon: <HiBuildingOffice />,
-        tags: ['Parti politique', 'Autre fête', 'Impartial', 'Gouvernement féderal', 'Gouvernement de l\'état', 'Gouvernement du comté/municipalité', 'Militaire', 'Les affaires internationnales', 'La sécurité nationale'],
+        name: 'Vacances',
+        icon: <FaUmbrellaBeach />,
+        tags: ['Fete de Saint Patrick', 'Paques', 'Jour de l\'independance', 'Noel', 'Halloween/Hanter', 'Actions de graces', 'Evenements d\'automne', 'Reveillon du nouvel an'],
     },
     {
         name: 'Gouvernement',
-        icon: <MdOutlineFamilyRestroom />,
-        tags: ['Éducation', 'Anciens élèves', 'Parentalité', 'Bébé', 'Réunion', 'Enfants et jeunes', 'Association des parents d\'élèves', 'Personne àgée'],
+        icon: <HiBuildingOffice />,
+        tags: ['Parti politique', 'Autre fête', 'Impartial', 'Gouvernement féderal', 'Gouvernement de l\'état', 'Gouvernement du comté/municipalité', 'Militaire', 'Les affaires internationnales', 'La sécurité nationale'],
     },
     {
         name: 'Mode',

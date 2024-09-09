@@ -6,26 +6,35 @@ import { FaSearchLocation } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import * as z from "zod"
 import { FirstStepSchema } from '@/schema/ConfigAccountValidation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InputError from "@/app/components/auth/InputError";
 import { toast } from "react-toastify";
 
 type Schema = z.infer<typeof FirstStepSchema>
 const SetupAccount = () => {
-    const [location, setLocation] = useState<string>('');
+    const [location, setLocation] = useState<string|null>(localStorage.getItem('location'));
+    
+    useEffect(()=>{
+        let storedLocation = localStorage.getItem('location');
+        if(storedLocation){
+            setLocation(storedLocation)
+        }
+    }, [])
+
+    const { register, handleSubmit, formState: { errors } } = useForm<Schema>({
+        resolver: zodResolver(FirstStepSchema),
+    });
 
     const isButtonDisabled = (): boolean => {
         
         if (errors.location || location == '') {
             return true;
         }
-        console.log(location);
         return false;
     }
 
-    const { register, handleSubmit, formState: { errors } } = useForm<Schema>({
-        resolver: zodResolver(FirstStepSchema),
-    });
+    
+    // setlocationFromStorage();
 
     const onSubmit = (data: Schema) => {
         //Add the location in the localStorage
@@ -33,7 +42,6 @@ const SetupAccount = () => {
 
         // TODO: Envoyer au backend 
         toast.success('Localisation enregisté!', );
-        console.log(data);
         setTimeout(() => {
             window.location.href = '/setup-account/interests'
         }, 2000)
@@ -67,6 +75,7 @@ const SetupAccount = () => {
                             TODO: Make the search of city  
                              */}
                             <input type="search"
+                                value={location}
                                 {...register('location')}
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLocation(e.target.value)}
                                 className={cn(errors?.location ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300 hover:border-gray-300', "w-full p-4 border rounded focus:outline-none text-[#4F4B4B] ps-10 block placeholder:text-[#9F9D9D]")}
