@@ -1,5 +1,5 @@
 import { BsCameraReels } from "react-icons/bs";
-import { CiMusicNote1 } from "react-icons/ci";
+import { LuMusic4 } from "react-icons/lu";
 import { FaBus, FaCar, FaRunning, FaStopwatch, FaUmbrellaBeach } from "react-icons/fa";
 import { Fa9, FaBowlFood, FaHeartPulse, FaMasksTheater, FaPeopleGroup } from "react-icons/fa6";
 import { GiGreenhouse } from "react-icons/gi";
@@ -17,8 +17,8 @@ type Interests = Array<Interest>
 export const interests: Interests = [
     {
         name: 'Musique',
-        icon: <CiMusicNote1 />,
-        tags: ['Alternative', 'Blues et Jazz', 'Classique', 'Pays', 'Latin', 'Culturel', 'GED/Électronique', 'Populaire', 'Hip-Hop/Rap', 'Métal', 'Indépendant', 'Opéra', 'R&B', 'Réligieux/Spirituel', ' Reggae', 'Rocher', 'Top-40', 'Americaine', 'Blues', 'Patûrin', 'Acoustique', 'DJ/Danse', 'Éxpérimental', 'Monde', 'Psychédélique', 'Punk/Hardcore', 'Chanteur/Compositeur', 'GED'],
+        icon: <LuMusic4 className="" />,
+        tags: ['Alternative', 'Blues et Jazz', 'Classique', 'Pays', 'Latin', 'Culturel', 'GED/Électronique', 'Populaire', 'Hip-Hop/Rap', 'Métal', 'Indépendant', 'Opéra', 'R&B', 'Réligieux/Spirituel', ' Reggae', 'Rocher', 'Top-40', 'Americaine', 'Blues', 'Patûrin', 'Acoustique', 'DJ/Danse', 'Éxpérimental', 'Monde', 'Psychédélique', 'Punk/Hardcore', 'Chanteur/Compositeur', 'GED', 'Jazz'],
     },
     {
         name: 'Affaires',

@@ -13,10 +13,10 @@ import { toast } from "react-toastify";
 type Schema = z.infer<typeof FirstStepSchema>
 const SetupAccount = () => {
     const [location, setLocation] = useState<string>('');
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         let storedLocation = localStorage.getItem('location');
-        if(storedLocation){
+        if (storedLocation) {
             setLocation(storedLocation)
         }
     }, [])
@@ -26,7 +26,7 @@ const SetupAccount = () => {
     });
 
     const isButtonDisabled = (): boolean => {
-        
+
         if (errors.location || location == '') {
             return true;
         }
@@ -35,14 +35,12 @@ const SetupAccount = () => {
 
 
     const onSubmit = (data: Schema) => {
-        //Add the location in the localStorage
-        localStorage.setItem('location', data.location)
-
-        // TODO: Envoyer au backend 
-        toast.success('Localisation enregisté!', );
+        localStorage.setItem('location', location)
+        toast.success('Localisation enregisté!',);
         setTimeout(() => {
             window.location.href = '/setup-account/interests'
         }, 2000)
+
     }
 
     return (
@@ -64,7 +62,7 @@ const SetupAccount = () => {
                             Vous recherchez des événements dans:
                         </span>
                     </div>
-                    <form className="space-y-5 mx-auto" onSubmit={handleSubmit((d) => {onSubmit(d)})}>
+                    <form className="space-y-5 mx-auto" onSubmit={handleSubmit((d) => { onSubmit(d) })}>
                         <div className='relative'>
                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <FaSearchLocation />
