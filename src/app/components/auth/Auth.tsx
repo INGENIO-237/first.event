@@ -86,8 +86,8 @@ export default function Auth() {
                                     className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer">
                                     {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                                 </span>
-                                {errors.password && <InputError message={errors.password.message} />}
                             </div>
+                            {errors.password && <InputError message={errors.password.message} />}
 
                             {password && passwordConfirm && password !== passwordConfirm && (
                                 <InputError message="Les mots de passe ne correspondent pas." />
@@ -125,7 +125,7 @@ export default function Auth() {
                         </div>
                         <button type="submit"
                             disabled={isButtonDisabled()}
-                            className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-orange-400' : 'bg-orange-500 hover:bg-orange-600 transition duration-300', "w-full text-white p-2 rounded")}
+                            className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-gray-400' : 'bg-orange-500 hover:bg-orange-600 transition duration-300', "w-full text-white p-2 rounded")}
                         >
                             Créer un compte
                         </button>

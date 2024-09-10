@@ -1,17 +1,17 @@
 'use client';
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { otpConfirmSchema } from "@/schema/AuthValidation";
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@/components/ui/input-otp';
-import { REGEXP_ONLY_DIGITS } from 'input-otp';
-import { Dot } from 'lucide-react';
 import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
-import { cn } from "@/lib/utils";
-import { toast } from "react-toastify";
 import logo from '/public/assets/logo.png';
 import Link from "next/link";
+import React, { useEffect, useRef, useState } from 'react'
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { otpConfirmSchema } from "@/schema/AuthValidation";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { REGEXP_ONLY_DIGITS } from 'input-otp';
+import { Dot } from 'lucide-react';
+import { cn } from "@/lib/utils";
+import { toast } from "react-toastify";
+import * as z from "zod"
 
 type Schema = z.infer<typeof otpConfirmSchema>
 
@@ -23,7 +23,7 @@ const OTPPage = () => {
   const [disabled, setDisabled] = useState<boolean>(true); // Bouton désactivé au départ
 
   const isButtonDisabled = () => {
-    if (timer > 0 || otp.length < 5 || errors?.otp) {
+    if (otp.length < 5 || errors?.otp) {
       setDisabled(true);
     }
     setDisabled(false);
@@ -58,10 +58,10 @@ const OTPPage = () => {
     const email = localStorage.getItem('email');
     // TODO: send data to backend and wait for the response
     //Envoi des infos 
-    
+
     //if the response is ok just redirect to the login page
     toast.success('OK')
-    setTimeout(()=>{
+    setTimeout(() => {
       window.location.href = '/login'
     }, 2000)
 
@@ -117,9 +117,8 @@ const OTPPage = () => {
             </div>
             <div className='flex flex-col items-center my-12'>
               <button type="submit"
-                name="valider"
                 disabled={disabled}
-                className={cn(disabled ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'bg-first_orange hover:bg-orange-600 transition duration-300 ')}>
+                className={cn(disabled ? 'cursor-not-allowed bg-gray-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'bg-first_orange hover:bg-orange-600 transition duration-300 ')}>
                 Confirmer</button>
             </div>
           </form>

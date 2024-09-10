@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
 type Schema = z.infer<typeof FirstStepSchema>
 const SetupAccount = () => {
-    const [location, setLocation] = useState<string|null>(localStorage.getItem('location'));
+    const [location, setLocation] = useState<string>('');
     
     useEffect(()=>{
         let storedLocation = localStorage.getItem('location');
@@ -33,8 +33,6 @@ const SetupAccount = () => {
         return false;
     }
 
-    
-    // setlocationFromStorage();
 
     const onSubmit = (data: Schema) => {
         //Add the location in the localStorage

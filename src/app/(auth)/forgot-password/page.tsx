@@ -62,7 +62,7 @@ const ForgotPassword = () => {
                         <div className=' my-12'>
                             <button type="submit"
                                 disabled={isButtonDisabled()}
-                                className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'w-full p-2 border rounded  bg-first_orange text-white ')}>
+                                className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-gray-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'w-full p-2 border rounded  bg-first_orange text-white ')}>
                                 Confirmer
                             </button>
                         </div>

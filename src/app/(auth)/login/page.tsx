@@ -81,14 +81,13 @@ const Login = () => {
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer">
                   {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                 </span>
-                {errors?.password && (<InputError message={errors?.password?.message} />)}
               </div>
+                {errors?.password && (<InputError message={errors?.password?.message} />)}
               <div className=''>
                 <button
                   type="submit"
                   disabled={isButtonDisabled()}
-                  name="valider"
-                  className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-orange-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'w-full p-2 border rounded  bg-first_orange text-white ')} >
+                  className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-gray-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'w-full p-2 border rounded text-white ')} >
                   Valider
                 </button>
               </div>

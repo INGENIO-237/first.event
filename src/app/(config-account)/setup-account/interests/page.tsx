@@ -14,7 +14,7 @@ interface SelectedInterest {
 }
 const SecondStep = () => {
 
-    const [Interests, setInterests] = useState<SelectedInterest[] | Array<Object> >([]);
+    const [Interests, setInterests] = useState<SelectedInterest[]>([]);
     const handleInterestToggle = (interestName: string, tag: string) => {
         setInterests((prevSelected) => {
             // Find the interest category
