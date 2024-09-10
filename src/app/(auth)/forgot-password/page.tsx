@@ -37,7 +37,7 @@ const ForgotPassword = () => {
         }, 2000);
     }
     return (
-        <div className="h-screen flex flex-row md:overflow-x-hidden">
+        <div className="min-h-screen flex flex-row md:overflow-x-hidden">
             <div className='w-full h-fit md:h-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
                 <div className="max-w-md my-auto mx-auto w-full">
                     <div className="flex d justify-start items-center">

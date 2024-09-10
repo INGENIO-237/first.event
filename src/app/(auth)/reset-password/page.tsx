@@ -66,7 +66,7 @@ const ResetPassword = () => {
         //TODO: Send data to backend and wait for the response
     }
     return (
-        <div className="h-screen flex flex-row md:overflow-x-hidden">
+        <div className="min-h-screen flex flex-row md:overflow-x-hidden">
             <div className='w-full h-fit md:h-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
                 <div className="max-w-md my-auto mx-auto w-full">
                     <div className="flex justify-start items-center">
@@ -111,7 +111,7 @@ const ResetPassword = () => {
                                 onChange={handlePasswordChange}
                                 type={showPassword ? "text" : "password"}
                                 placeholder='Nouveau mot de passe'
-                                className={cn('w-full p-2 border rounded  border-first_gray', errors.password && 'border-red-500 focus:border-red-500')}
+                                className={cn('w-full p-2 border rounded pe-10 border-first_gray', errors.password && 'border-red-500 focus:border-red-500')}
                             />
                             <span onClick={() => setShowPassword(!showPassword)}
                                 className="absolute right-2 top-1/2 transform -translate-y-1/2 z-auto text-gray-500 cursor-pointer">

@@ -2,9 +2,11 @@
 import InterestCard from "@/app/components/config-account/InterestCard";
 import ProgressBar from "@/app/components/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
-import { interests } from "@/utils/interests";
+import { interests as interestsData } from "@/utils/interests";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { IconType } from "react-icons";
 import { toast } from "react-toastify";
 
 
@@ -13,8 +15,8 @@ interface SelectedInterest {
     tags: Array<string>
 }
 const SecondStep = () => {
-
-    const [Interests, setInterests] = useState<SelectedInterest[]>([]);
+    const router = useRouter()
+    const [interests, setInterests] = useState<SelectedInterest[]>([]);
     const handleInterestToggle = (interestName: string, tag: string) => {
         setInterests((prevSelected) => {
             // Find the interest category
@@ -46,35 +48,32 @@ const SecondStep = () => {
     };
 
     const isButtonDisabled = () => {
-        if (Interests.length == 0) {
+        if (interests.length == 0) {
             return true;
         }
+        toast.warn('Veillez selectionner au moins un centre d\'intérêts')
         return false;
     }
     //verify if the location is stored
-
     //get the stored interest
-    useEffect(() => {
+    
+    if (typeof localStorage !== undefined) {
         if (!localStorage.getItem('location')) {
             toast.warn('Veillez preciser une localisation!')
             setTimeout(() => {
-                window.location.href = '/setup-account';
+               router.push('/setup-account');
             }, 1500)
         }
-
         let storedInterests = localStorage.getItem('interests')
-
         if (storedInterests) {
-            storedInterests = JSON.parse(storedInterests)
-            // console.log(storedInterests);
-            setInterests(storedInterests);
+            setInterests(JSON.parse(storedInterests) as object[] as SelectedInterest[]);
         }
-    }, [])
+    }
 
     const handleSubmit = () => {
         //store interests
-        localStorage.setItem('interests', JSON.stringify(Interests))
-        console.log("Selected interests:", Interests);
+        localStorage.setItem('interests', JSON.stringify(interests))
+        console.log("Selected interests:", interests);
         toast.success('OK')
         // TODO: Add the API logic here
     };
@@ -106,14 +105,14 @@ const SecondStep = () => {
             {/* second side */}
             <div className="md:w-1/2 grow mx-auto md:mt-0 md:bg-[#D9D9D9] overflow-y-scroll space-y-10 md:h-screen md:py-14 pb-16 md:pb-0 no-scrollbar">
                 <div className="space-y-4 w-full flex flex-col mb-5 items-center justify-center ">
-                    {interests.map((interest, index: React.Key) => (
+                    {interestsData.map((interest, index: React.Key) => (
                         <InterestCard
                             key={index}
                             category={interest.name}
                             tags={interest.tags}
                             icon={interest.icon}
                             selectedInterests={
-                                Interests.find(
+                                interests.find(
                                     (item) => item.interest === interest.name
                                 )?.tags || []
                             }

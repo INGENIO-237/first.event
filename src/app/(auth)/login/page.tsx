@@ -51,7 +51,7 @@ const Login = () => {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className='md:h-screen md:flex flex-row md:overflow-x-hidden'>
+      <div className='md:min-h-screen md:flex flex-row md:overflow-x-hidden'>
         <div className='w-full h-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
           <div className="max-w-md mx-auto w-full">
             <div className="flex justify-start items-center">
@@ -76,7 +76,7 @@ const Login = () => {
                   {...register('password')}
                   placeholder='Mot de passe'
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                  className={cn(errors.password ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300 hover:border-gray-300', "w-full p-2 border rounded focus:outline-none text-[#4F4B4B] placeholder:text-[#9F9D9D]")} />
+                  className={cn(errors.password ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300 hover:border-gray-300', "w-full p-2 border rounded focus:outline-none text-[#4F4B4B] pe-10 placeholder:text-[#9F9D9D]")} />
                 <span onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer">
                   {showPassword ? <EyeOffIcon /> : <EyeIcon />}
