@@ -5,6 +5,7 @@ import React, { Suspense } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/partial/Footer";
+import { ToastContainer } from "react-toastify";
 
 const poppins = Poppins({
     weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -33,7 +34,7 @@ export default function RootLayout({
             <body
                 className={cn(poppins.variable, roboto_mono.variable, "overflow-x-hidden mx-auto font-sans h-full")}>
                 {children}
-                {/* <ToastContainer position='bottom-right' theme="colored" autoClose={3000} />*/}
+                <ToastContainer position='bottom-right' theme="colored" autoClose={3000} />
                 <Footer />
             </body>
         </html>

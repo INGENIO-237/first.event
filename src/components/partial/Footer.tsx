@@ -34,13 +34,29 @@ const Footer: React.FC = () => {
         icon: FaInstagram,
         link: 'https://www.instagram.com/',
     }]
+
+    const firstLinks = [
+        [{ link: '#', name: 'Tous les événements' }],
+        [{ link: '#', name: 'Créer un événement' }],
+        [{ link: '/login', name: 'Se connecter' }, { link: '/register', name: "S'inscrire" }]
+    ];
+
+    const secondLinks = [
+        [{ link: '#', name: "À propos de nous" }],
+        [{ link: '#', name: "Politique d'utilisation" }],
+        [{ link: '#', name: "Évènement" }],
+    ];
+
+    const thirdLinks = [
+        [{ link: '#', name: "FAQ" }],
+        [{ link: '#', name: "Nous-contacter" }]
+    ];
     return (
         <footer className="bg-first_violet text-white pb-2">
             <div className="px-4 md:px-8 md:py-8 mx-auto w-full">
                 <div className="flex flex-col md:flex-row justify-between gap-10 lg:px-8">
                     <div className="flex flex-col justify-center items-center mb-8">
-                        <Link href="/" className="mb-4 md:mb-0">
-
+                        <Link href="/" className="my-4 md:my-0">
                             <Image src={logo} alt="FirstEvent Logo" width={250} height={40} />
                         </Link>
                         <div className="flex space-x-4">
@@ -61,24 +77,28 @@ const Footer: React.FC = () => {
                         <div>
                             <h3 className="font-bold mb-2">Liens rapides</h3>
                             <ul className="space-y-2 text-sm">
-                                <ListUrl links={[{ link: '#', name: 'Tous les événements' }]} />
-                                <ListUrl links={[{ link: '#', name: 'Créer un événement' }]} />
-                                <ListUrl links={[{ link: '/login', name: 'Se connecter' }, { link: '/register', name: "S'inscrire" }]} />
+                                {firstLinks.map((link, index) => {
+                                    return (
+                                        <ListUrl key={index} links={link} />
+                                    )
+                                })}
+
                             </ul>
                         </div>
                         <div>
                             <h3 className="font-bold mb-2">Entreprise</h3>
                             <ul className="space-y-2">
-                                <ListUrl links={[{ link: '#', name: "À propos de nous" }]} />
-                                <ListUrl links={[{ link: '#', name: "Politique d'utilisation" }]} />
-                                <ListUrl links={[{ link: '#', name: "Évènement" }]} />
+                                {secondLinks.map((link, index) => (
+                                    <ListUrl key={index} links={link} />
+                                ))}
                             </ul>
                         </div>
                         <div>
                             <h3 className="font-bold mb-2">Support</h3>
                             <ul className="space-y-2">
-                                <ListUrl links={[{ link: '#', name: "FAQ" }]} />
-                                <ListUrl links={[{ link: '#', name: "Nous-contacter" }]} />
+                                {thirdLinks.map((link, index) => (
+                                    <ListUrl key={index} links={link} />
+                                ))}
                             </ul>
                         </div>
                     </div>
