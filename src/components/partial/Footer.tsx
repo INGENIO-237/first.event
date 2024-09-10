@@ -14,20 +14,25 @@ const Footer: React.FC = () => {
     interface Social {
         name: string;
         icon: IconType;
+        link: string;
     }
 
     const socials: Social[] = [{
         name: 'Facebook',
         icon: FaFacebookF,
+        link: 'https://www.facebook.com/',
     }, {
         name: 'Twitter',
         icon: FaXTwitter,
+        link: 'https://x.com/',
     }, {
         name: 'LinkedIn',
         icon: FaLinkedin,
+        link: 'https://www.linkedin.com/',
     }, {
         name: 'Instagram',
         icon: FaInstagram,
+        link: 'https://www.instagram.com/',
     }]
     return (
         <footer className="bg-first_violet text-white pb-2">
@@ -44,7 +49,7 @@ const Footer: React.FC = () => {
                                 const Icon = social.icon
                                 return (
                                     <Link key={index} href="#"
-                                        className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-indigo-900 hover:bg-white/80 transition-colors">
+                                        className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-indigo-900 hover:bg-indigo-600 hover:text-white hover:shadow-sm hover:shadow-indigo-500 hover:font-semibold transition-colors">
                                         <span className="sr-only">{social.name}</span>
                                         <Icon />
                                     </Link>
