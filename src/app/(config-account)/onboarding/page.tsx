@@ -29,7 +29,7 @@ const cards = [
 
 const ConfigPage = () => {
   return (
-    <div className="mx-auto pt-10 flex flex-col justify-center   items-center">
+    <div className="m-auto pt-10 flex flex-col justify-center   items-center">
       <div className="">
         <Image src={hand} alt="hand" width={90} height={30} />
       </div>

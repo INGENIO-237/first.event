@@ -105,13 +105,6 @@ const ResetPassword = () => {
                             </InputOTP>
                             {errors?.otp && (<p className="text-red-500">{errors?.otp?.message}</p>)}
                         </div>
-                        <div className="flex justify-end text-[#484848]">
-                            {`00:${timer < 10 ? `0${timer}` : timer}`}
-                        </div>
-                        <div className='flex items-start md:items-center justify-between'>
-                            <span className='font-bold text-lg text-[#484848] '>Je n&apos;ai pas reçu de code</span>
-                            <button style={{ opacity: disabled ? 0.5 : 1 }} onClick={resendCode} disabled={disabled} className='rounded bg-first_violet text-white p-2 mt-2' >Renvoyer le code</button>
-                        </div>
                         <div className='relative'>
                             <input
                                 {...register('password')}
@@ -125,6 +118,15 @@ const ResetPassword = () => {
                                 {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                             </span>
                         </div>
+                        <div className="flex justify-end text-[#484848]">
+                            {`00:${timer < 10 ? `0${timer}` : timer}`}
+                        </div>
+
+                        <div className='flex items-start md:items-center justify-between'>
+                            <span className='font-bold text-lg text-[#484848] '>Je n&apos;ai pas reçu de code</span>
+                            <button style={{ opacity: disabled ? 0.5 : 1 }} onClick={resendCode} disabled={disabled} className='rounded bg-first_violet text-white p-2 mt-2' >Renvoyer le code</button>
+                        </div>
+                        
                         {errors?.password && (<InputError message={errors?.password?.message} />)}
                         <div className=''>
                             <button type="submit"

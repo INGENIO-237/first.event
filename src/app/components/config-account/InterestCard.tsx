@@ -19,17 +19,17 @@ const InterestCard = ({
 }: InterestCardProps) => {
   return (
     <Card className="mb-4 w-11/12 py-3 md:bg-white">
-      <CardContent>
-        <h1 className="font-bold text-3xl text-center justify-center md:justify-normal mb-2 flex items-center gap-2">
+      <CardContent className=''>
+        <span className="font-bold  text-3xl text-first_violet text-center justify-center md:justify-normal mb-9 flex items-center gap-2">
           {icon}
           {category}
-        </h1>
-        <div className="flex flex-wrap gap-2">
+        </span>
+        <div className="flex flex-wrap gap-4">
           {tags.map((tag, index) => {
             const isSelected = selectedInterests.includes(tag);
             return (
               <div
-                key={tag}
+                key={index}
                 className={cn('flex px-3 py-1 rounded cursor-pointer hover:ring-2 hover:ring-offset-2 transition duration-300 border ' , isSelected ? "bg-first_orange text-white border-first_orange " : "bg-white text-black border-first_gray ")}
                 onClick={() => onInterestToggle(tag)}
               >
