@@ -4,7 +4,9 @@ import ProgressBar from "@/app/components/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import { interests as interestsData } from "@/utils/interests";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { IconType } from "react-icons";
 import { toast } from "react-toastify";
 
 
@@ -13,7 +15,7 @@ interface SelectedInterest {
     tags: Array<string>
 }
 const SecondStep = () => {
-
+    const router = useRouter()
     const [interests, setInterests] = useState<SelectedInterest[]>([]);
     const handleInterestToggle = (interestName: string, tag: string) => {
         setInterests((prevSelected) => {
@@ -49,26 +51,24 @@ const SecondStep = () => {
         if (interests.length == 0) {
             return true;
         }
+        toast.warn('Veillez selectionner au moins un centre d\'intérêts')
         return false;
     }
     //verify if the location is stored
-
     //get the stored interest
-    useEffect(() => {
+    
+    if (typeof localStorage !== undefined) {
         if (!localStorage.getItem('location')) {
             toast.warn('Veillez preciser une localisation!')
             setTimeout(() => {
-                window.location.href = '/setup-account';
+               router.push('/setup-account');
             }, 1500)
         }
-
         let storedInterests = localStorage.getItem('interests')
-
         if (storedInterests) {
-            /* console.log(typeof (storedInterests)); */
             setInterests(JSON.parse(storedInterests) as object[] as SelectedInterest[]);
         }
-    }, [])
+    }
 
 
     useEffect(()=>{

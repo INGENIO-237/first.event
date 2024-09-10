@@ -81,7 +81,7 @@ export default function Auth() {
                             <div className="relative">
                                 <input type={showPassword ? "text" : "password"} placeholder="Mot de passe" {...register('password')} value={password}
                                     onChange={handlePasswordChange}
-                                    className={cn(errors.password ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300 hover:border-gray-300', "w-full p-2 border rounded focus:outline-none text-[#4F4B4B] placeholder:text-[#9F9D9D]")} />
+                                    className={cn(errors.password ? 'focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300' : 'focus:border-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-300 hover:border-gray-300', "w-full p-2 border rounded focus:outline-none pe-10 text-[#4F4B4B] placeholder:text-[#9F9D9D]")} />
                                 <span onClick={() => setShowPassword(!showPassword)}
                                     className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer">
                                     {showPassword ? <EyeOffIcon /> : <EyeIcon />}

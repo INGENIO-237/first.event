@@ -1,4 +1,4 @@
-import Navbar from '../components/config-account/Navbar';
+import NavBar from "../components/profile/NavBar";
 
 export default function RootLayout({
     children,
@@ -7,7 +7,7 @@ export default function RootLayout({
 }>) {
     return (
         <div className="flex flex-col min-h-screen">
-            <Navbar />
+            <NavBar />
             {children}
         </div>
     );

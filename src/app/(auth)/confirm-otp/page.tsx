@@ -69,7 +69,7 @@ const OTPPage = () => {
   }
 
   return (
-    <div className='h-full md:h-screen md:flex flex-row overflow-x-hidden'>
+    <div className='min-h-screen md:flex flex-row overflow-x-hidden'>
       <div className='w-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
         <div className="max-w-md mx-auto w-full">
           <div className="flex justify-start items-center">

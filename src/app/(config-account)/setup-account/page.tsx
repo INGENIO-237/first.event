@@ -9,9 +9,11 @@ import { FirstStepSchema } from '@/schema/ConfigAccountValidation';
 import { useEffect, useState } from 'react';
 import InputError from "@/app/components/auth/InputError";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 type Schema = z.infer<typeof FirstStepSchema>
 const SetupAccount = () => {
+    const router = useRouter()
     const [location, setLocation] = useState<string>('');
 
     useEffect(() => {
@@ -36,10 +38,10 @@ const SetupAccount = () => {
 
     const onSubmit = (data: Schema) => {
         localStorage.setItem('location', location)
-        toast.success('Localisation enregisté!',);
-        setTimeout(() => {
-            window.location.href = '/setup-account/interests'
-        }, 2000)
+        toast.success('Localisation enregisté!', {className: 'bg-first_violet'});
+        
+            router.push('/setup-account/interests')
+        
 
     }
 
