@@ -24,7 +24,7 @@ export default function Auth() {
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
-    const [acceptedTerms, setAcceptedTerms] = useState<boolean>(false);
+    const [terms, setTerms] = useState<boolean>(false);
     const [error, setError] = useState<string[]>([]);
 
     const validatePassword = (password: string) => {
@@ -45,7 +45,7 @@ export default function Auth() {
     const isButtonDisabled = () => {
         const isPasswordValid = password.length >= 8;
         const isPasswordMatch = password === passwordConfirm;
-        return !isPasswordValid || !isPasswordMatch || !acceptedTerms;
+        return !isPasswordValid || !isPasswordMatch || !terms;
     };
     const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchemaType>({
         resolver: zodResolver(RegisterSchema),
@@ -106,8 +106,8 @@ export default function Auth() {
                         <div className="flex items-start mb-4">
                             <div className="flex items-center h-5 mr-2">
                                 <input id="terms" aria-describedby="terms" type="checkbox"
-                                    checked={acceptedTerms} {...register('acceptedTerms')}
-                                    onChange={() => setAcceptedTerms(!acceptedTerms)}
+                                    checked={terms} {...register('acceptedTerms')}
+                                    onChange={() => setTerms(!terms)}
                                     className={cn(errors.acceptedTerms ? 'focus:border-red-500 focus:ring-red-600' : 'focus:border-indigo-500 focus:ring-indigo-600', "w-4 h-4 focus:rounded text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600")} />
                             </div>
                             <label htmlFor="terms" className="text-sm ">
@@ -162,7 +162,7 @@ export default function Auth() {
             </div>
 
             {/* Image section - hidden on mobile */}
-            <div className='bg-white w-1/2 h-full hidden md:flex'>
+            <div className='bg-white w-1/2 h-full hidden lg:flex'>
                 <Image src={login.src} alt="Next.js Logo"
                     className='w-full flex object-cover justify-center h-auto' width={800} height={0} priority />
             </div>

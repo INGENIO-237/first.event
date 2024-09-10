@@ -3,10 +3,10 @@ import React from "react";
 
 interface linkInterface {
     link: string;
-    name: string | undefined;
+    name: string;
 }
 
-export const ListUrl = ({ links }: { links: Array<{ link: string, name: string | undefined }> }): JSX.Element => {
+export const ListUrl = ({ links }: { links: Array<linkInterface> }): JSX.Element => {
     return (
         <li className="text-[#FCFCFC] text-base text-nowrap">
             {links.map((link: linkInterface, index: React.Key) => (

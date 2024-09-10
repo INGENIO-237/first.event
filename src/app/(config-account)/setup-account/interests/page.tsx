@@ -69,6 +69,11 @@ const SecondStep = () => {
         }
     }
 
+
+    useEffect(()=>{
+        
+    }, [interests])
+
     const handleSubmit = () => {
         //store interests
         localStorage.setItem('interests', JSON.stringify(interests))
@@ -121,7 +126,7 @@ const SecondStep = () => {
                 </div>
                 <div className="md:hidden flex  justify-center">
                     <div className="flex flex-row items-center justify-between w-2/3">
-                        <Link href={'/setup-account'} className=" rg border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white">
+                        <Link href={'/setup-account'} className="rg border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white">
                             Précedent
                         </Link>
                         <button
