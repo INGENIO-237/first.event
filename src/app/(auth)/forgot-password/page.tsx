@@ -10,10 +10,12 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import { useState } from "react";
 import InputError from "@/app/components/auth/InputError";
+import { useRouter } from "next/navigation";
 
 type Schema = z.infer<typeof forgotPasswordSchema>
 
 const ForgotPassword = () => {
+    const router = useRouter();
     const [email, setEmail] = useState<string>('');
 
     const isButtonDisabled = (): boolean => {
@@ -33,7 +35,7 @@ const ForgotPassword = () => {
         // TODO: Send payload to backend and wait for a success response to redirect to the reset password page
         toast.success('OK');
         setTimeout(() => {
-            window.location.href = '/reset-password';
+            router.push('/reset-password');
         }, 2000);
     }
     return (
