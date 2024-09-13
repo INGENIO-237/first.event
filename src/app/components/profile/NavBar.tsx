@@ -10,15 +10,26 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import NavBarLink from './NavBarLink';
+import DropdownItem from "./DropdownItem";
 import logo from '/public/assets/logo.png';
 import default_profile from '/public/assets/images/default-profile.png';
-import DropdownItem from "./DropdownItem";
-import { dropdownLinks, links } from "@/utils/links";
-import { FaSearch } from "react-icons/fa";
+import { links, dropdownLinks } from '@/utils/links';
 
 const NavBar = () => {
   const [location, setLocation] = useState<string>('Montréal');
   const [status, setStatus] = useState<string>('organizer');
+  const ticketNumber = 1;
+  
+  const navLinks = useMemo(() => links, []);
+
+  const dropdownsLinks = useMemo(() => dropdownLinks, []);
+
+  const filteredLinks = useMemo(() => 
+    navLinks.filter(link => 
+      link.accessibleBy === status || 
+      ((status === 'influencer' || status === 'organizer') && link.accessibleBy === 'user')
+    ),
+  [navLinks, status]);
 
   return (
     <motion.nav 
@@ -27,7 +38,7 @@ const NavBar = () => {
       transition={{ duration: 0.3 }}
       className="hidden lg:block shadow-sm"
     >
-      <div className="container bg-white px-4 py-3">
+      <div className="w-screen bg-white px-4 py-3">
         <div className="flex items-center justify-between space-x-4">
           {/* Logo */}
           <Link href={'/'}>
@@ -60,22 +71,30 @@ const NavBar = () => {
                 icon={link.icon} />
             ))}
             <DropdownMenu>
-                <DropdownMenuTrigger className='flex items-center gap-2 focus:outline-none p-3'>
-                  <Image src={default_profile} alt='Profile' width={225} height={225} className=' rounded-full' />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="p-2 bg-white shadow-md rounded-b-xl">
-                  {dropdownLinks.map((link, index) => (
-                    <DropdownItem key={index}
-                      link={link.link}
-                      title={link.title} />
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+              <DropdownMenuTrigger className='flex items-center gap-2 focus:outline-none'>
+                <div className="rounded-full overflow-hidden w-10 h-10 border border-gray-200">
+                  <Image 
+                    src={default_profile} 
+                    alt='Profile' 
+                    width={40} 
+                    height={40} 
+                    className='w-full h-full object-cover'
+                  />
+                </div>
+                <ChevronDown />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="p-2 bg-white shadow-md rounded-md w-48">
+                {dropdownsLinks.map((link, index) => (
+                  <DropdownItem key={index}
+                    link={link.link}
+                    title={link.title} />
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   )
 }
 
