@@ -52,12 +52,12 @@ const Login = () => {
   return (
     <Suspense fallback={<Loading />}>
       <div className='md:min-h-screen md:flex flex-row md:overflow-x-hidden'>
-        <div className='w-full h-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
+        <div className='w-full min-h-screen md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
           <div className="max-w-md mx-auto w-full">
             <div className="flex justify-start items-center">
               <Link href="/" className="mb-4 md:mb-0">
                 <Image src={logo} alt="FirstEvent Logo" width={150} height={37.5} className="mb-6 w-60" priority />
-              </Link> 
+              </Link>
             </div>
             <h1 className='text-2xl md:text-3xl font-bold mb-6 text-first_violet'>Se connecter</h1>
             <form className='space-y-4' onSubmit={handleSubmit((d) => onSubmit(d))}>
@@ -82,7 +82,7 @@ const Login = () => {
                   {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                 </span>
               </div>
-                {errors?.password && (<InputError message={errors?.password?.message} />)}
+              {errors?.password && (<InputError message={errors?.password?.message} />)}
               <div className=''>
                 <button
                   type="submit"
@@ -119,7 +119,7 @@ const Login = () => {
           </div>
         </div>
         <div className='bg-white w-1/2 h-full min-h-md hidden md:flex'>
-          <Image src="/assets/images/auth-image.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto' width={800} height={0} />
+          <Image src="/assets/images/auth-image.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-screen' width={800} height={0} />
         </div>
 
       </div>

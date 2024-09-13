@@ -30,7 +30,7 @@ export default function Auth() {
 
     const validatePassword = (password: string) => {
         const errors: string[] = [];
-        if (password.length < 8) {
+        if (password.length <= 6) {
             errors.push('Votre mot de passe doit comporter au moins 8 caractères.');
         }
         setError(errors);
@@ -47,7 +47,7 @@ export default function Auth() {
 
     const handlePasswordConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => { const newPasswordConfirm = e.target.value; setPasswordConfirm(newPasswordConfirm); };
     const isButtonDisabled = () => {
-        const isPasswordValid = password.length >= 8;
+        const isPasswordValid = password.length >= 6;
         const isPasswordMatch = password === passwordConfirm;
         return !isPasswordValid || !isPasswordMatch || !terms;
     };

@@ -32,12 +32,10 @@ const ResetPassword = () => {
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
-        // validatePassword(newPassword);
     };
 
     const isButtonDisabled = (): boolean => {
-        if (errors.password !== undefined || password == '' || otp.length < 5 || errors?.otp !== undefined) {
-
+        if (errors.password !== undefined || password == '' || otp.length < 5 || errors?.otp !== undefined || password.length <=6) {
             return true;
         }
         return false;
@@ -67,7 +65,7 @@ const ResetPassword = () => {
     }
     return (
         <div className="min-h-screen flex flex-row md:overflow-x-hidden">
-            <div className='w-full h-fit md:h-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
+            <div className='w-full h-fit md:min-h-screen md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
                 <div className="max-w-md my-auto mx-auto w-full">
                     <div className="flex justify-start items-center">
                         <Link href="/" className="mb-4 md:mb-0">
@@ -138,7 +136,7 @@ const ResetPassword = () => {
                 </div>
             </div>
             <div className='w-1/2 h-full hidden md:flex'>
-                <Image src="/assets/images/auth-image2.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto' width={800} height={0} />
+                <Image src="/assets/images/auth-image2.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-screen' width={800} height={0} />
             </div>
         </div>
     )

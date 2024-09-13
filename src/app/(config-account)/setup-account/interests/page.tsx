@@ -5,8 +5,7 @@ import { cn } from "@/lib/utils";
 import { interests as interestsData } from "@/utils/interests";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { IconType } from "react-icons";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 
@@ -57,23 +56,19 @@ const SecondStep = () => {
     //verify if the location is stored
     //get the stored interest
     
-    /* if (typeof localStorage !== undefined) {
-        if (!localStorage.getItem('location')) {
-            toast.warn('Veillez preciser une localisation!')
-            setTimeout(() => {
-               router.push('/setup-account');
-            }, 1500)
-        }
-        let storedInterests = localStorage.getItem('interests')
-        if (storedInterests) {
-            setInterests(JSON.parse(storedInterests) as object[] as SelectedInterest[]);
-        }
-    } */
+    // if (typeof localStorage !== undefined) {
+    //     if (!localStorage.getItem('location')) {
+    //         toast.warn('Veillez preciser une localisation!')
+    //         setTimeout(() => {
+    //            router.push('/setup-account');
+    //         }, 1500)
+    //     }
+    //     let storedInterests = localStorage.getItem('interests')
+    //     if (storedInterests) {
+    //         setInterests(JSON.parse(storedInterests) as object[] as SelectedInterest[]);
+    //     }
+    // }
 
-
-    useEffect(()=>{
-        
-    }, [interests])
 
     const handleSubmit = () => {
         //store interests
