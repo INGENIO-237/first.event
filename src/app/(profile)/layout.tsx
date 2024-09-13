@@ -1,5 +1,6 @@
 import MobNavBar from "../components/profile/MobNavBar";
 import NavBar from "../components/profile/NavBar";
+import SideBar from "./_components/SideBar";
 
 export default function RootLayout({
     children,
@@ -10,7 +11,10 @@ export default function RootLayout({
         <div className="flex flex-col min-h-screen">
             <NavBar />
             <MobNavBar />
+            <div className="flex flex-row">
+            <SideBar />
             {children}
+            </div>
         </div>
     );
 }

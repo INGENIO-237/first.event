@@ -98,7 +98,11 @@ const links = [
 const MobNavBar = () => {
     const [status, setStatus] = useState('user');
     const [isOpen, setIsOpen] = useState<boolean>(false);
-
+    if (isOpen) {
+        document.body.classList.add('overflow-hidden');
+      } else {
+        document.body.classList.remove('overflow-hidden');
+      }
     return (
         <>
             <nav className='lg:hidden'>
@@ -128,20 +132,20 @@ const MobNavBar = () => {
                 </div>
             </nav>
             <div className={cn(
-          "fixed top-16 right-0 z-40 border shadow-lg w-1/2 h-full bg-white  transform transition-transform duration-300 ease-in-out", isOpen ? "translate-x-0" : "translate-x-full")}>
-                <ul className="px-8">
-                    {links.map((link, index) => {
-                        if (link.accessibleBy === status || ((status === 'influencer' || status === 'organizer') && link.accessibleBy === 'user')) {
-                            return (
-                                <NavBarLink key={index}
-                                    text={link.title}
-                                    link={link.link}
-                                    icon={link.icon} />
-                            )
-                        }
-                        return null; // Add a fallback return value
-                    })}
-                </ul>
+                "fixed  left-0 z-10 border overflow-hidden shadow-lg h- w-full bg-white  transform transition-transform  duration-300 ease-in", isOpen ? "fade-in top-16" : "-translate-y-[100%] -top-5")}>
+                    <ul className="px-8">
+                        {links.map((link, index) => {
+                            if (link.accessibleBy === status || ((status === 'influencer' || status === 'organizer') && link.accessibleBy === 'user')) {
+                                return (
+                                    <NavBarLink key={index}
+                                        text={link.title}
+                                        link={link.link}
+                                        icon={link.icon} />
+                                )
+                            }
+                            return null; // Add a fallback return value
+                        })}
+                    </ul>
             </div>
         </>
     )
