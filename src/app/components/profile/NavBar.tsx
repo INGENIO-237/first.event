@@ -1,161 +1,115 @@
 'use client'
+import { useState, useMemo } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Search, MapPin, ChevronDown, Store, Calendar, Users, PlusCircle, Heart, Ticket, ShoppingCart } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
-import { FaChevronDown, FaHeart, FaMapMarkerAlt, FaPlus, FaSearch, FaStoreAlt, FaTicketAlt } from 'react-icons/fa';
-import { FcPlanner } from 'react-icons/fc';
-import { GiOrganigram } from 'react-icons/gi';
 import NavBarLink from './NavBarLink';
+import DropdownItem from "./DropdownItem";
 import logo from '/public/assets/logo.png';
 import default_profile from '/public/assets/images/default-profile.png';
-import DropdownItem from "./DropdownItem";
-import { HiOutlineShoppingCart } from "react-icons/hi2";
-import { IoMdHeartEmpty } from "react-icons/io";
-import {  MapPin } from "lucide-react";
-
 
 const NavBar = () => {
-  const [toggleMenu, setToggleMenu] = useState<boolean>(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [location, setLocation] = useState<string>('Montréal')
+  const [location, setLocation] = useState<string>('Montréal');
   const [status, setStatus] = useState<string>('organizer');
-  let ticketNumber = 1;
-  const links = [
-    {
-      title: 'Boutique',
-      icon: FaStoreAlt,
-      link: '#',
-      accessibleBy: 'user'
-    },
-    {
-      title: 'Organisateur',
-      icon: FcPlanner,
-      link: '#',
-      accessibleBy: 'organizer'
-    },
-    {
-      title: 'Communicateur',
-      icon: GiOrganigram,
-      link: '#',
-      accessibleBy: 'influencer'
-    },
-    {
-      title: 'Créer',
-      icon: FaPlus,
-      link: '#',
-      accessibleBy: 'organizer'
-    },
-    {
-      title: 'Favoris',
-      icon: IoMdHeartEmpty,
-      link: '#',
-      accessibleBy: 'user'
-    },
-    {
-      title: 'Tickets',
-      icon: FaTicketAlt,
-      link: '#',
-      accessibleBy: 'influencer'
-    },
-    {
-      title: 'Panier',
-      icon: HiOutlineShoppingCart,
-      link: '#',
-      accessibleBy: 'user'
-    },
-  ]
+  const ticketNumber = 1;
 
-    const dropdownLinks = [
-      // {
-      //   title: 'Parcourez les événements',
-      //   link: '#',
-      // },
-      {
-        title: `Tickets(${ticketNumber})`,
-        link: '#',
-      },
-      {
-        title: 'Favoris',
-        link: '#',
-      },
-      {
-        title: 'Centre d\'intérêts',
-        link: '#',
-      },
-      {
-        title: 'Paramètres du compte',
-        link: '#',
-      },
-      {
-        title: 'Historique',
-        link: '#',
-      },
-      {
-        title: 'Se déconnecter',
-        link: '#',
-      },
-    ]
+  const links = useMemo(() => [
+    { title: 'Boutique', icon: Store, link: '#', accessibleBy: 'user' },
+    { title: 'Organisateur', icon: Calendar, link: '#', accessibleBy: 'organizer' },
+    { title: 'Communicateur', icon: Users, link: '#', accessibleBy: 'influencer' },
+    { title: 'Créer', icon: PlusCircle, link: '#', accessibleBy: 'organizer' },
+    { title: 'Favoris', icon: Heart, link: '#', accessibleBy: 'user' },
+    { title: 'Tickets', icon: Ticket, link: '#', accessibleBy: 'influencer' },
+    { title: 'Panier', icon: ShoppingCart, link: '#', accessibleBy: 'user' },
+  ], []);
+
+  const dropdownLinks = useMemo(() => [
+    { title: `Tickets(${ticketNumber})`, link: '#' },
+    { title: 'Favoris', link: '#' },
+    { title: 'Centre d\'intérêts', link: '#' },
+    { title: 'Paramètres du compte', link: '#' },
+    { title: 'Historique', link: '#' },
+    { title: 'Se déconnecter', link: '#' },
+  ], [ticketNumber]);
+
+  const filteredLinks = useMemo(() => 
+    links.filter(link => 
+      link.accessibleBy === status || 
+      ((status === 'influencer' || status === 'organizer') && link.accessibleBy === 'user')
+    ),
+  [links, status]);
 
   return (
-    <nav className="hidden lg:block">
-      <div className="container bg-white  px-4 py-2">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center justify-start space-x-2">
-            <Link href={'/'}>
-              <Image src={logo} alt='Logo' width={150} height={37.5} className='w-52' />
-            </Link>
-            <div className="md:flex w-max items-center hidden border border-gray-300 rounded-full overflow-hidden bg-white shadow-sm">
-              <div className="flex items-center flex-grow space-x-1 p-2">
-                <FaSearch className="text-orange-500 " size={20} />
-                <input
-                  type="text"
-                  placeholder="Rechercher un événement..."
-                  className="w-full outline-none text-gray-700"
-                />
-              </div>
-              <div className="flex items-center border-l border-gray-300 p-2">
-                <MapPin className="text-orange-500 mr-2" />
-                {location}
-              </div>
+    <motion.nav 
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="hidden lg:block shadow-sm"
+    >
+      <div className="container bg-white px-4 py-3">
+        <div className="flex items-center justify-between space-x-4">
+          {/* Logo */}
+          <Link href={'/'}>
+            <Image src={logo} alt='Logo' width={150} height={37.5} className='w-48' />
+          </Link>
+          
+          {/* Barre de recherche avec localisation */}
+          <div className="flex items-center bg-gray-50 border border-gray-200 rounded-full shadow-sm overflow-hidden w-full max-w-md">
+            <div className="flex items-center flex-grow space-x-2 px-4 py-2">
+              <Search className="text-orange-500" size={20} />
+              <input
+                type="search"
+                placeholder="Rechercher un événement..."
+                className="w-full outline-none bg-transparent text-gray-700"
+                aria-label="Rechercher"
+              />
+            </div>
+            <div className="flex items-center border-l border-gray-200 px-4">
+              <MapPin className="text-orange-500 mr-2" />
+              {location}
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            {links.map((link, index) => {
-              if (link.accessibleBy === status || ((status === 'influencer' || status === 'organizer') && link.accessibleBy === 'user')) {
-                return (
-                  <NavBarLink key={index}
-                    text={link.title}
-                    link={link.link}
-                    icon={link.icon} />
-                )
-              }
-            })}
-            <div>
+
+          {/* Navigation et profil utilisateur */}
+          <div className="flex items-center space-x-6">
+            {filteredLinks.map((link, index) => (
+              <NavBarLink key={index}
+                text={link.title}
+                link={link.link}
+                icon={link.icon} />
+            ))}
             <DropdownMenu>
-                <DropdownMenuTrigger className='flex items-center gap-2 focus:outline-none'>
-                  <Image src={default_profile} alt='Profile' width={40} height={40} className='w-10 h-10 rounded-full' />
-                  <FaChevronDown />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="p-2 bg-white shadow-md rounded-b-xl">
-                  {dropdownLinks.map((link, index) => (
-                    <DropdownItem key={index}
-                      link={link.link}
-                      title={link.title} />
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+              <DropdownMenuTrigger className='flex items-center gap-2 focus:outline-none'>
+                <div className="rounded-full overflow-hidden w-10 h-10 border border-gray-200">
+                  <Image 
+                    src={default_profile} 
+                    alt='Profile' 
+                    width={40} 
+                    height={40} 
+                    className='w-full h-full object-cover'
+                  />
+                </div>
+                <ChevronDown />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="p-2 bg-white shadow-md rounded-md w-48">
+                {dropdownLinks.map((link, index) => (
+                  <DropdownItem key={index}
+                    link={link.link}
+                    title={link.title} />
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   )
 }
 
-export default NavBar
+export default NavBar;
