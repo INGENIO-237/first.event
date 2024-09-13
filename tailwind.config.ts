@@ -16,6 +16,7 @@ const config = {
         "2xl": "1400px",
       },
     },
+    
     extend: {
       colors: {
         first_violet: "#270B87",

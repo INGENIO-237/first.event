@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import React, { Suspense } from "react";
-import "react-toastify/dist/ReactToastify.css";
+import "./ReactToastify.css";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/partial/Footer";
 import { ToastContainer } from "react-toastify";

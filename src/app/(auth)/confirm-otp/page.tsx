@@ -24,9 +24,9 @@ const OTPPage = () => {
 
   const isButtonDisabled = () => {
     if (otp.length < 5 || errors?.otp) {
-      setDisabled(true);
+      return (true);
     }
-    setDisabled(false);
+    return (false);
   }
 
 
@@ -70,7 +70,7 @@ const OTPPage = () => {
 
   return (
     <div className='min-h-screen md:flex flex-row overflow-x-hidden'>
-      <div className='w-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
+      <div className='w-full min-h-screen md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
         <div className="max-w-md mx-auto w-full">
           <div className="flex justify-start items-center">
             <Link href="/" className="mb-4 md:mb-0">
@@ -115,17 +115,17 @@ const OTPPage = () => {
               <span className='font-bold text-lg text-[#484848] '>Je n&apos;ai pas reçu de code</span>
               <button style={{ opacity: disabled ? 0.5 : 1 }} onClick={resendCode} disabled={disabled} className='rounded bg-first_violet text-white p-2 mt-2' >Renvoyer le code</button>
             </div>
-            <div className='flex flex-col items-center my-12'>
+            <div className='flex flex-col items-center'>
               <button type="submit"
                 disabled={disabled}
-                className={cn(disabled ? 'cursor-not-allowed bg-gray-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'bg-first_orange hover:bg-orange-600 transition duration-300 ')}>
+                className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-gray-400' : 'bg-first_orange hover:bg-orange-600 transition duration-300', 'w-full p-2 border rounded text-white ')}>
                 Confirmer</button>
             </div>
           </form>
         </div>
       </div>
       <div className='bg-white w-1/2 h-full min-h-md hidden md:flex'>
-        <Image src="/assets/images/auth-image2.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto ' width={800} height={0} />
+        <Image src="/assets/images/auth-image2.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-screen ' width={800} height={0} />
 
       </div>
 

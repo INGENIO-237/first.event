@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
                 </div>
             </div>
             <div className="text-center text-sm">
-                <p>Copyright © 2024 FirstEvent | Tous droits réservés | Conçu et développé par <Link href="https://mentalists.ca" className="text-blue-300 hover:underline">Mentalists</Link></p>
+                <p>Copyright © 2024 FirstEvent | Tous droits réservés | Conçu et développé par <Link href="https://mentalists.ca" className="text-blue-300 hover:underline transition duration-300">Mentalists</Link></p>
             </div>
         </footer>
     );
