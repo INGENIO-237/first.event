@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image"
 import default_profile from '/public/assets/images/default-profile.png';
@@ -18,11 +18,13 @@ import { dropdownLinks, links } from "@/utils/links";
 const MobNavBar = () => {
     const [status, setStatus] = useState('user');
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    if (isOpen) {
-        document.body.classList.add('overflow-hidden');
-      } else {
-        document.body.classList.remove('overflow-hidden');
-      }
+    useEffect(()=>{
+        if (isOpen && document) {
+            document.body.classList.add('overflow-hidden');
+          } else {
+            document.body.classList.remove('overflow-hidden');
+          }
+    })
     return (
         <>
             <nav className='lg:hidden'>

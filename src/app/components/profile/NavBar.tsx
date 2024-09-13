@@ -23,7 +23,7 @@ const NavBar = () => {
 
   return (
     <nav className="hidden lg:block">
-      <div className="container bg-white  px-4 py-2">
+      <div className="w-screen bg-white  px-4 py-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-start space-x-2">
             <Link href={'/'}>
@@ -57,8 +57,8 @@ const NavBar = () => {
             })}
             <div>
             <DropdownMenu>
-                <DropdownMenuTrigger className='flex items-center gap-2 focus:outline-none'>
-                  <Image src={default_profile} alt='Profile' width={40} height={40} className='w-10 h-10 rounded-full' />
+                <DropdownMenuTrigger className='flex items-center gap-2 focus:outline-none p-3'>
+                  <Image src={default_profile} alt='Profile' width={225} height={225} className=' rounded-full' />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="p-2 bg-white shadow-md rounded-b-xl">
                   {dropdownLinks.map((link, index) => (
