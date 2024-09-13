@@ -38,11 +38,9 @@ const SetupAccount = () => {
 
     const onSubmit = (data: Schema) => {
         localStorage.setItem('location', location)
-        toast.success('Localisation enregisté!', {className: 'bg-first_violet'});
+        toast.success('Localisation enregisté!', {className: 'bg-first_violet',autoClose: false});
         
             router.push('/setup-account/interests')
-        
-
     }
 
     return (

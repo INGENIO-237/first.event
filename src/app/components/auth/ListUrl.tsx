@@ -8,13 +8,15 @@ interface linkInterface {
 
 export const ListUrl = ({ links }: { links: Array<linkInterface> }): JSX.Element => {
     return (
-        <li className="text-[#FCFCFC] text-base text-nowrap">
+        <li className="text-[#FCFCFC] text-base text-nowrap flex">
             {links.map((link: linkInterface, index: React.Key) => (
-                    <Link key={index} href={link.link}
+                <div  key={index}>
+                    <Link href={link.link}
                         className="text-[14px] font-medium hover:text-blue-500 transition-colors ">
                         {link.name}
-                    {index !== links.length - 1 && <span className="text-base">/ </span>}
                     </Link>
+                    {index !== links.length - 1 && <span className="text-base">{" "}/{" "}</span>}
+                </div>
             ))}
         </li>
     )

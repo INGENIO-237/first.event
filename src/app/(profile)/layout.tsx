@@ -12,8 +12,10 @@ export default function RootLayout({
             <NavBar />
             <MobNavBar />
             <div className="flex flex-row">
-            <SideBar />
-            {children}
+                <SideBar />
+                <div className="px-4 py-2">
+                {children}
+                </div>
             </div>
         </div>
     );
