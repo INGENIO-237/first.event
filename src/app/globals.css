@@ -27,3 +27,6 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+.navContainer{
+  padding: 0.7rem;
+}
