@@ -110,7 +110,7 @@ const NavBar = () => {
             <Link href={'/'}>
               <Image src={logo} alt='Logo' width={150} height={37.5} className='w-52' />
             </Link>
-            <div className="md:flex items-center hidden border border-gray-300 rounded-full overflow-hidden bg-white shadow-sm">
+            <div className="md:flex w-max items-center hidden border border-gray-300 rounded-full overflow-hidden bg-white shadow-sm">
               <div className="flex items-center flex-grow space-x-1 p-2">
                 <FaSearch className="text-orange-500 " size={20} />
                 <input
@@ -120,7 +120,7 @@ const NavBar = () => {
                 />
               </div>
               <div className="flex items-center border-l border-gray-300 p-2">
-                <MapPin className="text-orange-500 mr-2" size={20} />
+                <MapPin className="text-orange-500 mr-2" />
                 {location}
               </div>
             </div>
@@ -140,7 +140,6 @@ const NavBar = () => {
             <DropdownMenu>
                 <DropdownMenuTrigger className='flex items-center gap-2 focus:outline-none'>
                   <Image src={default_profile} alt='Profile' width={40} height={40} className='w-10 h-10 rounded-full' />
-                  johndoe@gmail.com
                   <FaChevronDown />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="p-2 bg-white shadow-md rounded-b-xl">
