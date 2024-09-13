@@ -57,7 +57,7 @@ const SecondStep = () => {
     //verify if the location is stored
     //get the stored interest
     
-    if (typeof localStorage !== undefined) {
+    /* if (typeof localStorage !== undefined) {
         if (!localStorage.getItem('location')) {
             toast.warn('Veillez preciser une localisation!')
             setTimeout(() => {
@@ -68,7 +68,7 @@ const SecondStep = () => {
         if (storedInterests) {
             setInterests(JSON.parse(storedInterests) as object[] as SelectedInterest[]);
         }
-    }
+    } */
 
 
     useEffect(()=>{

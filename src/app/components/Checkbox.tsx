@@ -1,22 +1,19 @@
+import { cn } from '@/lib/utils';
+import { Proportions } from 'lucide-react';
 import React from 'react';
 
-interface CustomCheckboxProps {
-  id: string;
+type CheckboxProps = {
+  id?: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
   label?: string;
   primaryColor?: string;
   inputBorderColor?: string;
+  className?: string;
+  size?: number
 }
 
-const Checkbox: React.FC<CustomCheckboxProps> = ({
-  id,
-  checked,
-  onChange,
-  label,
-  primaryColor = 'text-blue-500',
-  inputBorderColor = 'border-gray-300'
-}) => {
+const Checkbox = ({ id, checked, onChange, label, className, primaryColor = 'text-blue-500', inputBorderColor = 'border-gray-300', size = 6 }: CheckboxProps) => {
   return (
     <div className="flex items-center">
       <div className="relative">
@@ -29,13 +26,11 @@ const Checkbox: React.FC<CustomCheckboxProps> = ({
         />
         <label
           htmlFor={id}
-          className={`flex items-center justify-center w-6 h-6 border ${inputBorderColor} rounded cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110 ${
-            checked ? `${primaryColor} bg-current` : 'bg-white'
-          }`}
+          className={cn(className, `flex items-center justify-center w-${size} h-${size} border ${inputBorderColor} rounded cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110 ${checked ? `${primaryColor} bg-current` : 'bg-white'}`)}
         >
           {checked && (
             <svg
-              className="w-4 h-4 text-white"
+              className={`text-white w-${size - 2} h-${size - 2}`}
               viewBox="0 0 12 10"
               fill="none"
               stroke="currentColor"

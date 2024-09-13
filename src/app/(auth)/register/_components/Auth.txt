@@ -35,7 +35,10 @@ export default function Auth() {
         setError(errors);
     };
 
-    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
+    const handlePasswordChange = 
+    
+    (e: React.ChangeEvent<HTMLInputElement>) => {
         const newPassword = e.target.value;
         setPassword(newPassword);
         validatePassword(newPassword);
@@ -50,7 +53,9 @@ export default function Auth() {
     const { register, handleSubmit, formState: { errors } } = useForm<RegisterSchemaType>({
         resolver: zodResolver(RegisterSchema),
     });
-    const onSubmit: SubmitHandler<RegisterSchemaType> = (data) => console.log(data);
+    const onSubmit: SubmitHandler<RegisterSchemaType> = 
+    (data) => 
+        console.log(data);
     return (
         <div className="w-screen h-[110vh] flex justify-items-center items-center">
             <div className="w-full lg:w-1/2 p-4 lg:p-8 flex flex-col justify-center">
@@ -125,7 +130,7 @@ export default function Auth() {
                         </div>
                         <button type="submit"
                             disabled={isButtonDisabled()}
-                            className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-gray-400' : 'bg-orange-500 hover:bg-orange-600 transition duration-300', "w-full text-white p-2 rounded")}
+                            className={cn(isButtonDisabled() ? 'cursor-not-allowed bg-gray-400' : 'bg-orange-500 hover:bg-orange-600', "w-full text-white p-2 rounded transition duration-300")}
                         >
                             Créer un compte
                         </button>
@@ -133,9 +138,9 @@ export default function Auth() {
 
                     <div
                         className="mt-4 text-center bg-gray-300 p-2 rounded cursor-pointer hover:bg-gray-400 transition-colors duration-300">
-                        <Link href={'/login'}
-                            className="text-[#270B87] font-medium  transition-colors  duration-300">Se
-                            connecter</Link>
+                        <Link href={'/login'} className="text-[#4F4B4F] hover:text-white font-medium  transition-colors  duration-300">
+                            Se connecter
+                        </Link>
                     </div>
                     <div
                         className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">Ou
@@ -163,7 +168,7 @@ export default function Auth() {
 
             {/* Image section - hidden on mobile */}
             <div className='bg-white w-1/2 h-full hidden lg:flex'>
-                <Image src={login.src} alt="Next.js Logo"
+                <Image src={login.src} alt="first event"
                     className='w-full flex object-cover justify-center h-auto' width={800} height={0} priority />
             </div>
         </div>
