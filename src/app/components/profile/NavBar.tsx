@@ -13,37 +13,23 @@ import NavBarLink from './NavBarLink';
 import DropdownItem from "./DropdownItem";
 import logo from '/public/assets/logo.png';
 import default_profile from '/public/assets/images/default-profile.png';
+import { links, dropdownLinks } from '@/utils/links';
 
 const NavBar = () => {
   const [location, setLocation] = useState<string>('Montréal');
   const [status, setStatus] = useState<string>('organizer');
   const ticketNumber = 1;
+  
+  const navLinks = useMemo(() => links, []);
 
-  const links = useMemo(() => [
-    { title: 'Boutique', icon: Store, link: '#', accessibleBy: 'user' },
-    { title: 'Organisateur', icon: Calendar, link: '#', accessibleBy: 'organizer' },
-    { title: 'Communicateur', icon: Users, link: '#', accessibleBy: 'influencer' },
-    { title: 'Créer', icon: PlusCircle, link: '#', accessibleBy: 'organizer' },
-    { title: 'Favoris', icon: Heart, link: '#', accessibleBy: 'user' },
-    { title: 'Tickets', icon: Ticket, link: '#', accessibleBy: 'influencer' },
-    { title: 'Panier', icon: ShoppingCart, link: '#', accessibleBy: 'user' },
-  ], []);
-
-  const dropdownLinks = useMemo(() => [
-    { title: `Tickets(${ticketNumber})`, link: '#' },
-    { title: 'Favoris', link: '#' },
-    { title: 'Centre d\'intérêts', link: '#' },
-    { title: 'Paramètres du compte', link: '#' },
-    { title: 'Historique', link: '#' },
-    { title: 'Se déconnecter', link: '#' },
-  ], [ticketNumber]);
+  const dropdownsLinks = useMemo(() => dropdownLinks, []);
 
   const filteredLinks = useMemo(() => 
-    links.filter(link => 
+    navLinks.filter(link => 
       link.accessibleBy === status || 
       ((status === 'influencer' || status === 'organizer') && link.accessibleBy === 'user')
     ),
-  [links, status]);
+  [navLinks, status]);
 
   return (
     <motion.nav 
@@ -52,7 +38,7 @@ const NavBar = () => {
       transition={{ duration: 0.3 }}
       className="hidden lg:block shadow-sm"
     >
-      <div className="container bg-white px-4 py-3">
+      <div className="w-screen bg-white px-4 py-3">
         <div className="flex items-center justify-between space-x-4">
           {/* Logo */}
           <Link href={'/'}>
@@ -98,7 +84,7 @@ const NavBar = () => {
                 <ChevronDown />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="p-2 bg-white shadow-md rounded-md w-48">
-                {dropdownLinks.map((link, index) => (
+                {dropdownsLinks.map((link, index) => (
                   <DropdownItem key={index}
                     link={link.link}
                     title={link.title} />
