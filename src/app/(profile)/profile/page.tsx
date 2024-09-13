@@ -24,10 +24,10 @@ const Profile = () => {
     }
   }
   return (
-    <div className="grow flex flex-col bg-zic-600 min-h-screen md:px-20 px-5">
-      <div className="">
-        <div className="flex justify-around flex-col md:w-11/12 ">
-          <span className="py-3 text-sm md:place-items-center text-center md:text-end">Compte créé sur FirstEvent depuis le {date}</span>
+    <div className="flex flex-col bg-zic-600 min-h-screen  md:px-20 px-5">
+      <div className="w-full">
+        <div className="flex grow justify-around flex-col w-full">
+          <span className="py-3 text-sm md:place-items-end text-center md:text-end">Compte créé  le {date}</span>
           <h1 className="md:text-3xl text-2xl text-center md:text-start font-bold text-first_violet">Informations Personnels</h1>
         </div>
         <div>
@@ -47,14 +47,27 @@ const Profile = () => {
             </div>
             <input type="file" className="hidden" ref={imageRef} onChange={handleImageChange} />
           </div>
-          <div className="flex flex-col items-center md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
+          <div className="flex flex-col items-center md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
             <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Coordonnées</h2>
-            <div>
+            <form className="w-full space-y-5">
               <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                <Select label='Civilité' options={[{ value: 'Monsieur', text: 'Monsieur' }, { value: 'Madame', text: 'Madame' }, { value: 'Mademoiselle', text: 'Mademoiselle' }]} placeholder="Civilité" onChange={(e) => { }} />
+                {/* <Select label='Civilité' options={[{ value: 'Monsieur', text: 'Monsieur' }, { value: 'Madame', text: 'Madame' }, { value: 'Mademoiselle', text: 'Mademoiselle' }]} placeholder="Choisissez une civilité" onChange={(e) => { }} /> */}
                 <Input type="text" placeholder="Prénom" label="Prénom" />
+                <Input type="text" placeholder="Nom" label="Nom" />
               </div>
-            </div>
+              <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
+                <Input type="tel" placeholder="Numéro de téléphone" label="Numéro de téléphone" />
+                <Input type="tel" placeholder="Téléphone portable" label="Téléphone portable" />
+              </div>
+              <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
+                <Input type="text" placeholder="Intitulé du poste" label="Intitulé du poste" />
+                <Input type="text" placeholder="Entreprise/ Organisation" label="Entreprise/ Organisation" />
+              </div>
+              <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
+                <Input type="tel" placeholder="Site Web" label="Site Web" />
+                <Input type="tel" placeholder="Blog" label="Blog" />
+              </div>
+            </form>
           </div>
         </div>
       </div>

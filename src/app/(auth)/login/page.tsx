@@ -118,8 +118,8 @@ const Login = () => {
             </div>
           </div>
         </div>
-        <div className='bg-white w-1/2 h-full min-h-md hidden md:flex'>
-          <Image src="/assets/images/auth-image.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-screen' width={800} height={0} />
+        <div className='bg-white w-1/2 h-screen min-h-md hidden md:flex'>
+          <Image src="/assets/images/auth-image.png" alt="Next.js Logo" className='w-full flex object-cover justify-center h-auto' width={800} height={0} />
         </div>
 
       </div>

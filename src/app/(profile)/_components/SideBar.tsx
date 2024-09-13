@@ -70,7 +70,7 @@ const SideBar = () => {
     <>
       {isMobile && (
         !isOpen && (
-          <div className='lg:hidden sticky top-0 flex items-center h-[50vh]'>
+          <div className='lg:hidden fixed z-10 top-0 flex items-center h-[50vh]'>
             <span className='size-8 text-first_violet bg-gray-300 border-r-2 border-white flex items-center justify-center cursor-pointer rounded-full hover:bg-gray-500 hover:text-black transition-colors duration-300 hover:scale-110'>
               <button
                 onClick={toggleSidebar}

@@ -6,7 +6,7 @@ export const dropdownLinks = [
     { title: `Tickets(${ticketNumber})`, link: '#' },
     { title: 'Favoris', link: '#' },
     { title: 'Centre d\'intérêts', link: '#' },
-    { title: 'Paramètres du compte', link: '#' },
+    { title: 'Paramètres du compte', link: '/profile' },
     { title: 'Historique', link: '#' },
     { title: 'Se déconnecter', link: '#' },
 ];
