@@ -21,7 +21,7 @@ const NavBarLink = ({ icon, text, link }: NavBarLinkProps) => {
     >
       <Link href={link} className="flex items-center gap-2">
         <Icon size={20} />
-        <span>{text}</span>
+        <span className="hidden xl:block">{text}</span>
       </Link>
     </motion.li>
   );

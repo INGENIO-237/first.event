@@ -103,29 +103,29 @@ const SideBar = () => {
         </div>
         <nav className="py-6 w-full min-h-screen flex flex-col flex-wrap">
           <motion.ul
-           variants={{
-            open: {
-              clipPath: "inset(0% 0% 0% 0% round 10px)",
-              transition: {
-                type: "spring",
-                bounce: 0,
-                duration: 0.7,
-                delayChildren: 0.3,
-                staggerChildren: 0.05
+            variants={{
+              open: {
+                clipPath: "inset(0% 0% 0% 0% round 10px)",
+                transition: {
+                  type: "spring",
+                  bounce: 0,
+                  duration: 0.7,
+                  delayChildren: 0.3,
+                  staggerChildren: 0.05
+                }
+              },
+              closed: {
+                clipPath: "inset(10% 50% 90% 50% round 10px)",
+                transition: {
+                  type: "spring",
+                  bounce: 0,
+                  duration: 0.3
+                }
               }
-            },
-            closed: {
-              clipPath: "inset(10% 50% 90% 50% round 10px)",
-              transition: {
-                type: "spring",
-                bounce: 0,
-                duration: 0.3
-              }
-            }
-          }} style={{ pointerEvents: isOpen ? "auto" : "none" }} className="space-y-1.5">
+            }} style={{ pointerEvents: isOpen ? "auto" : "none" }} className="space-y-1.5">
             <LinkItem href={'/profile'} isActive={path === '/profile'} title={'Coordonnées de contact'} onClick={() => isMobile && setIsOpen(false)} />
-            <LinkItem href={''} title={'Option de connexion'} onClick={() => isMobile && setIsOpen(false)} />
-            <LinkItem href={'/payment-method'} isActive={path==='/payment-method'} title={'Moyen de paiement'} onClick={() => isMobile && setIsOpen(false)} />
+            <LinkItem href={'/credentials'} isActive={path === '/credentials'} title={'Option de connexion'} onClick={() => isMobile && setIsOpen(false)} />
+            <LinkItem href={'/payment-method'} isActive={path === '/payment-method'} title={'Moyen de paiement'} onClick={() => isMobile && setIsOpen(false)} />
             <LinkItem href={''} title={'Compte associés'} onClick={() => isMobile && setIsOpen(false)} />
             <LinkItem href={''} title={'Données personnelles'} onClick={() => isMobile && setIsOpen(false)} />
             <LinkItem href={''} title={'Fermer le compte'} onClick={() => isMobile && setIsOpen(false)} />
