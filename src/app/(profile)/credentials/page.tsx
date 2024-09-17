@@ -60,7 +60,7 @@ const Credentials = () => {
     return (
         <div className='md:px-20 flex flex-col gap-y-8 pt-5'>
             <div className='md:flex md:gap-6'>
-                <div className='sm:rounded-tl-md sm:rounded-tr-md max-w-full'>
+                <div className='sm:rounded-tl-md sm:rounded-tr-md'>
                     <div className="md:col-span-1 pb-4 flex justify-between">
                         <div>
                             <h2 className="text-2xl font-bold text-first_violet">Modifier l&apos;e-mail</h2>
@@ -75,7 +75,7 @@ const Credentials = () => {
                             error={emailErrors.email?.message}
                             required
                         />
-                        <div className="flex justify-start">
+                        <div className="flex justify-start mt-4">
                             <Button
                                 type="submit"
                                 disabled={isEmailSubmitting}

@@ -21,6 +21,9 @@
     text-wrap: balance;
   }
 }
+body{
+  @apply overflow-x-hidden
+}
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;

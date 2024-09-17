@@ -1,9 +1,9 @@
 'use client'
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Search, MapPin, ChevronDown, Store, Calendar, Users, PlusCircle, Heart, Ticket, ShoppingCart } from 'lucide-react';
+import { Search, MapPin, ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,24 +15,52 @@ import logo from '/public/assets/logo.png';
 import default_profile from '/public/assets/images/default-profile.png';
 import { links, dropdownLinks } from '@/utils/links';
 
-const NavBar = () => {
+interface NavBarProps {
+  onSearch?: (query: string) => void;
+  searchQuery?: string;
+  onLocationChange?: (location: string) => void;
+}
+
+const NavBar: React.FC<NavBarProps> = ({
+  onSearch,
+  searchQuery: externalSearchQuery,
+  onLocationChange
+}) => {
+  const [internalSearchQuery, setInternalSearchQuery] = useState<string>('');
   const [location, setLocation] = useState<string>('Montréal');
   const [status, setStatus] = useState<string>('organizer');
   const ticketNumber = 1;
-  
+
   const navLinks = useMemo(() => links, []);
-
   const dropdownsLinks = useMemo(() => dropdownLinks, []);
-
-  const filteredLinks = useMemo(() => 
-    navLinks.filter(link => 
-      link.accessibleBy === status || 
+  const filteredLinks = useMemo(() =>
+    navLinks.filter(link =>
+      link.accessibleBy === status ||
       ((status === 'influencer' || status === 'organizer') && link.accessibleBy === 'user')
     ),
-  [navLinks, status]);
+    [navLinks, status]);
+
+  const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : internalSearchQuery;
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (onSearch) {
+      onSearch(newValue);
+    } else {
+      setInternalSearchQuery(newValue);
+    }
+  }, [onSearch]);
+
+  const handleLocationChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const newLocation = e.target.value;
+    setLocation(newLocation);
+    if (onLocationChange) {
+      onLocationChange(newLocation);
+    }
+  }, [onLocationChange]);
 
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -44,7 +72,7 @@ const NavBar = () => {
           <Link href={'/'}>
             <Image src={logo} alt='Logo' width={150} height={37.5} className='w-48' />
           </Link>
-          
+
           {/* Barre de recherche avec localisation */}
           <div className="flex items-center bg-gray-50 border border-gray-200 rounded-full shadow-sm overflow-hidden w-full max-w-md">
             <div className="flex items-center flex-grow space-x-2 px-4 py-2">
@@ -54,18 +82,25 @@ const NavBar = () => {
                 placeholder="Rechercher un événement..."
                 className="w-full outline-none bg-transparent text-gray-700"
                 aria-label="Rechercher"
+                value={searchQuery}
+                onChange={handleSearchChange}
               />
             </div>
             <div className="flex items-center border-l border-gray-200 px-4">
               <MapPin className="text-orange-500 mr-2" />
-              {location}
+              <input
+                type="text"
+                value={location}
+                onChange={handleLocationChange}
+                className="w-full outline-none bg-transparent text-gray-700"
+              />
             </div>
           </div>
-
           {/* Navigation et profil utilisateur */}
           <div className="flex items-center space-x-6">
             {filteredLinks.map((link, index) => (
               <NavBarLink key={index}
+                index={index}
                 text={link.title}
                 link={link.link}
                 icon={link.icon} />
@@ -73,11 +108,11 @@ const NavBar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger className='flex items-center gap-2 focus:outline-none'>
                 <div className="rounded-full overflow-hidden w-10 h-10 border border-gray-200">
-                  <Image 
-                    src={default_profile} 
-                    alt='Profile' 
-                    width={40} 
-                    height={40} 
+                  <Image
+                    src={default_profile}
+                    alt='Profile'
+                    width={40}
+                    height={40}
                     className='w-full h-full object-cover'
                   />
                 </div>
