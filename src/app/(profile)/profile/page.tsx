@@ -10,21 +10,32 @@ import { CoordonatesSchema } from "@/schema/SettingsValidation";
 import Checkbox from "@/app/components/Checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-toastify";
 
-type CoordonateSchema = z.infer<typeof CoordonatesSchema>
+type CoordonateType = z.infer<typeof CoordonatesSchema>
 
 const Profile = () => {
   const [date, setDate] = useState<string>("26/10/2024");
   const [image, setImage] = useState<string | null>(null);
   const [phone, setPhone] = useState<string>("");
+  const [fixphone, setFixPhone] = useState<string>("");
   const [billAsHome, setBillAsHome] = useState<boolean>(true);
   const [shippAsHome, setShippAsHome] = useState<boolean>(true);
   const imageRef = useRef<HTMLInputElement>(null);
   const handleImaeUploadClick = () => {
     imageRef.current?.click();
   }
-  const { register, handleSubmit, formState: { errors } } = useForm<CoordonateSchema>({
+  const { register, handleSubmit, formState: { errors } } = useForm<CoordonateType>({
     resolver: zodResolver(CoordonatesSchema),
+    defaultValues: {
+      mobile_phone_number: phone,
+      fix_phone_number: fixphone,
+      lastname:'',
+      firstname: '',
+      image: undefined,
+      
+    }
   });
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +46,9 @@ const Profile = () => {
       setImage(imageUrl);
     }
   }
+  const submitCoordonatesForm = (data: CoordonateType) =>{
+    toast.success('OK')
+  }
   return (
     <div className="flex flex-col  min-h-screen  md:px-20 px-5">
       <div className="w-full">
@@ -43,7 +57,7 @@ const Profile = () => {
           <h1 className="md:text-3xl text-2xl text-center md:text-start font-bold text-first_violet">Informations Personnels</h1>
         </div>
         <div className="flex flex-col items-center  md:items-start space-y-4">
-          <form className="w-full ">
+          <form className="w-full " onSubmit={handleSubmit((data) => submitCoordonatesForm(data))}>
             {/* Photo de profil */}
             <div className="flex flex-col items-center  w-full md:items-start gap-4 py-5 " onClick={() => handleImaeUploadClick()}>
               <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Photo de profil</h2>
@@ -59,19 +73,25 @@ const Profile = () => {
                   </>
                 )}
               </div>
-              <input type="file" {...register('image')} className="hidden" ref={imageRef}  onChange={handleImageChange} />
+              <input type="file" {...register('image')} className="hidden" ref={imageRef} onChange={handleImageChange} />
             </div>
             {/* Coordonnées */}
             <div className="flex flex-col items-center w-full md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
               <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Coordonnées</h2>
               <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                {/* <Select label='Civilité' options={[{ value: 'Monsieur', text: 'Monsieur' }, { value: 'Madame', text: 'Madame' }, { value: 'Mademoiselle', text: 'Mademoiselle' }]} placeholder="Choisissez une civilité" onChange={(e) => { }} /> */}
-                <Input type="text" placeholder="" label="Prénom" value="" />
-                <Input type="text" placeholder="" label="Nom" />
+                <Input type="text" label="Prénom" register={register('firstname')} value="" />
+                <Input type="text" label="Nom" register={register('lastname')} />
               </div>
               <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                <Input type="tel" placeholder="" value={phone} setState={setPhone} label="Numéro de téléphone" />
-                <Input type="tel" placeholder="" label="Téléphone portable" />
+                <Input type="tel" value={fixphone} setPhoneState={(e, phone, data) => setFixPhone(phone)} label="Téléphone fixe" register={register('fix_phone_number')} />
+                <Input type="tel"
+                  value={phone}
+                  setPhoneState={(e, phone, data) => {
+                    setPhone(phone)
+                  }}
+                  register={register('mobile_phone_number')}
+                  label="Téléphone portable"
+                />
               </div>
               <div className="flex flex-col  items-end w-full ">
                 <div className="w-1/2 flex gap-5 flex-row">
@@ -87,15 +107,15 @@ const Profile = () => {
             <div className="flex flex-col items-center w-full md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
               <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Domicile</h2>
               <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                <Input type="text" placeholder="" label="Adresse" />
-                <Input type="text" placeholder="" label="Pays" />
+                <Input type="text" label="Adresse" />
+                <Input type="text" label="Pays" />
               </div>
               <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                <Input type="text" placeholder="" label="Province" />
-                <Input type="text" placeholder="" label="Ville" />
+                <Input type="text" label="Province" />
+                <Input type="text" label="Ville" />
               </div>
               <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                <Input type="text" placeholder="" label="Code postal" />
+                <Input type="text" label="Code postal" />
               </div>
               <div>
               </div>
@@ -106,21 +126,43 @@ const Profile = () => {
               <div>
                 <Checkbox size={4} id='billing' checked={billAsHome} onChange={() => { setBillAsHome(!billAsHome) }} label={"Même que l'adresse du domicile "} primaryColor="" />
               </div>
-              {!billAsHome && (
-                <>
-                  <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                    <Input type="text" placeholder="" label="Adresse" />
-                    <Input type="text" placeholder="" label="Pays" />
-                  </div>
-                  <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                    <Input type="text" placeholder="" label="Province" />
-                    <Input type="text" placeholder="" label="Ville" />
-                  </div>
-                  <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                    <Input type="text" placeholder="" label="Code postal" />
-                  </div>
-                </>
-              )}
+              <AnimatePresence >
+                {!billAsHome && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 1 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Adresse" />
+                      <Input type="text" label="Pays" />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.75 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Province" />
+                      <Input type="text" label="Ville" />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.5 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Code postal" />
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
             {/* Adresse de livraison */}
             <div className="flex flex-col items-center w-full md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
@@ -128,21 +170,43 @@ const Profile = () => {
               <div>
                 <Checkbox size={4} id='shipping' checked={shippAsHome} onChange={() => { setShippAsHome(!shippAsHome) }} label={"Même que l'adresse du domicile "} primaryColor="" />
               </div>
-              {!shippAsHome && (
-                <>
-                  <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                    <Input type="text" placeholder="" label="Adresse" />
-                    <Input type="text" placeholder="" label="Pays" />
-                  </div>
-                  <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                    <Input type="text" placeholder="" label="Province" />
-                    <Input type="text" placeholder="" label="Ville" />
-                  </div>
-                  <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                    <Input type="text" placeholder="" label="Code postal" />
-                  </div>
-                </>
-              )}
+              <AnimatePresence>
+                {!shippAsHome && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 1 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Adresse" />
+                      <Input type="text" label="Pays" />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.75 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Province" />
+                      <Input type="text" label="Ville" />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.5 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Code postal" />
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
               <div className="flex flex-col items-end w-full">
                 <div className="w-1/2 flex gap-5 flex-row">
                   <button type="submit" className="w-full p-2 border rounded text-white bg-first_orange">

@@ -1,43 +1,47 @@
 'use client'
+import { UseFormRegisterReturn } from 'react-hook-form';
 import PhoneInput, { CountryData } from 'react-phone-input-2'
 
 interface TextInputProps {
     label: string,
     type: string,
-    placeholder: string | undefined,
+    placeholder?: string | undefined,
     value?: string,
-    setState?: (phone:string, data: {} | CountryData ,e: React.ChangeEvent<HTMLInputElement>)=>void
+    setPhoneState?: (e: React.ChangeEvent, phone: string, data: CountryData | {}) => void,
+    register?: UseFormRegisterReturn,
+    setState?: (e: React.ChangeEvent) => void
 }
 
-const Input = ({ label, type, placeholder = '', value, setState }: TextInputProps) => {
+const Input = ({ label, type, placeholder = '', value, setPhoneState, register, setState }: TextInputProps) => {
     return (
-        <>
+        <div className="md:w-1/2 w-full flex flex-col  ">
             {type == 'tel' ? (
                 <>
-                    {/* <label className="font-medium">{label}</label> */}
-                    <PhoneInput inputClass='border p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded w-full'
-                        inputProps={{
-                            required: true,
-                        }}
-                        specialLabel={label}
+                    <label className="font-medium">{label}</label>
+                    <PhoneInput
+                        {...register}
+                        inputStyle={{ width: '100%', border: '1px solid #e5e7eb', borderRadius: '4px' }}
+                        inputClass='border p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded w-full grow'
                         country={'ca'}
-                        inputStyle={{}}
-                        enableSearch={true}
-                        onChange={(phone, data ,e: React.ChangeEvent<HTMLInputElement>) => setState ? setState(phone) : ''}
-                        // onlyCountries={['ca', 'us', ]}
+                        onChange={(phone, data, e) => setPhoneState ? setPhoneState(e, phone, data) : ''}
+                        containerClass=''
+                        buttonClass=' '
                         value={value}
 
                     />
                 </>
             ) : (
-                <div className="md:w-1/2 w-full flex flex-col ">
+                <>
                     <label className="font-medium">{label}</label>
-                    <input type={type} placeholder={placeholder} value={value} className="border p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded w-full" />
-                </div>
+                    <input type={type} {...register} 
+                    placeholder={placeholder}
+                    onChange={(e: React.ChangeEvent) => setState ? setState(e) : ''} 
+                    value={value} className="border p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded w-full" />
+                </>
             )
 
             }
-        </>
+        </div>
     )
 }
 
