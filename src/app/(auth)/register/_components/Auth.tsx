@@ -58,7 +58,7 @@ export default function Auth() {
     (data) => 
         console.log(data);
     return (
-        <div className="w-screen h-[110vh] flex justify-items-center items-center">
+        <div className="w-screen min-h-screen  flex justify-items-center items-center">
             <div className="w-full lg:w-1/2 p-4 lg:p-8 flex flex-col justify-center">
                 <div className="max-w-md mx-auto w-full">
                     <Link href={'/'} className="flex justify-start items-center">
@@ -166,7 +166,7 @@ export default function Auth() {
             </div>
 
             {/* Image section - hidden on mobile */}
-            <div className='bg-white w-1/2 h-full hidden lg:flex'>
+            <div className='bg-white w-1/2 h-screen hidden lg:flex'>
                 <Image src={login.src} alt="first event"
                     className='w-full flex object-cover justify-center h-auto' width={800} height={0} priority />
             </div>
