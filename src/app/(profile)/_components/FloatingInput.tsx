@@ -33,6 +33,35 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
     }
   }, [isFocused]);
 
+/**
+ * useCallback est un hook de React qui permet de mémoriser une fonction afin d'éviter de la recréer à chaque fois que le composant est ré-render. Cela peut améliorer les performances en réduisant le nombre de fois où une fonction est créée.
+
+Dans le code donné, useCallback est utilisé pour mémoriser les fonctions handleFocus, handleBlur et togglePasswordVisibility. Cela signifie que ces fonctions ne seront créées qu'une seule fois, lors du premier rendu du composant, et seront réutilisées à chaque fois que le composant est ré-render.
+
+Voici un exemple de code qui illustre l'utilité de useCallback :
+
+```javascript
+import { useState, useCallback } from 'react';
+
+function Compteur() {
+  const [compteur, setCompteur] = useState(0);
+
+  // Sans useCallback, cette fonction serait recréée à chaque fois que le composant est ré-render
+  const handleIncrement = useCallback(() => {
+    setCompteur(compteur + 1);
+  }, [compteur]); // La fonction dépend de la valeur de compteur
+
+  return (
+    <div>
+      <p>Compteur : {compteur}</p>
+      <button onClick={handleIncrement}>Incrémenter</button>
+    </div>
+  );
+}
+```
+
+Dans cet exemple, la fonction handleIncrement est mémorisée avec useCallback. Cela signifie que la fonction ne sera recréée que lorsque la valeur de compteur change. Si nous n'utilisions pas useCallback, la fonction serait recréée à chaque fois que le composant est ré-render, ce qui pourrait entraîner des problèmes de performances.
+ */
   const handleFocus = useCallback(() => setIsFocused(true), []);
   const handleBlur = useCallback(() => setIsFocused(false), []);
 
@@ -62,8 +91,8 @@ const FloatingInput: React.FC<FloatingInputProps> = ({
         />
         <label
           htmlFor={name}
-          className={`absolute text-base duration-300 transform -translate-y-4 scale-75 top-0 left-4 origin-[0] bg-white px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-3 peer-focus:scale-75 peer-focus:-translate-y-4 transition-all cursor-text
-            ${value || isFocused ? 'scale-75 -translate-y-4 text-first_violet' : 'text-gray-500'}
+          className={`absolute text-base duration-300 transform -translate-y-4 scale-75 top-0 left-4 origin-[0] px-1 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-3 peer-focus:scale-75 peer-focus:-translate-y-4 transition-all cursor-text
+            ${value || isFocused ? 'scale-75 -translate-y-4 text-first_violet bg-white' : 'text-gray-500'}
           `}
         >
           {label}
