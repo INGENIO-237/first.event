@@ -12,7 +12,7 @@ const DropdownItem = ({link, title}: DropdownItemProps) => {
   return (
     <>
     <DropdownMenuItem >
-      <Link href={link} className="w-full px-2 py-1 transition duration-300 rounded-full hover:text-white hover:bg-first_orange">{title}</Link>
+      <Link href={link} className="w-full pl-2 py-1 transition duration-300 rounded-full text-nowrap hover:text-white hover:bg-first_orange">{title}</Link>
     </DropdownMenuItem>
     </>
   )
