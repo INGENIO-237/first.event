@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image';
-import Checkbox from '@/app/components/Checkbox'
-import ProgressBar from '@/app/components/config-account/ProgressBar'
+import Checkbox from '@/app/_components/Checkbox'
+import ProgressBar from '@/app/_components/config-account/ProgressBar'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'

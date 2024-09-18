@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { useState } from "react";
-import InputError from "@/app/components/auth/InputError";
+import InputError from "@/app/_components/auth/InputError";
 import { useRouter } from "next/navigation";
 
 type Schema = z.infer<typeof forgotPasswordSchema>

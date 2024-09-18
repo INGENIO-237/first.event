@@ -1,6 +1,6 @@
 'use client';
-import InterestCard from "@/app/components/config-account/InterestCard";
-import ProgressBar from "@/app/components/config-account/ProgressBar";
+import InterestCard from "@/app/_components/config-account/InterestCard";
+import ProgressBar from "@/app/_components/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import { interests as interestsData } from "@/utils/interests";
 import Link from "next/link";

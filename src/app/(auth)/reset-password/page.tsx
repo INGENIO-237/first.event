@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { z } from 'zod';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import InputError from '@/app/components/auth/InputError';
+import InputError from '@/app/_components/auth/InputError';
 import { Dot, EyeIcon, EyeOffIcon } from 'lucide-react';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 

@@ -11,7 +11,7 @@ import { FaApple, FaFacebook } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { cn } from "@/lib/utils";
 import Loading from "@/components/Loading";
-import InputError from "@/app/components/auth/InputError";
+import InputError from "@/app/_components/auth/InputError";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 type Schema = z.infer<typeof loginSchema>
