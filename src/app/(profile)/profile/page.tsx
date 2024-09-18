@@ -5,15 +5,38 @@ import { useRef, useState } from "react"
 import { FiUser } from "react-icons/fi"
 import Input from "../_components/Input";
 import Select from "../_components/Select";
+import * as z from 'zod';
+import { CoordonatesSchema } from "@/schema/SettingsValidation";
+import Checkbox from "@/app/components/Checkbox";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-toastify";
+
+type CoordonateType = z.infer<typeof CoordonatesSchema>
 
 const Profile = () => {
   const [date, setDate] = useState<string>("26/10/2024");
-  // const [isCropImage, setIsCropImage] = useState(false);
   const [image, setImage] = useState<string | null>(null);
+  const [phone, setPhone] = useState<string>("");
+  const [fixphone, setFixPhone] = useState<string>("");
+  const [billAsHome, setBillAsHome] = useState<boolean>(true);
+  const [shippAsHome, setShippAsHome] = useState<boolean>(true);
   const imageRef = useRef<HTMLInputElement>(null);
   const handleImaeUploadClick = () => {
     imageRef.current?.click();
   }
+  const { register, handleSubmit, formState: { errors } } = useForm<CoordonateType>({
+    resolver: zodResolver(CoordonatesSchema),
+    defaultValues: {
+      mobile_phone_number: phone,
+      fix_phone_number: fixphone,
+      lastname:'',
+      firstname: '',
+      image: undefined,
+      
+    }
+  });
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = (event.target.files as FileList)[0];
@@ -23,39 +46,178 @@ const Profile = () => {
       setImage(imageUrl);
     }
   }
+  const submitCoordonatesForm = (data: CoordonateType) =>{
+    toast.success('OK')
+  }
   return (
-    <div className="grow flex flex-col bg-zic-600 min-h-screen md:px-20 px-5">
-      <div className="">
-        <div className="flex justify-around flex-col md:w-11/12 ">
-          <span className="py-3 text-sm md:place-items-center text-center md:text-end">Compte créé sur FirstEvent depuis le {date}</span>
+    <div className="flex flex-col  min-h-screen  md:px-20 px-5">
+      <div className="w-full">
+        <div className="flex grow justify-around flex-col w-full">
+          <span className="py-3 text-sm md:place-items-end text-center md:text-end">Compte créé  le {date}</span>
           <h1 className="md:text-3xl text-2xl text-center md:text-start font-bold text-first_violet">Informations Personnels</h1>
         </div>
-        <div>
-          <div className="flex flex-col items-center md:items-start gap-4 py-5 " onClick={() => handleImaeUploadClick()}>
-            <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Photo de profil</h2>
-            <div className={cn("w-32 md:w-40 h-32 md:h-40 flex flex-col items-center justify-center hover:cursor-pointer border rounded-full", image ? "bg-white" : " bg-first_gray")}>
-              {image ? (
-                <Image src={image} alt="Profile" width={160} // Spécifier la largeur de l"image
-                  height={160} // Spécifier la hauteur de l"image
-                  className="rounded-full object-cover w-32 md:w-40 h-32 md:h-40" />
-              ) : (
-                <>
-                  <FiUser className="md:w-10 md:h-10 text-sm" />
-                  <span className="text-center md:text-sm text-xs">Ajouter ou modifier une photo de profil</span>
-                </>
-              )}
+        <div className="flex flex-col items-center  md:items-start space-y-4">
+          <form className="w-full " onSubmit={handleSubmit((data) => submitCoordonatesForm(data))}>
+            {/* Photo de profil */}
+            <div className="flex flex-col items-center  w-full md:items-start gap-4 py-5 " onClick={() => handleImaeUploadClick()}>
+              <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Photo de profil</h2>
+              <div className={cn("w-32 md:w-40 h-32 md:h-40 flex flex-col items-center justify-center hover:cursor-pointer border rounded-full", image ? "bg-white" : " bg-first_gray")}>
+                {image ? (
+                  <Image src={image} alt="Profile" width={160} // Spécifier la largeur de l"image
+                    height={160} // Spécifier la hauteur de l"image
+                    className="rounded-full object-cover w-32 md:w-40 h-32 md:h-40" />
+                ) : (
+                  <>
+                    <FiUser className="md:w-10 md:h-10 text-sm" />
+                    <span className="text-center md:text-sm text-xs">Ajouter ou modifier une photo de profil</span>
+                  </>
+                )}
+              </div>
+              <input type="file" {...register('image')} className="hidden" ref={imageRef} onChange={handleImageChange} />
             </div>
-            <input type="file" className="hidden" ref={imageRef} onChange={handleImageChange} />
-          </div>
-          <div className="flex flex-col items-center md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
-            <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Coordonnées</h2>
-            <div>
+            {/* Coordonnées */}
+            <div className="flex flex-col items-center w-full md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
+              <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Coordonnées</h2>
               <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                <Select label='Civilité' options={[{ value: 'Monsieur', text: 'Monsieur' }, { value: 'Madame', text: 'Madame' }, { value: 'Mademoiselle', text: 'Mademoiselle' }]} placeholder="Civilité" onChange={(e) => { }} />
-                <Input type="text" placeholder="Prénom" label="Prénom" />
+                <Input type="text" label="Prénom" register={register('firstname')} value="" />
+                <Input type="text" label="Nom" register={register('lastname')} />
+              </div>
+              <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
+                <Input type="tel" value={fixphone} setPhoneState={(e, phone, data) => setFixPhone(phone)} label="Téléphone fixe" register={register('fix_phone_number')} />
+                <Input type="tel"
+                  value={phone}
+                  setPhoneState={(e, phone, data) => {
+                    setPhone(phone)
+                  }}
+                  register={register('mobile_phone_number')}
+                  label="Téléphone portable"
+                />
+              </div>
+              <div className="flex flex-col  items-end w-full ">
+                <div className="w-1/2 flex gap-5 flex-row">
+                  <button type="submit" className="w-full p-2 border rounded text-white bg-first_orange">
+                    Modifier
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
+          <form className='w-full space-y-4'>
+            {/* Domicile */}
+            <div className="flex flex-col items-center w-full md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
+              <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Domicile</h2>
+              <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
+                <Input type="text" label="Adresse" />
+                <Input type="text" label="Pays" />
+              </div>
+              <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
+                <Input type="text" label="Province" />
+                <Input type="text" label="Ville" />
+              </div>
+              <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
+                <Input type="text" label="Code postal" />
+              </div>
+              <div>
+              </div>
+            </div>
+            {/* Adresse de facturation */}
+            <div className="flex flex-col items-center w-full md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
+              <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Adresse de facturation</h2>
+              <div>
+                <Checkbox size={4} id='billing' checked={billAsHome} onChange={() => { setBillAsHome(!billAsHome) }} label={"Même que l'adresse du domicile "} primaryColor="" />
+              </div>
+              <AnimatePresence >
+                {!billAsHome && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 1 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Adresse" />
+                      <Input type="text" label="Pays" />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.75 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Province" />
+                      <Input type="text" label="Ville" />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.5 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Code postal" />
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
+            {/* Adresse de livraison */}
+            <div className="flex flex-col items-center w-full md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
+              <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Adresse de livraison</h2>
+              <div>
+                <Checkbox size={4} id='shipping' checked={shippAsHome} onChange={() => { setShippAsHome(!shippAsHome) }} label={"Même que l'adresse du domicile "} primaryColor="" />
+              </div>
+              <AnimatePresence>
+                {!shippAsHome && (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 1 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Adresse" />
+                      <Input type="text" label="Pays" />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.75 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Province" />
+                      <Input type="text" label="Ville" />
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.5 }}
+                      className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
+                    >
+                      <Input type="text" label="Code postal" />
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+              <div className="flex flex-col items-end w-full">
+                <div className="w-1/2 flex gap-5 flex-row">
+                  <button type="submit" className="w-full p-2 border rounded text-white bg-first_orange">
+                    Modifier
+                  </button>
+                </div>
+              </div>
+              <div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

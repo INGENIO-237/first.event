@@ -70,8 +70,8 @@ const SideBar = () => {
     <>
       {isMobile && (
         !isOpen && (
-          <div className='lg:hidden sticky top-0 flex items-center h-[50vh]'>
-            <span className='size-8 text-first_violet bg-gray-300 border-r-2 border-white flex items-center justify-center cursor-pointer rounded-full hover:bg-gray-500 hover:text-black transition-colors duration-300 hover:scale-110'>
+          <div className='lg:hidden sticky top-0 flex items-center'>
+            <span className='size-8 text-first_violet bg-gray-300 border-r-2 border-white flex items-center justify-center cursor-pointer rounded-r-full hover:bg-gray-500 hover:text-black transition-colors duration-300 hover:scale-110'>
               <button
                 onClick={toggleSidebar}
                 className=""
@@ -105,7 +105,7 @@ const SideBar = () => {
           <motion.ul
             variants={{
               open: {
-                clipPath: "inset(0% 0% 0% 0% round 10px)",
+                clipPath: "inset(0% 0% 0% 0%)",
                 transition: {
                   type: "spring",
                   bounce: 0,
@@ -115,7 +115,7 @@ const SideBar = () => {
                 }
               },
               closed: {
-                clipPath: "inset(10% 50% 90% 50% round 10px)",
+                clipPath: "inset(10% 50% 90% 50% )",
                 transition: {
                   type: "spring",
                   bounce: 0,
@@ -126,9 +126,8 @@ const SideBar = () => {
             <LinkItem href={'/profile'} isActive={path === '/profile'} title={'Coordonnées de contact'} onClick={() => isMobile && setIsOpen(false)} />
             <LinkItem href={'/credentials'} isActive={path === '/credentials'} title={'Option de connexion'} onClick={() => isMobile && setIsOpen(false)} />
             <LinkItem href={'/payment-method'} isActive={path === '/payment-method'} title={'Moyen de paiement'} onClick={() => isMobile && setIsOpen(false)} />
-            <LinkItem href={''} title={'Compte associés'} onClick={() => isMobile && setIsOpen(false)} />
-            <LinkItem href={''} title={'Données personnelles'} onClick={() => isMobile && setIsOpen(false)} />
-            <LinkItem href={''} title={'Fermer le compte'} onClick={() => isMobile && setIsOpen(false)} />
+            <LinkItem href={'/personal-data'} isActive={path === "/personal-data"} title={'Données personnelles'} onClick={() => isMobile && setIsOpen(false)} />
+            <LinkItem href={'/close-account'} isActive={path === "/close-account"} title={'Fermer le compte'} onClick={() => isMobile && setIsOpen(false)} />
           </motion.ul>
         </nav>
       </motion.div>

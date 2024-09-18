@@ -13,7 +13,7 @@ export default function RootLayout({
             <MobNavBar />
             <div className="flex flex-row">
                 <SideBar />
-                <div className="px-4 w-full py-2">
+                <div className="px-4 py-2 md:max-w-[80%] w-full">
                 {children}
                 </div>
             </div>

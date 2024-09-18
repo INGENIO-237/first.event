@@ -6,6 +6,7 @@ import "./ReactToastify.css";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/partial/Footer";
 import { ToastContainer } from "react-toastify";
+import 'react-phone-input-2/lib/style.css';
 import StripeProvider from "./StripeProvider";
 
 const poppins = Poppins({
