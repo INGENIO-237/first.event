@@ -3,7 +3,7 @@ import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js'
 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
-export const CoordonatesSchema = z.object({
+export const GeneralInfoSchema = z.object({
     firstname: z
         .string({ required_error: "Un prénom est obligatoire" })
         .min(4, { message: "Minimum 4 lettres" })

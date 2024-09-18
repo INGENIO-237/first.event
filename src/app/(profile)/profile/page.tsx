@@ -22,7 +22,7 @@ import { parseAddress } from "@/utils/parser";
 //   LanguageSelect,
 // } from "react-country-state-city";
 
-type CoordonateType = z.infer<typeof CoordonatesSchema>
+type GeneralInfo = z.infer<typeof GeneralInfoSchema>
 type AddressType = z.infer<typeof AdressValidationSchema>
 
 const Profile = () => {
@@ -38,10 +38,10 @@ const Profile = () => {
   const handleImaeUploadClick = () => {
     imageRef.current?.click();
   }
-  const { register: registerInfo, handleSubmit, formState: { errors }, setValue } = useForm<CoordonateType>({
-    resolver: zodResolver(CoordonatesSchema),
+  const { register: registerInfo, handleSubmit, formState: { errors }, setValue } = useForm<GeneralInfo>({
+    resolver: zodResolver(GeneralInfoSchema),
   });
-  const { register: registerAddress, handleSubmit: handleAddressSubmit, formState: { errors: address_errors }, setValue: setAddressValue } = useForm<AddressType>({
+  // const { register: registerAddress, handleSubmit: handleAddressSubmit, formState: { errors: address_errors }, setValue: setAddressValue } = useForm<AddressType>({
     resolver: zodResolver(AdressValidationSchema),
     defaultValues: {
       shippingAsHome: true,
@@ -63,8 +63,10 @@ const Profile = () => {
       imageRef.current?.files ? setValue('image', imageRef.current?.files[0]) : '';
     }
   }
+  const submitCoordonatesForm = (data: GeneralInfo) => {
+    // TODO : send the data to the API in form DAta
+    // formData.append('firstname', data.firstname);
 
-  const submitCoordonatesForm = (data: CoordonateType) => {
     toast.success('OK')
   }
 

@@ -1,8 +1,8 @@
-import { AdressValidationSchema } from '@/schema/SettingsValidation';
+import { AdressValidationSchema, CoordonatesSchema } from '@/schema/SettingsValidation';
 import * as z from 'zod';
 
 type addressDataType = z.infer<typeof AdressValidationSchema>
-
+type GeneralInfo = z.infer<typeof CoordonatesSchema>
 export const parseAddress = (data: addressDataType) => {
     return {
         home: {
@@ -36,3 +36,4 @@ export const parseAddress = (data: addressDataType) => {
         },
     };
 }
+export const ParseGeneralData = (data: GeneralInfo) => {
