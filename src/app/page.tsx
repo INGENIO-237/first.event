@@ -3,8 +3,8 @@ import { AdvancedMarker, APIProvider, Map as GoogleMap, useMap } from '@vis.gl/r
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import MobNavBar from './components/profile/MobNavBar';
-import NavBar from './components/profile/NavBar';
+import MobNavBar from './_components/profile/MobNavBar';
+import NavBar from './_components/profile/NavBar';
 
 
 

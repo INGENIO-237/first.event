@@ -1,5 +1,5 @@
 'use client'
-import InputError from '@/app/components/auth/InputError';
+import InputError from '@/app/_components/auth/InputError';
 import { cn } from '@/lib/utils';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import PhoneInput, { CountryData } from 'react-phone-input-2'

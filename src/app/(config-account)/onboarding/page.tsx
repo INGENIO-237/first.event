@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 import hand from '/public/assets/images/hand.png';
-import Card from "@/app/components/config-account/Card";
+import Card from "@/app/_components/config-account/Card";
 import image1 from '/public/assets/images/auth-experience.png'
 import image2 from "/public/assets/images/auth-event.png";
 import image3 from "/public/assets/images/auth-planification.png";

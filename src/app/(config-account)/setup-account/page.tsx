@@ -1,13 +1,13 @@
 'use client';
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import ProgressBar from '@/app/components/config-account/ProgressBar';
+import ProgressBar from '@/app/_components/config-account/ProgressBar';
 import { FaSearchLocation } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import * as z from "zod"
 import { FirstStepSchema } from '@/schema/ConfigAccountValidation';
 import { useEffect, useState } from 'react';
-import InputError from "@/app/components/auth/InputError";
+import InputError from "@/app/_components/auth/InputError";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 

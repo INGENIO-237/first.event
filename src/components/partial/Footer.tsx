@@ -7,7 +7,7 @@ import logo from '/public/assets/logo-white.png';
 import { IconType } from 'react-icons'
 import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { ListUrl } from '@/app/components/auth/ListUrl';
+import { ListUrl } from '@/app/_components/auth/ListUrl';
 
 const Footer: React.FC = () => {
 

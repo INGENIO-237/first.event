@@ -7,12 +7,12 @@ import Input from "../_components/Input";
 import Select from "../_components/Select";
 import * as z from 'zod';
 import { AdressValidationSchema, GeneralInfoSchema } from "@/schema/SettingsValidation";
-import Checkbox from "@/app/components/Checkbox";
+import Checkbox from "@/app/_components/Checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
-import InputError from "@/app/components/auth/InputError";
+import InputError from "@/app/_components/auth/InputError";
 import { parseAddress, ParseGeneralData } from "@/utils/parser";
 
 // import {
