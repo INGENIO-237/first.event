@@ -6,7 +6,7 @@ import { FiUser } from "react-icons/fi"
 import Input from "../_components/Input";
 import Select from "../_components/Select";
 import * as z from 'zod';
-import { AdressValidationSchema, CoordonatesSchema } from "@/schema/SettingsValidation";
+import { AdressValidationSchema, GeneralInfoSchema } from "@/schema/SettingsValidation";
 import Checkbox from "@/app/components/Checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -41,7 +41,7 @@ const Profile = () => {
   const { register: registerInfo, handleSubmit, formState: { errors }, setValue } = useForm<GeneralInfo>({
     resolver: zodResolver(GeneralInfoSchema),
   });
-  // const { register: registerAddress, handleSubmit: handleAddressSubmit, formState: { errors: address_errors }, setValue: setAddressValue } = useForm<AddressType>({
+  const { register: registerAddress, handleSubmit: handleAddressSubmit, formState: { errors: address_errors }, setValue: setAddressValue } = useForm<AddressType>({
     resolver: zodResolver(AdressValidationSchema),
     defaultValues: {
       shippingAsHome: true,
