@@ -21,7 +21,7 @@ const config = {
       colors: {
         first_violet: "#270B87",
         first_gray: "#9F9D9E",
-        first_orange: "#E35E07  ",
+        first_orange: "#E35E07",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
