@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "react-toastify";
 import InputError from "@/app/components/auth/InputError";
-import { parseAddress } from "@/utils/parser";
+import { parseAddress, ParseGeneralData } from "@/utils/parser";
 
 // import {
 //   CitySelect,
@@ -28,8 +28,6 @@ type AddressType = z.infer<typeof AdressValidationSchema>
 const Profile = () => {
   const [date, setDate] = useState<string>("26/10/2024");
   const [image, setImage] = useState<string | null>(null);
-  const [countryid, setCountryid] = useState(0);
-  const [stateid, setstateid] = useState(0);
   const [billAsHome, setBillAsHome] = useState<boolean>(true);
   const [shippAsHome, setShippAsHome] = useState<boolean>(true);
   const imageRef = useRef<HTMLInputElement>(null);
@@ -38,9 +36,11 @@ const Profile = () => {
   const handleImaeUploadClick = () => {
     imageRef.current?.click();
   }
+
   const { register: registerInfo, handleSubmit, formState: { errors }, setValue } = useForm<GeneralInfo>({
     resolver: zodResolver(GeneralInfoSchema),
   });
+
   const { register: registerAddress, handleSubmit: handleAddressSubmit, formState: { errors: address_errors }, setValue: setAddressValue } = useForm<AddressType>({
     resolver: zodResolver(AdressValidationSchema),
     defaultValues: {
@@ -52,7 +52,6 @@ const Profile = () => {
       country: ''
     }
   });
-  // console.log(address_errors)
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = (event.target.files as FileList)[0];
@@ -63,10 +62,10 @@ const Profile = () => {
       imageRef.current?.files ? setValue('image', imageRef.current?.files[0]) : '';
     }
   }
-  const submitCoordonatesForm = (data: GeneralInfo) => {
-    // TODO : send the data to the API in form DAta
-    // formData.append('firstname', data.firstname);
 
+  const submitGeneralInfoForm = (data: GeneralInfo) => {
+    const payload = ParseGeneralData(data)
+    // TODO : send the data to the API
     toast.success('OK')
   }
 
@@ -102,7 +101,7 @@ const Profile = () => {
           <h1 className="md:text-3xl text-2xl text-center md:text-start font-bold text-first_violet">Informations Personnels</h1>
         </div>
         <div className="flex flex-col items-center  md:items-start space-y-4">
-          <form className="w-full " onSubmit={handleSubmit((data) => submitCoordonatesForm(data))} encType="multipart/form-data">
+          <form className="w-full " onSubmit={handleSubmit((data) => submitGeneralInfoForm(data))} encType="multipart/form-data">
             {/* Photo de profil */}
             <div className="flex flex-col items-center  w-full md:items-start gap-4 py-5 " >
               <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Photo de profil</h2>

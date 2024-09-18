@@ -17,11 +17,10 @@ export const GeneralInfoSchema = z.object({
             return isValidPhoneNumber(val)
         }, "Numéro de portable invalide"),
     fix_phone_number: z
-        .optional(z
-            .string({ required_error: "Le numéro du téléphone fixe est requis" })
-            .refine(val => {
-                return isValidPhoneNumber(val)
-            }, "Numéro de téléphone fixe invalide")),
+    .string({ required_error: "Le numéro du téléphone fixe est requis" })
+    .refine(val => {
+        return isValidPhoneNumber(val)
+    }, "Numéro de téléphone fixe invalide"),
     image: z
         .instanceof(File)
         .optional()
