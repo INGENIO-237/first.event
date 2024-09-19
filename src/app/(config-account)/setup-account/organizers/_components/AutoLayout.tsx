@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 interface ItemProps {
   imageUrl: string;
@@ -28,8 +28,8 @@ const AutoLayout: React.FC<ItemProps> = ({ imageUrl, title, subtitle }) => {
     };
 
     updateTextLength();
-    window.addEventListener('resize', updateTextLength);
-    return () => window.removeEventListener('resize', updateTextLength);
+    window.addEventListener("resize", updateTextLength);
+    return () => window.removeEventListener("resize", updateTextLength);
   }, [title, subtitle]);
 
   return (

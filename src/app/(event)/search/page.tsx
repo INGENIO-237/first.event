@@ -16,24 +16,22 @@ const Search = () => {
     const [onlineEvents, setOnlineEvents] = useState<boolean>(false);
     // const [] = useState();
 
-    const displayedCategories = interests.slice(0, visibleCount);
+  const displayedCategories = interests.slice(0, visibleCount);
 
-    const handleShowMore = () => {
-        if (visibleCount + 5 <= interests.length) {
-            setVisibleCount(visibleCount + 5)
-        }
-        else {
-            setVisibleCount(interests.length)
-        }
-    };
-    const handleShowLess = () => {
-        if (visibleCount - 5 < 5) {
-            setVisibleCount(5)
-        }
-        else {
-            setVisibleCount(visibleCount - 5)
-        }
-    };
+  const handleShowMore = () => {
+    if (visibleCount + 5 <= interests.length) {
+      setVisibleCount(visibleCount + 5);
+    } else {
+      setVisibleCount(interests.length);
+    }
+  };
+  const handleShowLess = () => {
+    if (visibleCount - 5 < 5) {
+      setVisibleCount(5);
+    } else {
+      setVisibleCount(visibleCount - 5);
+    }
+  };
 
     return (
         <div className="grow min-h-full mt-16 md:mt-0 w-screen flex md:flex-row flex-col-reverse">

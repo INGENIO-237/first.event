@@ -1,57 +1,99 @@
 import * as z from "zod";
-import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js'
+import { isValidPhoneNumber, parsePhoneNumber } from "libphonenumber-js";
 
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+const ACCEPTED_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
 
-export const GeneralInfoSchema = z.object({
+export const GeneralInfoSchema = z
+  .object({
     firstname: z
-        .string({ required_error: "Un prénom est obligatoire" })
-        .min(4, { message: "Minimum 4 lettres" })
-        .refine((val) => val.trim(), 'Le nom est obligatoire '),
+      .string({ required_error: "Un prénom est obligatoire" })
+      .min(4, { message: "Minimum 4 lettres" })
+      .refine((val) => val.trim(), "Le nom est obligatoire "),
     lastname: z
-        .string({ required_error: "Un nom est obligatoire" })
-        .min(4, { message: "Minimum 4 lettres" })
-        .refine((val) => val.trim(), 'Le prenom est obligatoire '),
+      .string({ required_error: "Un nom est obligatoire" })
+      .min(4, { message: "Minimum 4 lettres" })
+      .refine((val) => val.trim(), "Le prenom est obligatoire "),
     mobile_phone_number: z
-        .string({ required_error: "Le numéro du téléphone portable est requis" }).refine(val => {
-            return isValidPhoneNumber(val)
-        }, "Numéro de portable invalide"),
+      .string({ required_error: "Le numéro du téléphone portable est requis" })
+      .refine((val) => {
+        return isValidPhoneNumber(val);
+      }, "Numéro de portable invalide"),
     fix_phone_number: z
-    .string({ required_error: "Le numéro du téléphone fixe est requis" })
-    .refine(val => {
-        return isValidPhoneNumber(val)
-    }, "Numéro de téléphone fixe invalide"),
+      .string({ required_error: "Le numéro du téléphone fixe est requis" })
+      .refine((val) => {
+        return isValidPhoneNumber(val);
+      }, "Numéro de téléphone fixe invalide"),
     image: z
-        .instanceof(File)
-        .optional()
-        .refine((file) => {
-            return !file || ACCEPTED_IMAGE_TYPES.includes(file.type)
-        }, {
-            message: "Seules les images de type jpeg, png ou gif sont acceptées !",
-        })
-        .refine((file) => !file || file.size <= 3 * 1000000, {
-            message: "L'image ne doit pas dépasser 3MB",
-        }),
-}).refine((data) => {
-    return data.firstname.trim() == ''
-}, { message: "Au moins 4 caractères pour le prénom pas juste des espaces", path: ["firstname"] })
-    .refine((data) => {
-        return data.lastname.trim() == ''
-    }, { message: "Au moins 4 caractères pour le nom pas juste des espaces", path: ["lastname"] })
+      .instanceof(File)
+      .optional()
+      .refine(
+        (file) => {
+          return !file || ACCEPTED_IMAGE_TYPES.includes(file.type);
+        },
+        {
+          message:
+            "Seules les images de type jpeg, png ou gif sont acceptées !",
+        }
+      )
+      .refine((file) => !file || file.size <= 3 * 1000000, {
+        message: "L'image ne doit pas dépasser 3MB",
+      }),
+  })
+  .refine(
+    (data) => {
+      return data.firstname.trim() == "";
+    },
+    {
+      message: "Au moins 4 caractères pour le prénom pas juste des espaces",
+      path: ["firstname"],
+    }
+  )
+  .refine(
+    (data) => {
+      return data.lastname.trim() == "";
+    },
+    {
+      message: "Au moins 4 caractères pour le nom pas juste des espaces",
+      path: ["lastname"],
+    }
+  );
 
-export const AdressValidationSchema = z.object({
-    address: z.string({ required_error: "Adresse du domicile obligatoire.", invalid_type_error: "Adresse du domicile obligatoire." }),
-    country: z.string({ required_error: "Pays du domicile obligatoire.", invalid_type_error: "Pays du domicile obligatoire." }),
-    city: z.string({ required_error: "La ville est obligatoire.", invalid_type_error: "La ville est obligatoire." }),
-    province: z.string({ required_error: "La province est obligatoire.", invalid_type_error: "La province est obligatoire." }),
-    postal_code: z.string(/* { required_error: "Code Postale requis." } */{ invalid_type_error: "Code Postale requis." }),
+export const AdressValidationSchema = z
+  .object({
+    address: z.string({
+      required_error: "Adresse du domicile obligatoire.",
+      invalid_type_error: "Adresse du domicile obligatoire.",
+    }),
+    country: z.string({
+      required_error: "Pays du domicile obligatoire.",
+      invalid_type_error: "Pays du domicile obligatoire.",
+    }),
+    city: z.string({
+      required_error: "La ville est obligatoire.",
+      invalid_type_error: "La ville est obligatoire.",
+    }),
+    province: z.string({
+      required_error: "La province est obligatoire.",
+      invalid_type_error: "La province est obligatoire.",
+    }),
+    postal_code: z.string(
+      /* { required_error: "Code Postale requis." } */ {
+        invalid_type_error: "Code Postale requis.",
+      }
+    ),
     billing_address: z.string().optional(),
     billing_country: z.string().optional(),
     billing_city: z.string().optional(),
     billing_province: z.string().optional(),
     billing_postal_code: z.string().optional(),
     billingAsHome: z.boolean({
-        invalid_type_error: "La reponse envoye ne correspond aux valers attendues",
+      invalid_type_error:
+        "La reponse envoye ne correspond aux valers attendues",
     }),
     shipping_address: z.string().optional(),
     shipping_country: z.string().optional(),
@@ -59,11 +101,11 @@ export const AdressValidationSchema = z.object({
     shipping_province: z.string().optional(),
     shipping_postal_code: z.string().optional(),
     shippingAsHome: z.boolean({
-        invalid_type_error: "La reponse envoye ne correspond aux valers attendues",
+      invalid_type_error:
+        "La reponse envoye ne correspond aux valers attendues",
     }),
 })
     .refine((data) => {
-        console.log(data.billingAsHome);
         return !(data.billingAsHome ==false && data.billing_address == '');
     }, { message: "Adresse de facturation obligatoire", path: ["billing_address"] })
     .refine((data) => {
