@@ -32,7 +32,8 @@ const Profile = () => {
   const [shippAsHome, setShippAsHome] = useState<boolean>(true);
   const imageRef = useRef<HTMLInputElement>(null);
   const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-
+  // console.log('billAsHome', billAsHome, ' shippAsHome', shippAsHome)
+  
   const handleImaeUploadClick = () => {
     imageRef.current?.click();
   }
@@ -62,7 +63,7 @@ const Profile = () => {
       imageRef.current?.files ? setValue('image', imageRef.current?.files[0]) : '';
     }
   }
-
+  // console.log(address_errors)
   const submitGeneralInfoForm = (data: GeneralInfo) => {
     const payload = ParseGeneralData(data)
     // TODO : send the data to the API
@@ -83,14 +84,16 @@ const Profile = () => {
     setAddressValue('billing_province', '');
     setAddressValue('billing_city', '');
     setAddressValue('billing_postal_code', '');
+    setAddressValue('billingAsHome', !billAsHome);
   }
-
+  
   const unsetShippingInfo = () => {
     setAddressValue('shipping_address', '');
     setAddressValue('shipping_country', '');
     setAddressValue('shipping_province', '');
     setAddressValue('shipping_city', '');
     setAddressValue('shipping_postal_code', '');
+    setAddressValue('shippingAsHome', !shippAsHome);
   }
 
   return (
@@ -184,7 +187,7 @@ const Profile = () => {
             <div className="flex flex-col items-center w-full md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
               <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Adresse de facturation</h2>
               <div>
-                <Checkbox size={4} id='billing' checked={billAsHome} onChange={() => { setBillAsHome(!billAsHome); setAddressValue('billingAsHome', !billAsHome); unsetBillingInfo() }} label={"Même que l'adresse du domicile "} primaryColor="" />
+                <Checkbox size={4} id='billing' checked={billAsHome} onChange={() => { setBillAsHome(!billAsHome); unsetBillingInfo() }} label={"Même que l'adresse du domicile "} primaryColor="" />
                 {/* {console.log(billAsHome)} */}
                 {address_errors?.billingAsHome && (<InputError message={address_errors?.billingAsHome?.message} />)}
               </div>
@@ -230,7 +233,7 @@ const Profile = () => {
             <div className="flex flex-col items-center w-full md:w-1/2 md:items-start space-y-4 space-x-0 md:space-x-4 md:space-y-4">
               <h2 className="md:text-2xl text-xl text-start font-semibold text-first_violet">Adresse de livraison</h2>
               <div>
-                <Checkbox size={4} id='shipping' checked={shippAsHome} onChange={() => { setShippAsHome(!shippAsHome); setAddressValue('shippingAsHome', !shippAsHome); unsetShippingInfo() }} label={"Même que l'adresse du domicile "} primaryColor="" />
+                <Checkbox size={4} id='shipping' checked={shippAsHome} onChange={() => { setShippAsHome(!shippAsHome); unsetShippingInfo() }} label={"Même que l'adresse du domicile "} primaryColor="" />
                 {address_errors?.shippingAsHome && (<InputError message={address_errors?.shippingAsHome?.message} />)}
               </div>
               <AnimatePresence>

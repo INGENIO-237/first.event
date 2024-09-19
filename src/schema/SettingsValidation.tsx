@@ -63,34 +63,36 @@ export const AdressValidationSchema = z.object({
     }),
 })
     .refine((data) => {
-        return !data.billingAsHome || data.billing_address != '';
+        console.log(data.billingAsHome);
+        return !(data.billingAsHome ==false && data.billing_address == '');
     }, { message: "Adresse de facturation obligatoire", path: ["billing_address"] })
     .refine((data) => {
-        return !data.billingAsHome || data.billing_city != '';
+        return !(data.billingAsHome ==false && data.billing_city == '');
     }, { message: "Ville de facturation obligatoire", path: ["billing_city"] })
     .refine((data) => {
-        return !data.billingAsHome || data.billing_country != '';
+        return !(data.billingAsHome ==false && data.billing_country == '');
     }, { message: "Pays de facturation obligatoire", path: ["billing_country"] })
     .refine((data) => {
-        return !data.billingAsHome || data.billing_postal_code != '';
+        return !(data.billingAsHome ==false && data.billing_postal_code == '');
     }, { message: "Code postal de facturation obligatoire", path: ["billing_postal_code"] })
     .refine((data) => {
-        return !data.billingAsHome || data.billing_province != '';
+        return !(data.billingAsHome ==false && data.billing_province == '');
     }, { message: "Province de facturation obligatoire", path: ["billing_province"] })
     .refine((data) => {
-        return !data.shippingAsHome || data.shipping_address != '';
+        return !(data.shippingAsHome ==false && data.shipping_address == '');
     }, { message: "Adresse de livraison obligatoire", path: ["shipping_address"] })
     .refine((data) => {
-        return !data.shippingAsHome || data.shipping_city != '';
+        
+        return !(data.shippingAsHome ==false && data.shipping_city == '');
     }, { message: "Ville de livraison obligatoire", path: ["shipping_city"] })
     .refine((data) => {
-        return !data.shippingAsHome || data.shipping_country != '';
+        return !(data.shippingAsHome ==false && data.shipping_country == '');
     }, { message: "Pays de livraison obligatoire", path: ["shipping_country"] })
     .refine((data) => {
-        return !data.shippingAsHome || data.shipping_postal_code != '';
+        return !(data.shippingAsHome ==false && data.shipping_postal_code == '');
     }, { message: "Code postale de livraison obligatoire", path: ["shipping_postal_code"] })
     .refine((data) => {
-        return !data.shippingAsHome || data.shipping_province != '';
+        return !(data.shippingAsHome ==false && data.shipping_province == '');
     }, { message: "Province de livraison obligatoire", path: ["shipping_province"] })
     .refine((data) => {
         return !(data.address == '' || data.address.trim() == '')
