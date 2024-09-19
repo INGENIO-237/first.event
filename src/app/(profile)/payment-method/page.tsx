@@ -12,9 +12,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { cn, formatCardExpiryMonth, generateKey } from "@/lib/utils";
-import { Trash } from "lucide-react";
-import { motion } from "framer-motion";
+import { cn, generateKey } from "@/lib/utils";
+import Card, { PMCard } from "../_components/Card";
+import { StripeCardElement } from "@stripe/stripe-js";
+import { toast } from "react-toastify";
+import ProgressButton from "@/components/ui/progress-button";
 
 type Props = {};
 
@@ -24,6 +26,7 @@ const PaymentMethod = ({}: Props) => {
 
   const [addCardMode, setAddCardMode] = useState(false);
   const [cardFieldsFilled, setCardFieldsFilled] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const paymentMethods = [
     {
@@ -78,7 +81,48 @@ const PaymentMethod = ({}: Props) => {
     },
   ];
 
-  async function handleSubmit() {}
+  async function handleSubmit() {
+    if (!stripe || !elements) return null;
+
+    setIsProcessing(true);
+
+    let paymentMethod: { paymentMethodId: string; card: PMCard };
+
+    const cardElement = elements.getElement(CardElement) as StripeCardElement;
+
+    const { error, paymentMethod: pm } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardElement,
+    });
+
+    if (error) {
+      toast.error(error.message);
+      setIsProcessing(false);
+    }
+
+    if (pm) {
+      paymentMethod = {
+        paymentMethodId: pm.id,
+        card: {
+          brand: pm.card?.brand as string,
+          country: pm.card?.country as string,
+          expMonth: pm.card?.exp_month as number,
+          expYear: pm.card?.exp_year as number,
+          last4: Number(pm.card?.last4 as string),
+        },
+      };
+
+      console.log({ paymentMethod });
+      // TODO: Send data to the backend
+      toast.success(
+        "Moyen de paiement ajouté avec succès: " +
+          paymentMethod.paymentMethodId,
+        { hideProgressBar: true }
+      );
+      setIsProcessing(false);
+      setAddCardMode(false);
+    }
+  }
 
   return (
     <div className="grow flex flex-col min-h-screen md:px-20 px-5 py-5">
@@ -113,19 +157,26 @@ const PaymentMethod = ({}: Props) => {
           />
           <hr />
           <DialogFooter>
-            <DialogClose>
-              <Button>Annuler</Button>
-            </DialogClose>
-            <Button
-              className={cn(
-                !cardFieldsFilled
-                  ? "cursor-not-allowed bg-gray-400"
-                  : "bg-first_orange hover:bg-orange-600",
-                "rounded text-white"
-              )}
-            >
-              Enregistrer
-            </Button>
+            {!isProcessing && (
+              <DialogClose>
+                <Button>Annuler</Button>
+              </DialogClose>
+            )}
+            {isProcessing ? (
+              <ProgressButton />
+            ) : (
+              <Button
+                className={cn(
+                  !cardFieldsFilled
+                    ? "cursor-not-allowed bg-gray-400"
+                    : "bg-first_orange hover:bg-orange-600",
+                  "rounded text-white"
+                )}
+                onClick={handleSubmit}
+              >
+                Enregistrer
+              </Button>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -133,49 +184,7 @@ const PaymentMethod = ({}: Props) => {
       {/* Cards list */}
       <div className="my-5 flex flex-col gap-5 md:flex-row md:flex-wrap md:gap-0 md:justify-between md:gap-y-5">
         {paymentMethods.map((paymentMethod) => {
-          return (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              whileHover={{ scale: 1.02 }}
-              key={generateKey()}
-              className="w-full md:w-[45%] h-[200px] bg-first_violet rounded text-white p-2"
-            >
-              <div className="flex w-full justify-between">
-                <h1>Card</h1>
-                <Trash size={16} className="hover:pointer-cursor" />
-              </div>
-
-              <div className="h-1/3 flex items-center justify-between mt-5">
-                {/* SIM */}
-                <div className="flex">
-                  <div className="flex flex-col gap-0.5">
-                    <div className="w-[15px] h-[10px] bg-[#ffc300] rounded"></div>
-                    <div className="w-[15px] h-[10px] bg-[#ffc300] rounded"></div>
-                    <div className="w-[15px] h-[10px] bg-[#ffc300] rounded"></div>
-                  </div>
-                  <div className="w-[10px] h-[35px] bg-[#ffc300] rounded"></div>
-                  <div className="flex flex-col gap-0.5">
-                    <div className="w-[15px] h-[10px] bg-[#ffc300] rounded"></div>
-                    <div className="w-[15px] h-[10px] bg-[#ffc300] rounded"></div>
-                    <div className="w-[15px] h-[10px] bg-[#ffc300] rounded"></div>
-                  </div>
-                </div>
-                <h1 className="text-xl">
-                  {formatCardExpiryMonth(paymentMethod.card.expMonth) +
-                    "/" +
-                    paymentMethod.card.expYear}
-                </h1>
-              </div>
-              <h1 className="text-xl">
-                XXXX XXXX XXXX {paymentMethod.card.last4}
-              </h1>
-              <div className="flex justify-end">
-                <h1 className="font-bold text-2xl font-italic">{paymentMethod.card.brand}</h1>
-              </div>
-            </motion.div>
-          );
+          return <Card key={generateKey()} card={paymentMethod.card} />;
         })}
       </div>
     </div>

@@ -11,11 +11,7 @@ const stripePromise = loadStripe(STRIPE_PK);
 const StripeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  return (
-    <Elements stripe={stripePromise}>
-      {children}
-    </Elements>
-  );
+  return <Elements stripe={stripePromise}>{children}</Elements>;
 };
 
 export default StripeProvider;

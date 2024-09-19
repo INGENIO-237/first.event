@@ -1,5 +1,5 @@
-'use client'
-import React, { useState, useEffect } from 'react';
+"use client";
+import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { AlignJustify, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Link from "next/link";
@@ -7,26 +7,39 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { UrlObject } from "url";
 
-const LinkItem = ({ href, title, isActive, onClick }: { href: string | UrlObject, title: string, isActive?: boolean, onClick?: () => void }) => {
+const LinkItem = ({
+  href,
+  title,
+  isActive,
+  onClick,
+}: {
+  href: string | UrlObject;
+  title: string;
+  isActive?: boolean;
+  onClick?: () => void;
+}) => {
   return (
     <motion.li variants={itemVariants}>
       <Link
-        className={cn(isActive && 'bg-white', "flex items-center gap-x-3.5 py-3  pl-6 text-sm text-gray-700 hover:bg-gray-100")}
+        className={cn(
+          isActive && "bg-white",
+          "flex items-center gap-x-3.5 py-3  pl-6 text-sm text-gray-700 hover:bg-gray-100"
+        )}
         href={href}
         onClick={onClick}
       >
         {title}
       </Link>
     </motion.li>
-  )
-}
+  );
+};
 const itemVariants: Variants = {
   open: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 300, damping: 24 }
+    transition: { type: "spring", stiffness: 300, damping: 24 },
   },
-  closed: { opacity: 0, y: 20, transition: { duration: 0.2 } }
+  closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
 };
 const SideBar = () => {
   const path = usePathname();
@@ -39,23 +52,23 @@ const SideBar = () => {
     };
 
     checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
+    window.addEventListener("resize", checkScreenSize);
 
-    return () => window.removeEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   useEffect(() => {
     if (!isMobile) {
       setIsOpen(true);
     } else {
-      const savedState = localStorage.getItem('sidebarOpen');
-      setIsOpen(savedState === 'true');
+      const savedState = localStorage.getItem("sidebarOpen");
+      setIsOpen(savedState === "true");
     }
   }, [isMobile]);
 
   useEffect(() => {
     if (isMobile) {
-      localStorage.setItem('sidebarOpen', isOpen.toString());
+      localStorage.setItem("sidebarOpen", isOpen.toString());
     }
   }, [isOpen, isMobile]);
 
@@ -68,20 +81,18 @@ const SideBar = () => {
 
   return (
     <>
-      {isMobile && (
-        !isOpen && (
-          <div className='lg:hidden sticky top-0 flex items-center'>
-            <span className='size-8 text-first_violet bg-gray-300 border-r-2 border-white flex items-center justify-center cursor-pointer rounded-r-full hover:bg-gray-500 hover:text-black transition-colors duration-300 hover:scale-110'>
-              <button
-                onClick={toggleSidebar}
-                className=""
-                aria-label="Toggle Sidebar"
-              >
-                {isOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
-              </button>
-            </span>
-          </div>
-        )
+      {isMobile && !isOpen && (
+        <div className="lg:hidden sticky top-0 flex items-center">
+          <span className="size-8 text-first_violet bg-gray-300 border-r-2 border-white flex items-center justify-center cursor-pointer rounded-r-full hover:bg-gray-500 hover:text-black transition-colors duration-300 hover:scale-110">
+            <button
+              onClick={toggleSidebar}
+              className=""
+              aria-label="Toggle Sidebar"
+            >
+              {isOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
+            </button>
+          </span>
+        </div>
       )}
 
       <motion.div
@@ -94,7 +105,9 @@ const SideBar = () => {
         variants={sidebarVariants}
       >
         <div className="flex items-center justify-between w-full px-6 border-b">
-          <h2 className="text-[#5F5E5E] text-center py-2 font-bold text-xl">Compte</h2>
+          <h2 className="text-[#5F5E5E] text-center py-2 font-bold text-xl">
+            Compte
+          </h2>
           {isMobile && (
             <button onClick={toggleSidebar} className="lg:hidden">
               <ChevronLeft size={24} />
@@ -111,23 +124,51 @@ const SideBar = () => {
                   bounce: 0,
                   duration: 0.7,
                   delayChildren: 0.3,
-                  staggerChildren: 0.05
-                }
+                  staggerChildren: 0.05,
+                },
               },
               closed: {
                 clipPath: "inset(10% 50% 90% 50% )",
                 transition: {
                   type: "spring",
                   bounce: 0,
-                  duration: 0.3
-                }
-              }
-            }} style={{ pointerEvents: isOpen ? "auto" : "none" }} className="space-y-1.5">
-            <LinkItem href={'/profile'} isActive={path === '/profile'} title={'Coordonnées de contact'} onClick={() => isMobile && setIsOpen(false)} />
-            <LinkItem href={'/credentials'} isActive={path === '/credentials'} title={'Option de connexion'} onClick={() => isMobile && setIsOpen(false)} />
-            <LinkItem href={'/payment-method'} isActive={path === '/payment-method'} title={'Moyen de paiement'} onClick={() => isMobile && setIsOpen(false)} />
-            <LinkItem href={'/personal-data'} isActive={path === "/personal-data"} title={'Données personnelles'} onClick={() => isMobile && setIsOpen(false)} />
-            <LinkItem href={'/close-account'} isActive={path === "/close-account"} title={'Fermer le compte'} onClick={() => isMobile && setIsOpen(false)} />
+                  duration: 0.3,
+                },
+              },
+            }}
+            style={{ pointerEvents: isOpen ? "auto" : "none" }}
+            className="space-y-1.5"
+          >
+            <LinkItem
+              href={"/profile"}
+              isActive={path === "/profile"}
+              title={"Coordonnées de contact"}
+              onClick={() => isMobile && setIsOpen(false)}
+            />
+            <LinkItem
+              href={"/credentials"}
+              isActive={path === "/credentials"}
+              title={"Option de connexion"}
+              onClick={() => isMobile && setIsOpen(false)}
+            />
+            <LinkItem
+              href={"/payment-method"}
+              isActive={path === "/payment-method"}
+              title={"Moyen de paiement"}
+              onClick={() => isMobile && setIsOpen(false)}
+            />
+            <LinkItem
+              href={"/personal-data"}
+              isActive={path === "/personal-data"}
+              title={"Données personnelles"}
+              onClick={() => isMobile && setIsOpen(false)}
+            />
+            <LinkItem
+              href={"/close-account"}
+              isActive={path === "/close-account"}
+              title={"Fermer le compte"}
+              onClick={() => isMobile && setIsOpen(false)}
+            />
           </motion.ul>
         </nav>
       </motion.div>
@@ -143,7 +184,7 @@ const SideBar = () => {
         />
       )}
     </>
-  )
-}
+  );
+};
 
 export default SideBar;

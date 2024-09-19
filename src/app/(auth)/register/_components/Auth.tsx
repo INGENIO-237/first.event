@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import InputError from "@/app/_components/auth/InputError";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import Checkbox from '@/app/_components/Checkbox';
+import Checkbox from "@/app/_components/Checkbox";
 
 type RegisterSchemaType = z.infer<typeof RegisterSchema>;
 
