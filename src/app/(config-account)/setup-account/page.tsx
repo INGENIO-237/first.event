@@ -61,7 +61,6 @@ const SetupAccount = () => {
           </span>
         </div>
         <div className="w-full md:w-3/6">
-          <span className="text-lg font-medium">Étape 1 sur 3</span>
           <ProgressBar limit={3} />
         </div>
       </div>

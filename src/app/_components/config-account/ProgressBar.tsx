@@ -18,7 +18,10 @@ const ProgressBar = ({ limit, step = 1 }: Props) => {
         return () => clearTimeout(timer)
     }, [progress])
     return (
-        <Progress value={value} className="w-full" />
+        <>
+            <span className="text-lg font-medium">Étape {step} sur {limit}</span> 
+            <Progress value={value} className="w-full" />
+        </>
     )
 }
 

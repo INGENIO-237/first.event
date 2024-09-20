@@ -238,9 +238,6 @@ const ThirdStep = () => {
               pour être averti lorsqu&apos;ils ajoutent un nouvel événement
             </span>
             <div className="w-full">
-              <span className="font-medium text-sm md:text-base">
-                Étape 3 sur 3
-              </span>
               <ProgressBar limit={3} step={3} />
             </div>
             <div className="w-full flex items-center justify-between">

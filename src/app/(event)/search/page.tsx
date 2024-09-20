@@ -161,7 +161,7 @@ const Search = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='w-full md:w-8/12 space-y-6'>
+                        <div className='w-full md:w-8/12 space-y-3'>
                             {/*  Banners*/}
                             {events.map((event, index) => <EventBanner key={index} {...event} />)}
                         </div>
@@ -188,7 +188,7 @@ const events = [
     {
         id: 2,
         title: 'Event 2',
-        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        image: event,
         place: 'Place 2',
         date: '2022-01-02',
         time: '10:00',
@@ -197,7 +197,7 @@ const events = [
     {
         id: 3,
         title: 'Event 3',
-        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        image: event,
         place: 'Place 3',
         date: '2022-01-03',
         time: '10:00',
@@ -206,7 +206,7 @@ const events = [
     {
         id: 4,
         title: 'Event 4',
-        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        image: event,
         place: 'Place 4',
         date: '2022-01-04',
         time: '10:00',
@@ -215,7 +215,7 @@ const events = [
     {
         id: 5,
         title: 'Event 5',
-        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        image: event,
         place: 'Place 5',
         date: '2022-01-05',
         time: '10:00',
@@ -224,7 +224,7 @@ const events = [
     {
         id: 6,
         title: 'Event 6',
-        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        image: event,
         place: 'Place 6',
         date: '2022-01-06',
         time: '10:00',
@@ -233,7 +233,7 @@ const events = [
     {
         id: 7,
         title: 'Event 7',
-        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        image: event,
         place: 'Place 7',
         date: '2022-01-07',
         time: '10:00',
@@ -242,7 +242,7 @@ const events = [
     {
         id: 8,
         title: 'Event 8',
-        image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+        image: event,
         place: 'Place 8',
         date: '2022-01-08',
         time: '10:00',

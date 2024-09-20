@@ -1,9 +1,9 @@
+'use client'
 import Image from "next/image";
-import image1 from "/public/assets/images/auth-experience.png";
-import hand from "/public/assets/images/hand.png";
 import Link from "next/link";
+import image1 from "/public/assets/images/auth-experience.png";
 
-const FirstLoginPage = () => {
+const Welcome = () => {
   return (
     <div className="mx-auto my-auto p-4 flex flex-col items-center justify-center">
       <div className="flex flex-col items-center">
@@ -39,4 +39,4 @@ const FirstLoginPage = () => {
   );
 };
 
-export default FirstLoginPage;
+export default Welcome;

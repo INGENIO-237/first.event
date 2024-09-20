@@ -13,10 +13,10 @@ interface EventBannerProps {
 
 const EventBanner = ({ image, title, place, date, time, category }: EventBannerProps) => {
     return (
-        <div className="rounded-lg  flex items-center flex-row w-full p-4 bg-white gap-2 duration-500 h-fit  hover:scale-[1.01] hover:drop-shadow-xl hover:shadow-xl transition-all">
-            <div className="w-1/4">
+        <div className="rounded-lg  flex items-center flex-row w-full p-4 bg-white gap-2 duration-500 h-24  hover:scale-[1.01] hover:shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,25,0.15)] transition-all">
+            <div className="w-1/4 h-full">
                 {/* Image */}
-                <Image src={image} alt={title} width={200} height={80} />
+                <Image src={image} alt={title} width={200} height={90} className="rounded-lg h-16 w-auto object-cover " />
             </div>
             <div className="flex flex-col  w-2/4">
                 {/* Infos */}
@@ -28,10 +28,10 @@ const EventBanner = ({ image, title, place, date, time, category }: EventBannerP
             <div className="w-1/4">
                 {/* Actions */}
                 <div className="flex gap-2">
-                    <button className=" shadow-card hover:text-red-500 p-2 rounded-full">
-                    <Heart />
+                    <button className="shadow-card hover:text-red-500 p-2 rounded-full">
+                    <Heart className="" />
                     </button>
-                    <button className=" shadow-card  p-2 rounded-full">
+                    <button className="shadow-card  p-2 rounded-full">
                     <Share2 />
                     </button>
                 </div>

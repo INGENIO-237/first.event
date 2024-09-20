@@ -1,10 +1,10 @@
+
 "use client";
 import InterestCard from "@/app/_components/config-account/InterestCard";
 import ProgressBar from "@/app/_components/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import { interests as interestsData } from "@/utils/interests";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -13,7 +13,6 @@ interface SelectedInterest {
   tags: Array<string>;
 }
 const SecondStep = () => {
-  const router = useRouter();
   const [interests, setInterests] = useState<SelectedInterest[]>([]);
   const handleInterestToggle = (interestName: string, tag: string) => {
     setInterests((prevSelected) => {
@@ -89,7 +88,6 @@ const SecondStep = () => {
               vos interêts.
             </span>
             <div className="w-full">
-              <span className="text-lg font-medium">Étape 2 sur 3</span>
               <ProgressBar limit={3} step={2} />
             </div>
           </div>
