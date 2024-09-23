@@ -11,7 +11,7 @@ const Card = (
                 <Image src={image} alt={'Image 1'} width={200} height={250} className="w-1/2 " priority />
                 <div className="flex flex-col items-center mx-auto gap-4 w-full">
                     <span className='font-semibold text-2xl text-wrap text-center w-full text-first_violet'>{illustrationText}</span>
-                    <Link href={'#'} className="text-first_gray border  border-first_gray  p-3 hover:bg-first_orange rounded hover:text-white  transition duration-300 text-wrap ">
+                    <Link href={link} className="text-first_gray border  border-first_gray  p-3 hover:bg-first_orange rounded hover:text-white  transition duration-300 text-wrap ">
                         {textButton}
                     </Link>
                 </div>

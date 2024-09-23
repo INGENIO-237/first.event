@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import image from "/public/assets/images/setup-account/fourth-step.png";
+import { ParseOrganizerData } from "@/utils/parser";
 
 
 
@@ -17,9 +18,21 @@ const FifthStep = () => {
     const router = useRouter();
 
     const handleSubmit = () => {
-        localStorage.setItem("goals", JSON.stringify(goals));
-        toast.success("Vos centres d'intérêts enregistrés");
-        router.push("#");
+        // retrieve other elements for validation
+        let experience = localStorage.getItem('experience')
+        let pastTeam = localStorage.getItem('pastTeam')
+        let targetYearEvent = localStorage.getItem('targetYearEvent')
+        let participation = localStorage.getItem('participation')
+        if (experience && pastTeam && targetYearEvent && participation && goals) {
+            const payload = ParseOrganizerData(experience, pastTeam, targetYearEvent, participation, goals);
+        }
+
+        localStorage.removeItem('experience')
+        localStorage.removeItem('pastTeam')
+        localStorage.removeItem('targetYearEvent')
+        localStorage.removeItem('participation')
+        toast.success("Account set successfully");
+        router.push("/");
     }
 
     const addOrRemoveGoal = (goal: string) => {
@@ -65,7 +78,7 @@ const FifthStep = () => {
                             selectedElts={goals} id="5" />
                     </div>
                     <div className="flex justify-around w-5/6">
-                        <Link href={"/become/organizer/second-step"} className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white transition text-center duration-300 w-2/6 ">Retour</Link>
+                        <Link href={"/become/organizer/fourth-step"} className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white transition text-center duration-300 w-2/6 ">Retour</Link>
                         <button
                             disabled={goals.length == 0}
                             onClick={() => handleSubmit()}

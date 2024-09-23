@@ -26,14 +26,14 @@ export const links = [
   {
     title: "Organisateur",
     icon: Calendar,
-    link: "#",
-    accessibleBy: "organizer",
+    link: "/become/organizer",
+    accessibleBy: "user only",
   },
   {
     title: "Communicateur",
     icon: Users,
     link: "#",
-    accessibleBy: "influencer",
+    accessibleBy: "user only",
   },
   { title: "Créer", icon: PlusCircle, link: "#", accessibleBy: "organizer" },
   { title: "Favoris", icon: Heart, link: "#", accessibleBy: "user" },

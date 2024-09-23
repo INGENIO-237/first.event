@@ -12,7 +12,7 @@ const BecomeOrganizer = () => {
             <div className="grow md:w-1/2 px-5 flex pt-20 space-y-5 flex-col justify-around md:items-center">
                 <div className="md:w-5/6 flex flex-col justify-between py-9 h-1/2 space-y-5">
                     <h1 className="text-first_violet text-3xl font-bold">Bienvenue dans notre communauté d'organisateurs !</h1>
-                    <span className="text-sm text-[#484848]">Voici quelques questions qui peuvent nous aider à comprendre comment nous pouvons vous promouvoir vos evenements.</span>
+                    <span className="text-sm text-[#484848]">Voici quelques questions qui peuvent nous aider à comprendre comment nous pouvons promouvoir vos evenements.</span>
 
                     <Link href={'/become/organizer/first-step'} className="bg-first_orange text-white rounded py-2 text-center w-2/6 ">Commencer</Link>
                 </div>

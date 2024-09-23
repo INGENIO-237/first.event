@@ -28,14 +28,14 @@ const NavBar: React.FC<NavBarProps> = ({
 }) => {
   const [internalSearchQuery, setInternalSearchQuery] = useState<string>('');
   const [location, setLocation] = useState<string>('Montréal');
-  const [status, setStatus] = useState<string>('organizer');
+  const [status, setStatus] = useState<string>('user');
   const ticketNumber = 1;
 
   const navLinks = useMemo(() => links, []);
   const dropdownsLinks = useMemo(() => dropdownLinks, []);
   const filteredLinks = useMemo(() =>
     navLinks.filter(link =>
-      link.accessibleBy === status ||
+      link.accessibleBy === status || (status=="user" && link.accessibleBy =="user only" ) ||
       ((status === 'influencer' || status === 'organizer') && link.accessibleBy === 'user')
     ),
     [navLinks, status]);

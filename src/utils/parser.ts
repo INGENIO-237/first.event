@@ -1,3 +1,4 @@
+import { SelectedInterest } from "@/app/(config-account)/setup-account/interests/page";
 import {
   AdressValidationSchema,
   GeneralInfoSchema,
@@ -39,8 +40,8 @@ export const parseAddress = (data: addressDataType) => {
     },
   };
 };
+
 export const ParseGeneralData = (data: GeneralInfo) => {
-  // TODO : send the data to the API in formData
   const formData = new FormData();
   formData.append("firstname", data.firstname);
   formData.append("lastname", data.lastname);
@@ -49,4 +50,20 @@ export const ParseGeneralData = (data: GeneralInfo) => {
   }
   formData.append("phone.mobile", data.mobile_phone_number);
   formData.append("phone.home", data.fix_phone_number);
+
+  return formData;
 };
+
+export const ParseOrganizerData = (exp: string, pastTeam: string, participation: string, targetYear: string, goals: string[]) => {
+  return {
+    experience: exp,
+    pastTeam: pastTeam,
+    participation: participation,
+    targetYearEvent: targetYear,
+    goals: goals,
+  };
+}
+
+export const parseInterestToRetrieveOrganizers = (interests: SelectedInterest) =>{
+  return 
+}

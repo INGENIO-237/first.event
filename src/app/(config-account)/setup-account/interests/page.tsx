@@ -8,7 +8,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-interface SelectedInterest {
+export interface SelectedInterest {
   interest: string;
   tags: Array<string>;
 }
@@ -71,6 +71,7 @@ const SecondStep = () => {
     //store interests
     localStorage.setItem("interests", JSON.stringify(interests));
     console.log("Selected interests:", interests);
+    //Select only the interests name and pace them in the payload
     toast.success("OK");
     // TODO: Add the API logic here
   };

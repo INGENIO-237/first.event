@@ -39,10 +39,10 @@ const fourthStep = () => {
                         <ExpandRadio id="two" label={"D'ampleur moyenne et animés (20-100)"} checked={participationEvaluation == "D'ampleur moyenne et animés (20-100)"} onClick={() => setParticipationEvaluation("D'ampleur moyenne et animés (20-100)")} />
                         <ExpandRadio id="three" label={"De grande ampleur et festifs (100-500)"} checked={participationEvaluation == "De grande ampleur et festifs (100-500)"} onClick={() => setParticipationEvaluation("De grande ampleur et festifs (100-500)")} />
                         <ExpandRadio id="four" label={"De grande ampleur et attractifs (500+)"} checked={participationEvaluation == "De grande ampleur et attractifs (500+)"} onClick={() => setParticipationEvaluation("De grande ampleur et attractifs (500+)")} />
-                        <ExpandRadio id="four" label={"Je ne sais pas encore"} checked={participationEvaluation == "Je ne sais pas encore"} onClick={() => setParticipationEvaluation("Je ne sais pas encore")} />
+                        <ExpandRadio id="five" label={"Je ne sais pas encore"} checked={participationEvaluation == "Je ne sais pas encore"} onClick={() => setParticipationEvaluation("Je ne sais pas encore")} />
                     </div>
                     <div className="flex justify-around w-5/6">
-                        <Link href={"/become/organizer/second-step"} className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white transition text-center duration-300 w-2/6 ">Retour</Link>
+                        <Link href={"/become/organizer/third-step"} className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white transition text-center duration-300 w-2/6 ">Retour</Link>
                         <button
                             disabled={participationEvaluation == ""}
                             onClick={() => handleSubmit()}

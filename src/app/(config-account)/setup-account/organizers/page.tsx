@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import CategorySkeleton from "./_components/CategorySkeleton";
 import AutoLayout from "./_components/AutoLayout";
+import { useRouter } from "next/navigation";
 
 interface ListItem {
   _id: number;
@@ -30,6 +31,7 @@ const ThirdStep = () => {
   const [categoryData, setCategoryData] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const router = useRouter();
 
   const initialOrganizers: Category[] = [
     {
@@ -154,6 +156,12 @@ const ThirdStep = () => {
     } else {
       toast.error("Aucun organisateur suivi");
     }
+
+    let nextLink = localStorage.getItem('redirect-after-setup-account')
+    if (nextLink) {
+      router.push(nextLink)
+    }
+    router.push('/')
   };
 
   const renderCategoryList = () => {
@@ -189,11 +197,10 @@ const ThirdStep = () => {
                 <div className="flex flex-col items-end">
                   <button
                     onClick={() => handleDelete(categoryIndex, item._id)}
-                    className={`text-xl hover:scale-110 transition duration-300 hover:text-gray-700 ${
-                      category.items.length <= 3
+                    className={`text-xl hover:scale-110 transition duration-300 hover:text-gray-700 ${category.items.length <= 3
                         ? "opacity-50 cursor-not-allowed"
                         : ""
-                    }`}
+                      }`}
                     disabled={category.items.length <= 3}
                   >
                     ×
@@ -201,11 +208,10 @@ const ThirdStep = () => {
                   <motion.button
                     onClick={() => handleFollowToggle(categoryIndex, item._id)}
                     whileTap={{ scale: 0.9 }}
-                    className={`p-2 lg:px-4 lg:py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
-                      item.isFollowed
+                    className={`p-2 lg:px-4 lg:py-2 rounded-full text-sm font-medium transition-colors duration-300 ${item.isFollowed
                         ? "bg-first_violet text-white hover:bg-indigo-700"
                         : "bg-orange-500 text-white hover:bg-orange-600"
-                    }`}
+                      }`}
                   >
                     <span className="hidden lg:inline">
                       {item.isFollowed ? "Suivi(e)" : "Suivre"}
