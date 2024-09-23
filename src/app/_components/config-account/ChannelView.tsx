@@ -10,7 +10,7 @@ interface Props {
     close: ()=> void;
 }
 
-const ChannelView = ({ name, followers, link }: Props) => {
+const ChannelView = ({ name, followers, link, close }: Props) => {
 
     return (
         <div
@@ -25,7 +25,7 @@ const ChannelView = ({ name, followers, link }: Props) => {
                 </div>
             </div>
             <div className="flex flex-row items-center justify-end border border-red-500 rounded-full size-5" onClick={() => close()}>
-                <button className="text-red-500 " onClick={() => close()}><X size={10} /></button>
+                <button className="text-red-500 " onClick={close}><X size={18} /></button>
             </div>
 
         </div>

@@ -55,24 +55,24 @@ const FourthStep = () => {
 
     }
 
-    const addChannel = (goal: ChannelData) => {
-        setChannels((prevGoals) => [...prevGoals, goal]);
+    const addChannel = (channel: ChannelData) => {
+        setChannels((prevChannels) => [...prevChannels, channel]);
     }
 
-    const removeChannel = (goal: ChannelData) => {
-        setChannels((prevGoals) => [...prevGoals.filter(item => {
-            return (item.name !== goal.name)
+    const removeChannel = (channelIndex: number) => {
+        setChannels((prevChannels) => [...prevChannels.filter((item, index) => {
+            return (index !== channelIndex)
         })]);
     }
 
     return (
-        <div className="grow flex flex-col md:flex-row w-full h-screen">
-            <div className="grow md:w-1/2 px-5 flex pt-20 pb-5 overflow-scroll no-scrollbar space-y-5 flex-col justify-around md:items-center">
+        <div className="grow flex flex-col md:flex-row w-full md:h-screen">
+            <div className="grow md:w-1/2 px-5 flex pt-20 pb-5 md:overflow-scroll md:no-scrollbar space-y-5 flex-col justify-around md:items-center">
                 <div className="md:w-5/6 flex flex-col justify-between items pt-4  h-full space-y-5">
                     <div className="space-y-4">
                         <div className="w-full space-y-4">
                             <h1 className="text-3xl font-extrabold text-first_violet">
-                                Quels sont vos canaux de communication et le nombre d'abonnés ?
+                                Quels sont vos canaux de communication et le nombre d&apos;abonnés ?
                             </h1>
                             <div className="w-full">
                                 <ProgressBar limit={4} step={4} />
@@ -114,7 +114,7 @@ const FourthStep = () => {
                             <div className="flex flex-col gap-2">
                                 {channels.map((channel, index) => (
                                     <>
-                                        <ChannelView key={generateKey()} name={channel.name} followers={channel.followers} link={channel.link} close={() => removeChannel(channel)} />
+                                        <ChannelView key={generateKey()} name={channel.name} followers={channel.followers} link={channel.link} close={() => removeChannel(index)} />
                                     </>
                                 ))}
                             </div>

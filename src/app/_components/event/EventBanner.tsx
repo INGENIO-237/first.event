@@ -2,7 +2,7 @@ import { Heart, Share2 } from "lucide-react"
 import Image, { StaticImageData } from "next/image"
 
 interface EventBannerProps {
-    image: string|StaticImageData,
+    image: string | StaticImageData,
     title: string,
     place: string,
     date: string,
@@ -29,10 +29,10 @@ const EventBanner = ({ image, title, place, date, time, category }: EventBannerP
                 {/* Actions */}
                 <div className="flex gap-2">
                     <button className="shadow-card hover:text-red-500 p-2 rounded-full">
-                    <Heart className="" />
+                        <Heart className="" />
                     </button>
                     <button className="shadow-card  p-2 rounded-full">
-                    <Share2 />
+                        <Share2 />
                     </button>
                 </div>
             </div>
