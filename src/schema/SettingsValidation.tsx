@@ -152,25 +152,3 @@ export const AdressValidationSchema = z
     return !(data.province == '' || data.province.trim() == '')
   }, { message: "Province obligatoire", path: ["province"] });
 
-export const ChannelSchema = z.object({
-  name: z.string({
-    required_error: "Le nom est obligatoire",
-    invalid_type_error: "Le nom est obligatoire",
-  }),
-  followers: z.string({
-    required_error: "Le nombre d'abonnés est obligatoire",
-    invalid_type_error: "Le nombre d'abonnés est obligatoire",
-  }),
-  link: z.string({
-    required_error: "Le lien est obligatoire",
-    invalid_type_error: "Le lien est obligatoire",
-  }),
-}).refine((data) => {
-  return !(data.name == '' || data.name.trim() == '')
-}, { message: "Le nom est obligatoire", path: ["name"] })
-  .refine((data) => {
-    return !(data.followers == '' || data.followers.trim() == '')
-  }, { message: "Le nombre d'abonnés est obligatoire", path: ["followers"] })
-  .refine((data) => {
-    return !(data.link == '' || data.link.trim() == '')
-  }, { message: "Le lien est obligatoire", path: ["link"] });

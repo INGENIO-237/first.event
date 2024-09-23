@@ -4,7 +4,7 @@ import ChannelView from "@/app/_components/config-account/ChannelView";
 import ExpandInput from "@/app/_components/config-account/ExpandInput";
 import ProgressBar from "@/app/_components/config-account/ProgressBar";
 import { cn, generateKey } from "@/lib/utils";
-import { ChannelSchema } from "@/schema/SettingsValidation";
+import { ChannelSchema } from "@/schema/ConfigAccountValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check } from "lucide-react";
 import Image from "next/image";
@@ -22,9 +22,6 @@ type ChannelData = z.infer<typeof ChannelSchema>;
 
 const FourthStep = () => {
     const [channels, setChannels] = useState<ChannelData[]>([]);
-    const [name, setName] = useState<string>('')
-    const [followers, setFollowers] = useState<number>(0)
-    const [link, setLink] = useState<string>('')
     const [inputValues, setInputValues] = useState<{ name: string; followers: number; link: string }>({
         name: '',
         followers: 0,
@@ -46,17 +43,31 @@ const FourthStep = () => {
 
     const handleSubmitForm = (d: ChannelData) => {
         addChannel(d)
-        toast.success("Account set successfully");
         setInputValues({ name: '', followers: 0, link: '' });
         // router.push("/");
     }
 
     const handleSubmit = () => {
-
+        const experience = localStorage.getItem("experience")
+        const approximatePeople = localStorage.getItem("approximatePeople")
+        const pastEvent = localStorage.getItem("pastEvent");
+        const payload = {
+            "experience": experience,
+            "pastEvent": pastEvent,
+            "approximatePeople": approximatePeople,
+            "channels": channels
+        }
+        // TODO: Add the API logic here
+        console.log(payload);
+        toast.success("Account set successfully");
     }
 
     const addChannel = (channel: ChannelData) => {
         setChannels((prevChannels) => [...prevChannels, channel]);
+        setInputValues({ name: '', followers: 0, link: '' });
+        setValue('name', '');
+        setValue('followers', '0');
+        setValue('link', '');
     }
 
     const removeChannel = (channelIndex: number) => {
@@ -107,7 +118,7 @@ const FourthStep = () => {
                                             error={errors.link?.message}
                                         />
                                         <button type="submit"
-                                            className={cn("rounded-full w-7 h-7 flex items-center border border-first_violet  text-center text-first_violet")}><Check /></button>
+                                            className={cn("rounded-full w-7 h-7 flex items-center border border-first_violet  text-center text-first_violet self-start")}><Check /></button>
                                     </div>
                                 </div>
                             </form>

@@ -89,7 +89,7 @@ const SecondStep = () => {
               vos interêts.
             </span>
             <div className="w-full">
-              <ProgressBar limit={3} step={2} />
+              <ProgressBar limit={2} />
             </div>
           </div>
           <div className="hidden md:flex flex-row justify-between w-full">

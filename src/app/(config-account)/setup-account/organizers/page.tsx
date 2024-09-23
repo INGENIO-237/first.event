@@ -244,7 +244,7 @@ const ThirdStep = () => {
               pour être averti lorsqu&apos;ils ajoutent un nouvel événement
             </span>
             <div className="w-full">
-              <ProgressBar limit={3} step={3} />
+              <ProgressBar limit={2} step={2} />
             </div>
             <div className="w-full flex items-center justify-between">
               <Checkbox
