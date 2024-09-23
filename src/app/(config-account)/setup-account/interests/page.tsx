@@ -93,12 +93,6 @@ const SecondStep = () => {
             </div>
           </div>
           <div className="hidden md:flex flex-row justify-between w-full">
-            <Link
-              href={"/setup-account"}
-              className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white"
-            >
-              Précedent
-            </Link>
             <button
               onClick={() => handleSubmit()}
               className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white "

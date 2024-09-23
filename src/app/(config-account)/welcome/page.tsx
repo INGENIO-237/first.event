@@ -28,7 +28,7 @@ const Welcome = () => {
         </div>
         <div className="flex justify-end items-end w-full">
           <Link
-            href={"/setup-account"}
+            href={"/setup-account/interests"}
             className="text-first_gray border  border-first_gray  p-3 hover:bg-first_orange rounded hover:text-white  transition duration-300 text-wrap "
           >
             Dites nous en plus sur vous
