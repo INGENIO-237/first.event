@@ -1,39 +1,38 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { IconType } from "react-icons";
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
 import { LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface NavBarLinkProps {
-  icon: IconType | LucideIcon,
-  text: string,
-  link: string,
-  index: number,
-  size?: 'default' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+  icon: IconType | LucideIcon;
+  text: string;
+  link: string;
+  index: number;
+  size?: "default" | "sm" | "md" | "lg" | "xl" | "2xl";
 }
 
 const NavBarLink = ({ icon, text, link, index, size }: NavBarLinkProps) => {
   const Icon = icon;
   const linkVariants = {
     closed: { opacity: 0, y: -20 },
-    open: { opacity: 1, y: 0 }
+    open: { opacity: 1, y: 0 },
   };
   const getSize = () => {
     switch (size) {
-      case 'sm':
-        return 'text-sm';
-      case 'md':
-        return 'text-md';
-      case 'lg':
-        return 'text-lg';
-      case 'xl':
-        return 'text-xl';
-      case '2xl':
-        return 'text-2xl';
+      case "sm":
+        return "text-sm";
+      case "md":
+        return "text-md";
+      case "lg":
+        return "text-lg";
+      case "xl":
+        return "text-xl";
+      case "2xl":
+        return "text-2xl";
       default:
-        return 'text-md';
+        return "text-md";
     }
   };
 
@@ -49,6 +48,6 @@ const NavBarLink = ({ icon, text, link, index, size }: NavBarLinkProps) => {
       </Link>
     </motion.li>
   );
-}
+};
 
 export default NavBarLink;
