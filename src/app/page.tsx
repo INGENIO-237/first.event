@@ -2,12 +2,29 @@
 import React, { useState, useCallback } from "react";
 import GoogleMapReact from "google-map-react";
 import Image from "next/image";
-import MobNavBar from "./components/profile/MobNavBar";
-import NavBar from "./components/profile/NavBar";
+import MobNavBar from "./_components/profile/MobNavBar";
+import NavBar from "./_components/profile/NavBar";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { interests } from "@/utils/interests";
-import { MapPin, Search } from "lucide-react";
+import {
+  CircleArrowLeft,
+  CircleArrowRight,
+  Heart,
+  MapPin,
+  Search,
+  Share2,
+} from "lucide-react";
+import MyLocation from "@/components/ui/svg/MyLocation";
+import Link from "next/link";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface LatLng {
   lat: number;
@@ -41,11 +58,6 @@ export default function Home() {
   if (!API_KEY) {
     return <div>Erreur : clé API non configurée.</div>;
   }
-
-  const handleApiLoaded = ({ map, maps }: { map: any; maps: any }) => {
-    setIsLoading(false);
-    console.log("Map loaded successfully");
-  };
   const getUserLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -68,6 +80,11 @@ export default function Home() {
       );
     }
   }, []);
+
+  const handleApiLoaded = ({ map, maps }: { map: any; maps: any }) => {
+    setIsLoading(false);
+    console.log("Map loaded successfully");
+  };
   const handleZoomIn = () => {
     setZoom((prevZoom) => Math.min(prevZoom + 1, 21));
   };
@@ -76,6 +93,99 @@ export default function Home() {
     setZoom((prevZoom) => Math.max(prevZoom - 1, 1));
   };
 
+  const ordnung = [
+    "Pour toi",
+    "En ligne",
+    "Aujourd'hui",
+    "Cette fin de semaine",
+    "Gratuit",
+    "Musique",
+    "Nourriture et boissons",
+    "Caritative et courses",
+  ];
+  type topTendanceInterface = {
+    id: number;
+    title: string;
+    day: string;
+    hour: string;
+    price: "Gratuit" | number;
+    ort: string;
+    image: string;
+  };
+  const topTendances: topTendanceInterface[] = [
+    {
+      id: 1,
+      title: "Pour toi",
+      day: "Lundi",
+      hour: "17h00",
+      price: "Gratuit",
+      ort: "Douala",
+      image: "/assets/images/auth-event.png",
+    },
+    {
+      id: 2,
+      title: "Pour toi",
+      day: "Lundi",
+      hour: "17h00",
+      price: 120,
+      ort: "Douala",
+      image: "/assets/images/auth-experience.png",
+    },
+    {
+      id: 2,
+      title: "Pour toi",
+      day: "Lundi",
+      hour: "17h00",
+      price: 120,
+      ort: "Douala",
+      image: "/assets/images/auth-experience.png",
+    },
+    {
+      id: 2,
+      title: "Pour toi",
+      day: "Lundi",
+      hour: "17h00",
+      price: 120,
+      ort: "Douala",
+      image: "/assets/images/auth-experience.png",
+    },
+    {
+      id: 2,
+      title: "Pour toi",
+      day: "Lundi",
+      hour: "17h00",
+      price: 120,
+      ort: "Douala",
+      image: "/assets/images/auth-experience.png",
+    },
+    {
+      id: 2,
+      title: "Pour toi",
+      day: "Lundi",
+      hour: "17h00",
+      price: 120,
+      ort: "Douala",
+      image: "/assets/images/auth-experience.png",
+    },
+    {
+      id: 2,
+      title: "Pour toi",
+      day: "Lundi",
+      hour: "17h00",
+      price: 120,
+      ort: "Douala",
+      image: "/assets/images/auth-experience.png",
+    },
+    {
+      id: 2,
+      title: "Pour toi",
+      day: "Lundi",
+      hour: "17h00",
+      price: 120,
+      ort: "Douala",
+      image: "/assets/images/auth-experience.png",
+    },
+  ];
   return (
     <>
       <NavBar />
@@ -115,17 +225,12 @@ export default function Home() {
               />
             </GoogleMapReact>
           </div>
-          <button
+          <Button
             onClick={getUserLocation}
             className="absolute lg:bottom-32 lg:right-12 right-4 bottom-4 bg-gradient-to-r from-[#E35D07] to-[#F4AA72] text-white p-2 rounded-full shadow-lg z-10"
           >
-            <Image
-              src="/assets/icons/my_location.svg"
-              width={24}
-              height={24}
-              alt="Localiser"
-            />
-          </button>
+            <MyLocation width={24} height={24} />
+          </Button>
           <div className="absolute lg:bottom-32 lg:left-12 left-4 bottom-4 flex gap-x-2">
             <button
               disabled={zoom === 21}
@@ -191,12 +296,105 @@ export default function Home() {
                 />
               </div>
             </div>
-            <div className='text-[#9F9D9D] '>Parcourir les évènements dans : <span className="text-[#006FFC] text-bold">Montreal</span></div>
-            <div>filtre</div>
+            <div className="text-[#9F9D9D] ">
+              Parcourir les évènements dans :{" "}
+              <span className="text-[#006FFC] text-bold">Montreal</span>
+            </div>
+            <div className="flex gap-x-4 overflow-x-auto no-scrollbar">
+              <span className="text-first_orange text-nowrap cursor-pointer">
+                Tous
+              </span>
+              {ordnung.map((data, index) => {
+                return (
+                  <span
+                    key={index}
+                    className="text-first_gray text-nowrap cursor-pointer"
+                  >
+                    {data}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
-      <div className="bg-blue-600 w-full h-screen">test</div>
+      <div className="bg-white w-full lg:mt-48 mt-16 px-4 py-3">
+        <Carousel className="w-full">
+          <div className="flex md:flex-row flex-col gap-x-2 md:gap-x-0 justify-between mb-4">
+            <h2 className="font-bold text-xl text-start">
+              Top de tendance à Montréal
+            </h2>
+            <div className="flex gap-x-2  justify-between md:justify-normal">
+              <Link
+                href={"/"}
+                className="text-[#00BBFC]/90 hover:text-[#00BBFC] "
+              >
+                Tout voir
+              </Link>
+              <div className="flex gap-2">
+                <CarouselPrevious className="text-[#00BBFC]/90 hover:text-[#00BBFC] size-[24px]" />
+                <CarouselNext className="text-[#00BBFC]/90 hover:text-[#00BBFC] size-[24px]" />
+              </div>
+            </div>
+          </div>
+
+          <CarouselContent className="-ml-1">
+            {topTendances.map((topTendance, index) => (
+              <CarouselItem
+                key={index}
+                className="pl-1 md:basis-1/3 lg:basis-1/4 basis-1/2"
+              >
+                <div className="p-1">
+                  <Card className="w-full max-w-xs">
+                    <div className="relative group">
+                      <Image
+                        src={topTendance.image}
+                        width="400"
+                        height="250"
+                        alt={topTendance.title}
+                        className="aspect-[1.6] rounded-t-lg"
+                      />
+                      <div className="absolute right-2 bottom-2 flex gap-x-2 opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
+                        <button title="aimer le top tendance">
+                          <Heart className="hover:text-first_orange" onClick={() => console.log("like")} />
+                        </button>
+                        <button title="partager le top tendance">
+                          <Share2 className="hover:text-[#00BBFC]" onClick={() => console.log("share")} />
+                        </button>
+                      </div>
+                    </div>
+                    <CardHeader className="">
+                      <CardTitle className="text-base text-[#6C6B6B] font-bold">
+                        {topTendance.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-4">
+                      <div>
+                        <span className="text-[#9F9D9D]">
+                          {topTendance.day}: {topTendance.hour}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-[#006FFC]">
+                          {topTendance.price == "Gratuit"
+                            ? "Gratuit"
+                            : topTendance.price + "$"}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-[#9F9D9D] flex gap-x-2">
+                          <MapPin size={24} />
+                          {topTendance.ort}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
     </>
   );
 }

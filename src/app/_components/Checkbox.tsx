@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import { Proportions } from 'lucide-react';
 import React from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 type CheckboxProps = {
   id?: string;
@@ -10,7 +11,8 @@ type CheckboxProps = {
   primaryColor?: string;
   inputBorderColor?: string;
   className?: string;
-  size?: number
+  size?: number,
+  // register? : UseFormRegisterReturn,
 }
 
 const Checkbox = ({ id, checked, onChange, label, className, primaryColor = 'text-blue-500', inputBorderColor = 'border-gray-300', size = 6 }: CheckboxProps) => {
@@ -23,6 +25,7 @@ const Checkbox = ({ id, checked, onChange, label, className, primaryColor = 'tex
           className="sr-only"
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
+          // {...register}
         />
         <label
           htmlFor={id}
