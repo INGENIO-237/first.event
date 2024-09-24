@@ -60,6 +60,7 @@ const FourthStep = () => {
         // TODO: Add the API logic here
         console.log(payload);
         toast.success("Account set successfully");
+        router.push('/dashboard/influencer');
     }
 
     const addChannel = (channel: ChannelData) => {

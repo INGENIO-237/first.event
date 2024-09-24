@@ -1,7 +1,4 @@
 import {
-  Search,
-  MapPin,
-  ChevronDown,
   Store,
   Calendar,
   Users,
@@ -9,7 +6,23 @@ import {
   Heart,
   Ticket,
   ShoppingCart,
+  House,
+  CalendarClock,
+  Megaphone,
+  DollarSign,
+  LucideProps,
+  LucideIcon,
 } from "lucide-react";
+import React, { ForwardRefExoticComponent } from "react";
+import { IconType } from "react-icons";
+
+export interface linksType {
+  title: string;
+  icon: IconType| LucideIcon;
+  link: string;
+  accessibleBy?: string;
+  subLinks?: string[];
+}
 
 const ticketNumber = 1;
 
@@ -21,7 +34,7 @@ export const dropdownLinks = [
   { title: "Historique", link: "#" },
   { title: "Se déconnecter", link: "#" },
 ];
-export const links = [
+export const links: linksType[] = [
   { title: "Boutique", icon: Store, link: "#", accessibleBy: "user" },
   {
     title: "Organisateur",
@@ -40,3 +53,15 @@ export const links = [
   { title: "Tickets", icon: Ticket, link: "#", accessibleBy: "influencer" },
   { title: "Panier", icon: ShoppingCart, link: "#", accessibleBy: "user" },
 ];
+
+export const influencersDashboardLinks: linksType[] = [
+  { title: "Acceuil", icon: House, link: "/dashboard",   },
+  { title: "Mes codes promos", icon: CalendarClock, link: "/dashboard/promo-codes", },
+  // { title: "Marketing", icon: Megaphone, link: "/dashboard/marketing", },
+  { title: "Finances", icon: DollarSign, link: "/dashboard/finance", },
+  // { title: "Finances", icon: DollarSign, link: "/dashboard/finance", },
+];
+
+
+
+export const organizerDashboardLinks: linksType[] = [];

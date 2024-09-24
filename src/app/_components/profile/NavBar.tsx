@@ -29,7 +29,6 @@ const NavBar: React.FC<NavBarProps> = ({
   const [internalSearchQuery, setInternalSearchQuery] = useState<string>('');
   const [location, setLocation] = useState<string>('Montréal');
   const [status, setStatus] = useState<string>('user');
-  const ticketNumber = 1;
 
   const navLinks = useMemo(() => links, []);
   const dropdownsLinks = useMemo(() => dropdownLinks, []);

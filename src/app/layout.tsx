@@ -37,7 +37,7 @@ export default function RootLayout({
         className={cn(
           poppins.variable,
           roboto_mono.variable,
-          "overflow-x-hidden mx-auto font-sans h-full"
+          "overflow-x-hidden mx-auto font-sans h-full min-h-screen"
         )}
       >
         <StripeProvider>

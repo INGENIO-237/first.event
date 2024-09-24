@@ -9,7 +9,7 @@ interface Props {
     link: string;
     close: ()=> void;
 }
-
+    
 const ChannelView = ({ name, followers, link, close }: Props) => {
 
     return (
