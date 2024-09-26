@@ -1,35 +1,36 @@
-'use client';
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import default_profile from '/public/assets/images/default-profile.png';
-import logo from '/public/assets/logo.png';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu";
+import default_profile from "/public/assets/images/default-profile.png";
+import logo from "/public/assets/logo.png";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
 import DropdownItem from "./DropdownItem";
-import { FaBars } from 'react-icons/fa';
-import { FaX } from "react-icons/fa6";
 import NavBarLink from "./NavBarLink";
 import { cn } from "@/lib/utils";
 import { dropdownLinks, links } from "@/utils/links";
 import { Menu, Minimize2 } from "lucide-react";
 
 const MobNavBar: React.FC = () => {
-    const [status, setStatus] = useState('user');
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [status] = useState("user");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const toggleMenu = () => setIsOpen(!isOpen);
 
-    const toggleMenu = () => setIsOpen(!isOpen);
+  const menuVariants = {
+    closed: { y: "-100%" },
+    open: { y: 0 },
+  };
 
-    const menuVariants = {
-        closed: { y: "-100%" },
-        open: { y: 0 }
-    };
-
-    const linkVariants = {
-        closed: { opacity: 0, y: -20 },
-        open: { opacity: 1, y: 0 }
-    };
+  const linkVariants = {
+    closed: { opacity: 0, y: -20 },
+    open: { opacity: 1, y: 0 },
+  };
 
     return (
         <>

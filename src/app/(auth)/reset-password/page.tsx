@@ -27,7 +27,6 @@ const ResetPassword = () => {
   const [timer, setTimer] = useState<number>(59); // Initialisation à 60 secondes
   const [disabled, setDisabled] = useState<boolean>(true); // Bouton désactivé au départ
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string[]>([]);
   const {
     register,
     handleSubmit,

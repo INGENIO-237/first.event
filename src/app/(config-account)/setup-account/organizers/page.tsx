@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+
 import Checkbox from "@/app/_components/Checkbox";
 import ProgressBar from "@/app/_components/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
