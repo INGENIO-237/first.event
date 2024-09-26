@@ -15,20 +15,13 @@ import logo from "/public/assets/logo.png";
 import default_profile from "/public/assets/images/default-profile.png";
 import { links, dropdownLinks } from "@/utils/links";
 
-interface NavBarProps {
-  onSearch?: (query: string) => void;
-  searchQuery?: string;
-  onLocationChange?: (location: string) => void;
-}
+const NavBar: React.FC = () => {
+  const [status, setStatus] = useState<string>('organizer');
+  const [eventQuery, setEventQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<{ id: string, description: string }[]>([]);
 
-const NavBar: React.FC<NavBarProps> = ({
-  onSearch,
-  searchQuery: externalSearchQuery,
-  onLocationChange,
-}) => {
-  const [internalSearchQuery, setInternalSearchQuery] = useState<string>('');
-  const [location, setLocation] = useState<string>('Montréal');
-  const [status, setStatus] = useState<string>('user');
+  const ticketNumber = 1;
 
   const navLinks = useMemo(() => links, []);
   const dropdownsLinks = useMemo(() => dropdownLinks, []);
@@ -43,33 +36,38 @@ const NavBar: React.FC<NavBarProps> = ({
     [navLinks, status]
   );
 
-  const searchQuery =
-    externalSearchQuery !== undefined
-      ? externalSearchQuery
-      : internalSearchQuery;
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
 
-  const handleSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value;
-      if (onSearch) {
-        onSearch(newValue);
-      } else {
-        setInternalSearchQuery(newValue);
-      }
-    },
-    [onSearch]
-  );
+    if (window.google) {
+      const service = new window.google.maps.places.AutocompleteService();
+      service.getPlacePredictions({ input: query }, (predictions, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
+          const suggestions = predictions.map((prediction) => ({
+            id: prediction.place_id,
+            description: prediction.description
+          }));
 
-  const handleLocationChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newLocation = e.target.value;
-      setLocation(newLocation);
-      if (onLocationChange) {
-        onLocationChange(newLocation);
-      }
-    },
-    [onLocationChange]
-  );
+          setSearchResults(suggestions);
+        } else {
+          setSearchResults([]);
+        }
+      });
+    }
+  }, []);
+
+  const handlePlaceClick = useCallback((placeId: string) => {
+    if (window.google) {
+      const service = new window.google.maps.places.PlacesService(document.createElement('div'));
+      service.getDetails({ placeId }, (place, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK && place) {
+          setSearchQuery(place.name || '');
+          setSearchResults([]);
+
+        }
+      });
+    }
+  }, []);
 
   return (
     <motion.nav
@@ -94,22 +92,24 @@ const NavBar: React.FC<NavBarProps> = ({
                 placeholder="Rechercher un événement..."
                 className="w-full outline-none bg-transparent text-gray-700"
                 aria-label="Rechercher"
-                value={searchQuery}
-                onChange={handleSearchChange}
+                value={eventQuery}
+                onChange={(e) => { setEventQuery(e.target.value) }}
               />
             </div>
             <div className="flex items-center border-l border-gray-200 px-4">
               <MapPin className="text-orange-500 mr-2" />
               <input
-                type="text"
-                value={location}
-                onChange={handleLocationChange}
+                type="search"
+                placeholder='Rechercher'
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
                 className="w-full outline-none bg-transparent text-gray-700"
               />
             </div>
           </div>
+          
           {/* Navigation et profil utilisateur */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center">
             {filteredLinks.map((link, index) => (
               <NavBarLink
                 key={index}
@@ -146,6 +146,21 @@ const NavBar: React.FC<NavBarProps> = ({
           </div>
         </div>
       </div>
+      
+      {/* Résultats de recherche */}
+      {searchQuery && searchResults.length > 0 && (
+        <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-full max-w-md bg-white shadow-lg rounded-md overflow-hidden z-10">
+          {searchResults.map((result) => (
+            <div
+              key={result.id}
+              className="p-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => handlePlaceClick(result.id)}
+            >
+              {result.description}
+            </div>
+          ))}
+        </div>
+      )}
     </motion.nav>
   );
 };
