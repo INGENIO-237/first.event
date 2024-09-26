@@ -16,7 +16,7 @@ const EventBanner = ({ image, title, place, date, time, category }: EventBannerP
         <div className="rounded-lg  flex items-center flex-row w-full p-4 bg-white gap-2 duration-500 h-24  hover:scale-[1.01] hover:shadow-[-10px_-10px_30px_4px_rgba(0,0,0,0.1),_10px_10px_30px_4px_rgba(45,78,25,0.15)] transition-all">
             <div className="w-1/4 h-full">
                 {/* Image */}
-                <Image src={image} alt={title} width={200} height={90} className="rounded-lg h-16 w-auto object-cover " />
+                <Image src={image} priority alt={title} width={200} height={90} className="rounded-lg h-16 w-auto object-cover " />
             </div>
             <div className="flex flex-col  w-2/4">
                 {/* Infos */}

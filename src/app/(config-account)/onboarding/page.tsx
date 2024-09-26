@@ -30,7 +30,7 @@ const Onboarding = () => {
   return (
     <div className="m-auto pt-10 flex flex-col justify-center items-center">
       <div className="">
-        <Image src={hand} alt="hand" width={90} height={30} />
+        <Image src={hand} priority alt="hand" width={90} height={30} />
       </div>
       <div className="p-4 md:p-8 flex items-center text-center justify-start flex-col">
         <h1 className="text-3xl font md:text-6xl font-bold text-first_violet">

@@ -33,10 +33,10 @@ const MobNavBar: React.FC = () => {
 
     return (
         <>
-            <nav className='lg:hidden fixed top-0 left-0 right-0 bg-gradient-to-b border-current from-[#FEFDFF]/90 via-[#FEFDFF]/60 to-[#FEFDFF]/30 z-50'>
+            <nav className='lg:hidden fixed top-0 left-0 right-0 bg-gradient-to-b border-current from-[#FEFDFF]/90 via-[#FEFDFF]/60 to-[#FEFDFF]/30 z-10'>
                 <div className="flex items-center justify-between p-4">
                     <Link href={'/'}>
-                        <Image src={logo} alt='Logo' width={150} height={37.5} className='w-40 md:w-52' />
+                        <Image priority src={logo} alt='Logo' width={150} height={37.5} className='w-40 md:w-52' />
                     </Link>
                     <div className="flex items-center gap-4">
                         <DropdownMenu>
@@ -45,7 +45,7 @@ const MobNavBar: React.FC = () => {
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
                                 >
-                                    <Image src={default_profile} alt='Profile' width={40} height={40} className='w-10 h-10 rounded-full' />
+                                    <Image src={default_profile} priority alt='Profile' width={40} height={40} className='w-10 h-10 rounded-full' />
                                 </motion.div>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="p-2 bg-white shadow-lg rounded-xl mt-2">

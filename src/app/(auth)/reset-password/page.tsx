@@ -89,6 +89,7 @@ const ResetPassword = () => {
                 width={150}
                 height={37.5}
                 className="mb-6 w-60"
+                priority
               />
             </Link>
           </div>
@@ -194,6 +195,7 @@ const ResetPassword = () => {
           className="w-full flex object-cover justify-center h-screen"
           width={800}
           height={0}
+          priority
         />
       </div>
     </div>

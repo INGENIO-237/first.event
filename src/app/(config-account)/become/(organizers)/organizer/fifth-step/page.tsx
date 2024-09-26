@@ -32,7 +32,7 @@ const FifthStep = () => {
         localStorage.removeItem('targetYearEvent')
         localStorage.removeItem('participation')
         toast.success("Account set successfully");
-        router.push("/");
+        router.push("/dashboard/organizer");
     }
 
     const addOrRemoveGoal = (goal: string) => {
@@ -91,6 +91,7 @@ const FifthStep = () => {
                 <Image
                     src={image}
                     alt="image"
+                    priority
                     className="w-full flex object-cover justify-center h-auto"
                     width={800}
                     height={0}

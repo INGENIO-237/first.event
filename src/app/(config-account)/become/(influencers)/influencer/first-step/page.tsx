@@ -46,6 +46,9 @@ const FirstStep = () => {
                     </div>
                     <div className="flex flex-col w-full gap-2">
                     </div>
+                    <ExpandRadio id="one" label={"Non c'est ma première experience"} checked={experience == "Non c'est ma première experience"} onClick={() => setExperience("Non c'est ma première experience")} />
+                    <ExpandRadio id="two" label={"J'ai un peu d'éxpérience en communication d'événements"} checked={experience == "J'ai un peu d'éxpérience en communication d'événements"} onClick={() => setExperience("J'ai un peu d'éxpérience en communication d'événements")} />
+                    <ExpandRadio id="three" label={"J'ai beaucoup d'experience en communication d'événements"} checked={experience == "J'ai beaucoup d'experience en communication d'événements"} onClick={() => setExperience("J'ai beaucoup d'experience en communication d'événements")} />
                     <div>
                         <button
                             disabled={experience == ''}
@@ -57,6 +60,7 @@ const FirstStep = () => {
             </div>
             <div className="bg-white w-1/2 h-screen min-h-screen hidden md:flex">
                 <Image
+                    priority
                     src={image}
                     alt="image"
                     className="w-full flex object-cover justify-center h-auto"

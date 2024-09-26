@@ -55,10 +55,10 @@ export const links: linksType[] = [
 ];
 
 export const influencersDashboardLinks: linksType[] = [
-  { title: "Acceuil", icon: House, link: "/dashboard",   },
-  { title: "Mes codes promos", icon: CalendarClock, link: "/dashboard/promo-codes", },
+  { title: "Acceuil", icon: House, link: "/dashboard-influencer",   },
+  { title: "Mes codes promos", icon: CalendarClock, link: "/dashboard-influencer/promo-codes", },
   // { title: "Marketing", icon: Megaphone, link: "/dashboard/marketing", },
-  { title: "Finances", icon: DollarSign, link: "/dashboard/finance", },
+  { title: "Finances", icon: DollarSign, link: "/dashboard-influencer/finance", },
   // { title: "Finances", icon: DollarSign, link: "/dashboard/finance", },
 ];
 

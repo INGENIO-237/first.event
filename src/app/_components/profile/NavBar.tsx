@@ -69,7 +69,7 @@ const NavBar: React.FC<NavBarProps> = ({
         <div className="flex items-center justify-between space-x-4">
           {/* Logo */}
           <Link href={'/'}>
-            <Image src={logo} alt='Logo' width={150} height={37.5} className='w-48' />
+            <Image src={logo} alt='Logo' priority width={150} height={37.5} className='w-48' />
           </Link>
 
           {/* Barre de recherche avec localisation */}
@@ -111,6 +111,7 @@ const NavBar: React.FC<NavBarProps> = ({
                     src={default_profile}
                     alt='Profile'
                     width={40}
+                    priority
                     height={40}
                     className='w-full h-full object-cover'
                   />

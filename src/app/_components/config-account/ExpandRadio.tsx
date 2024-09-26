@@ -16,8 +16,8 @@ const ExpandRadio = ({ id, label, checked, onClick }: ExpandCheckBoxProps) => {
     return (
         <AnimatePresence>
             <motion.div
-                whileTap={{ scale: 0.9 }}
-                className={cn("flex py-2 px-4 transition hover:border-first_orange hover:scale-[1.05]  duration-150 items-center w-full border text-first_gray ", checked && 'bg-first_orange text-white')}
+                // whileTap={{ scale: 0.9 }}
+                className={cn("flex py-2 px-4 transition hover:border-first_orange hover:scale-[1.05] active:scale-[0.9]  duration-150 items-center w-full border text-first_gray ", checked && 'bg-first_orange text-white')}
                 onClick={() => onClick()}>
                 <div className="relative space-x-2 ps-5" >
                     <input
@@ -26,10 +26,11 @@ const ExpandRadio = ({ id, label, checked, onClick }: ExpandCheckBoxProps) => {
                         className="sr-only"
                         checked={checked}
                         onClick={() => onClick()}
-                    />
+                        />
                     <label
                         htmlFor={id}
                         className={cn(" cursor-pointer rounded-full text-sm font-medium transition-colors duration-300",)}
+                        onClick={() => onClick()}
                     >
                         {label}
                     </label>

@@ -30,8 +30,12 @@ const BecomeInfluencer = () => {
                 </div>
             </div>
             <div className="bg-white w-1/2 h-screen min-h-screen hidden md:flex">
-                <Image src={image} alt="image" className="w-full flex object-cover justify-center h-auto"
-                    width={800} height={0}
+                <Image
+                    src={image}
+                    alt="image" className="w-full flex object-cover justify-center h-auto"
+                    width={800} 
+                    priority
+                    height={0}
                 />
             </div>
         </div>

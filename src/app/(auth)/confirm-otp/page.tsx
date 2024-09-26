@@ -79,6 +79,7 @@ const OTPPage = () => {
           <div className="flex justify-start items-center">
             <Link href="/" className="mb-4 md:mb-0">
               <Image
+                priority
                 src={logo}
                 alt="FirstEvent Logo"
                 width={150}
@@ -120,7 +121,7 @@ const OTPPage = () => {
                           className={cn(
                             "",
                             errors.otp &&
-                              "border-red-500 focus:border-blue-500 "
+                            "border-red-500 focus:border-blue-500 "
                           )}
                         />
                       </InputOTPGroup>
@@ -170,6 +171,7 @@ const OTPPage = () => {
       <div className="bg-white w-1/2 h-full min-h-md hidden md:flex">
         <Image
           src="/assets/images/auth-image2.png"
+          priority
           alt="Next.js Logo"
           className="w-full flex object-cover justify-center h-screen "
           width={800}

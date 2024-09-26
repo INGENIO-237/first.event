@@ -57,6 +57,7 @@ const SecondStep = () => {
                 <Image
                     src={image}
                     alt="image"
+                    priority
                     className="w-full flex object-cover justify-center h-auto"
                     width={800}
                     height={0}
