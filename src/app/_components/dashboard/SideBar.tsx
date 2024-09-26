@@ -1,5 +1,6 @@
 'use client';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 import { influencersDashboardLinks, organizerDashboardLinks } from '@/utils/links';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
@@ -63,7 +64,21 @@ const SideBar = () => {
                     </span>
                 </div>
             )}
-            <div className='bg-[#F1F1F1] h-svh min-h-svh  w-fit p-4 '>
+            <motion.div
+                // className='bg-[#F1F1F1] h-svh min-h-svh  w-fit p-4 '
+                className={cn(
+                    "fixed inset-y-0 left-0 z-40 w-fit p-4 bg-[#D9D9D9] overflow-hidden transition-all duration-100",
+                    "lg:relative  lg:translate-x-0"
+                )}
+                initial={false}
+                animate={isOpen || !isMobile ? "open" : "closed"}
+                variants={sidebarVariants}
+            >
+                {isMobile && (
+                    <button onClick={toggleSidebar} className="lg:hidden">
+                        <ChevronLeft size={24} />
+                    </button>
+                )}
                 {sideLinks.map((link, index) => {
                     const Icon = link.icon;
                     const isActive = router == link.link;
@@ -83,7 +98,17 @@ const SideBar = () => {
                         </div>
                     )
                 })}
-            </div>
+            </motion.div>
+            {isMobile && isOpen && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="fixed inset-0 bg-black bg-opacity-50 z- lg:hidden"
+                    onClick={toggleSidebar}
+                />
+            )}
         </>
     )
 }
