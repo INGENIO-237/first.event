@@ -215,12 +215,13 @@ export default function Home() {
             zoom={zoom}
             gestureHandling={"greedy"}
             disableDefaultUI={true}
-            /*  onBoundsChanged={(map) => (mapRef.current = map)} */
+          /*  onBoundsChanged={(map) => (mapRef.current = map)} */
           >
             <SearchBox onPlaceSelected={handlePlaceSelected} />
             {userLocation && (
               <AdvancedMarker position={userLocation}>
                 <Image
+                  priority
                   src="/assets/icons/user-location.svg"
                   width={24}
                   height={24}
@@ -234,6 +235,7 @@ export default function Home() {
             className="absolute bottom-4 right-4 bg-blue-500 text-white p-2 rounded-full shadow-lg"
           >
             <Image
+              priority
               src="/assets/icons/location.svg"
               width={24}
               height={24}

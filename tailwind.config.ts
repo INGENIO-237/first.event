@@ -16,7 +16,7 @@ const config = {
         "2xl": "1400px",
       },
     },
-    
+
     extend: {
       colors: {
         first_violet: "#270B87",
@@ -83,7 +83,7 @@ const config = {
         sans: ["var(--font-poppins)"],
         caption: ["var(--font-caption)"],
         mono: ["var(--font-roboto-mono)"],
-    },
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

@@ -26,10 +26,9 @@ const NavBar: React.FC<NavBarProps> = ({
   searchQuery: externalSearchQuery,
   onLocationChange,
 }) => {
-  const [internalSearchQuery, setInternalSearchQuery] = useState<string>("");
-  const [location, setLocation] = useState<string>("Montréal");
-  const [status, setStatus] = useState<string>("organizer");
-  const ticketNumber = 1;
+  const [internalSearchQuery, setInternalSearchQuery] = useState<string>('');
+  const [location, setLocation] = useState<string>('Montréal');
+  const [status, setStatus] = useState<string>('user');
 
   const navLinks = useMemo(() => links, []);
   const dropdownsLinks = useMemo(() => dropdownLinks, []);
@@ -82,14 +81,8 @@ const NavBar: React.FC<NavBarProps> = ({
       <div className="w-screen bg-white px-4 py-3">
         <div className="flex items-center justify-between space-x-4">
           {/* Logo */}
-          <Link href={"/"}>
-            <Image
-              src={logo}
-              alt="Logo"
-              width={150}
-              height={37.5}
-              className="w-48"
-            />
+          <Link href={'/'}>
+            <Image src={logo} alt='Logo' priority width={150} height={37.5} className='w-48' />
           </Link>
 
           {/* Barre de recherche avec localisation */}
@@ -133,6 +126,7 @@ const NavBar: React.FC<NavBarProps> = ({
                     src={default_profile}
                     alt="Profile"
                     width={40}
+                    priority
                     height={40}
                     className="w-full h-full object-cover"
                   />
