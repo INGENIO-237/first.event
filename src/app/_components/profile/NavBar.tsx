@@ -1,19 +1,19 @@
-'use client'
-import { useState, useMemo, useCallback } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Search, MapPin, ChevronDown } from 'lucide-react';
+"use client";
+import { useState, useMemo, useCallback } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Search, MapPin, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import NavBarLink from './NavBarLink';
+import NavBarLink from "./NavBarLink";
 import DropdownItem from "./DropdownItem";
-import logo from '/public/assets/logo.png';
-import default_profile from '/public/assets/images/default-profile.png';
-import { links, dropdownLinks } from '@/utils/links';
+import logo from "/public/assets/logo.png";
+import default_profile from "/public/assets/images/default-profile.png";
+import { links, dropdownLinks } from "@/utils/links";
 
 const NavBar: React.FC = () => {
   const [status, setStatus] = useState<string>('organizer');
@@ -25,12 +25,16 @@ const NavBar: React.FC = () => {
 
   const navLinks = useMemo(() => links, []);
   const dropdownsLinks = useMemo(() => dropdownLinks, []);
-  const filteredLinks = useMemo(() =>
-    navLinks.filter(link =>
-      link.accessibleBy === status ||
-      ((status === 'influencer' || status === 'organizer') && link.accessibleBy === 'user')
-    ),
-    [navLinks, status]);
+  const filteredLinks = useMemo(
+    () =>
+      navLinks.filter(
+        (link) =>
+          link.accessibleBy === status ||
+          ((status === "influencer" || status === "organizer") &&
+            link.accessibleBy === "user")
+      ),
+    [navLinks, status]
+  );
 
   const handleSearch = useCallback((query: string) => {
     setSearchQuery(query);
@@ -75,8 +79,14 @@ const NavBar: React.FC = () => {
       <div className="w-screen bg-white px-4 py-3">
         <div className="flex items-center justify-between space-x-4">
           {/* Logo */}
-          <Link href={'/'}>
-            <Image src={logo} alt='Logo' width={150} height={37.5} className='w-48' />
+          <Link href={"/"}>
+            <Image
+              src={logo}
+              alt="Logo"
+              width={150}
+              height={37.5}
+              className="w-48"
+            />
           </Link>
 
           {/* Barre de recherche avec localisation */}
@@ -107,30 +117,34 @@ const NavBar: React.FC = () => {
           {/* Navigation et profil utilisateur */}
           <div className="flex items-center">
             {filteredLinks.map((link, index) => (
-              <NavBarLink key={index}
+              <NavBarLink
+                key={index}
                 index={index}
                 text={link.title}
                 link={link.link}
-                icon={link.icon} />
+                icon={link.icon}
+              />
             ))}
             <DropdownMenu>
-              <DropdownMenuTrigger className='flex items-center gap-2 focus:outline-none'>
+              <DropdownMenuTrigger className="flex items-center gap-2 focus:outline-none">
                 <div className="rounded-full overflow-hidden w-10 h-10 border border-gray-200">
                   <Image
                     src={default_profile}
-                    alt='Profile'
+                    alt="Profile"
                     width={40}
                     height={40}
-                    className='w-full h-full object-cover'
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <ChevronDown />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="p-2 bg-white shadow-md rounded-md w-48">
                 {dropdownsLinks.map((link, index) => (
-                  <DropdownItem key={index}
+                  <DropdownItem
+                    key={index}
                     link={link.link}
-                    title={link.title} />
+                    title={link.title}
+                  />
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
@@ -153,7 +167,7 @@ const NavBar: React.FC = () => {
         </div>
       )}
     </motion.nav>
-  )
-}
+  );
+};
 
 export default NavBar;

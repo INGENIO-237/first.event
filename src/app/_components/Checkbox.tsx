@@ -1,7 +1,6 @@
-import { cn } from '@/lib/utils';
-import { Proportions } from 'lucide-react';
-import React from 'react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { cn } from "@/lib/utils";
+import React from "react";
+// import { UseFormRegisterReturn } from 'react-hook-form';
 
 type CheckboxProps = {
   id?: string;
@@ -11,11 +10,20 @@ type CheckboxProps = {
   primaryColor?: string;
   inputBorderColor?: string;
   className?: string;
-  size?: number,
+  size?: number;
   // register? : UseFormRegisterReturn,
-}
+};
 
-const Checkbox = ({ id, checked, onChange, label, className, primaryColor = 'text-blue-500', inputBorderColor = 'border-gray-300', size = 6 }: CheckboxProps) => {
+const Checkbox = ({
+  id,
+  checked,
+  onChange,
+  label,
+  className,
+  primaryColor = "text-blue-500",
+  inputBorderColor = "border-gray-300",
+  size = 6,
+}: CheckboxProps) => {
   return (
     <div className="flex items-center">
       <div className="relative">
@@ -29,7 +37,12 @@ const Checkbox = ({ id, checked, onChange, label, className, primaryColor = 'tex
         />
         <label
           htmlFor={id}
-          className={cn(className, `flex items-center justify-center w-${size} h-${size} border ${inputBorderColor} rounded cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110 ${checked ? `${primaryColor} bg-current` : 'bg-white'}`)}
+          className={cn(
+            className,
+            `flex items-center justify-center w-${size} h-${size} border ${inputBorderColor} rounded cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110 ${
+              checked ? `${primaryColor} bg-current` : "bg-white"
+            }`
+          )}
         >
           {checked && (
             <svg
