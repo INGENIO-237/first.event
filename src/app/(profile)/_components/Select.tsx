@@ -7,7 +7,7 @@ interface OptionsProps {
   text: string;
 }
 interface SelectInputProps {
-  label: string;
+  label?: string;
   options: Array<OptionsProps>;
   placeholder: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -21,7 +21,7 @@ const Select = ({
   register,
 }: SelectInputProps) => {
   return (
-    <div className="grow w-1/2 flex flex-col ">
+    <div className="grow w-full flex flex-col ">
       <label className="font-medium">{label}</label>
       <select
         className="border rounded p-2 focus:outline-none w-full md:w-auto"
@@ -30,7 +30,7 @@ const Select = ({
           onChange ? onChange(e) : "";
         }}
       >
-        <option disabled selected>
+        <option  defaultValue={''}>
           {placeholder}
         </option>
         {options.map((option, index) => (

@@ -1,29 +1,24 @@
 "use client";
+import InputError from "@/app/_components/auth/InputError";
+import Checkbox from "@/app/_components/Checkbox";
+import CitySelectInput from "@/app/_components/CitySelect";
+import StateSelectInput from "@/app/_components/StateSelect";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { useRef, useState } from "react";
-import { FiUser } from "react-icons/fi";
-import Input from "../_components/Input";
-import Select from "../_components/Select";
-import * as z from "zod";
 import {
   AdressValidationSchema,
   GeneralInfoSchema,
 } from "@/schema/SettingsValidation";
-import Checkbox from "@/app/_components/Checkbox";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { AnimatePresence, motion } from "framer-motion";
-import { toast } from "react-toastify";
-import InputError from "@/app/_components/auth/InputError";
 import { parseAddress, ParseGeneralData } from "@/utils/parser";
-
-// import {
-//   CitySelect,
-//   CountrySelect,
-//   StateSelect,
-//   LanguageSelect,
-// } from "react-country-state-city";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FiUser } from "react-icons/fi";
+import { toast } from "react-toastify";
+import * as z from "zod";
+import Input from "../../_components/Input";
+import CountrySelectInput from "@/app/_components/CountrySelect";
 
 type GeneralInfo = z.infer<typeof GeneralInfoSchema>;
 type AddressType = z.infer<typeof AdressValidationSchema>;
@@ -33,13 +28,15 @@ const Profile = () => {
   const [image, setImage] = useState<string | null>(null);
   const [billAsHome, setBillAsHome] = useState<boolean>(true);
   const [shippAsHome, setShippAsHome] = useState<boolean>(true);
+  const [countryid, setcountryid] = useState<number>(0);
+  const [stateid, setstateid] = useState<number>(0);
+  const [shippingcountryid, setshippingcountryid] = useState<number>(0);
+  const [billingcountryid, setbillingcountryid] = useState<number>(0);
+  const [shippingstateid, setshippingstateid] = useState<number>(0);
+  const [billingstateid, setbillingstateid] = useState<number>(0);
   const imageRef = useRef<HTMLInputElement>(null);
-  const ACCEPTED_IMAGE_TYPES = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp",
-  ];
+  const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+  // console.log('billAsHome', billAsHome, ' shippAsHome', shippAsHome)
 
   const handleImaeUploadClick = () => {
     imageRef.current?.click();
@@ -98,20 +95,22 @@ const Profile = () => {
   };
 
   const unsetBillingInfo = () => {
-    setAddressValue("billing_address", "");
-    setAddressValue("billing_country", "");
-    setAddressValue("billing_province", "");
-    setAddressValue("billing_city", "");
-    setAddressValue("billing_postal_code", "");
-  };
+    setAddressValue('billing_address', '');
+    setAddressValue('billing_country', '');
+    setAddressValue('billing_province', '');
+    setAddressValue('billing_city', '');
+    setAddressValue('billing_postal_code', '');
+    setAddressValue('billingAsHome', !billAsHome);
+  }
 
   const unsetShippingInfo = () => {
-    setAddressValue("shipping_address", "");
-    setAddressValue("shipping_country", "");
-    setAddressValue("shipping_province", "");
-    setAddressValue("shipping_city", "");
-    setAddressValue("shipping_postal_code", "");
-  };
+    setAddressValue('shipping_address', '');
+    setAddressValue('shipping_country', '');
+    setAddressValue('shipping_province', '');
+    setAddressValue('shipping_city', '');
+    setAddressValue('shipping_postal_code', '');
+    setAddressValue('shippingAsHome', !shippAsHome);
+  }
 
   return (
     <div className="flex flex-col  min-h-screen  md:px-20 px-5">
@@ -146,6 +145,7 @@ const Profile = () => {
                   <Image
                     src={image}
                     alt="Profile"
+                    priority
                     width={160} // Spécifier la largeur de l"image
                     height={160} // Spécifier la hauteur de l"image
                     className="rounded-full object-cover w-32 md:w-40 h-32 md:h-40"
@@ -238,33 +238,35 @@ const Profile = () => {
                   register={registerAddress("address")}
                   error={address_errors?.address?.message}
                 />
-                <Input
-                  type="text"
-                  label="Pays"
+                <CountrySelectInput label="Pays"
+                  onChange={(e: any) => {
+                    setcountryid(e.id)
+                    setAddressValue("country", e.name)
+                  }}
                   register={registerAddress("country")}
                   error={address_errors?.country?.message}
                 />
-                {/* <CountrySelect onChange={(e: any) => {
-                  setCountryid(e.id);
-                }} /> */}
               </div>
               <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
-                <Input
-                  type="text"
+                <StateSelectInput
+                  countryid={countryid}
+                  onChange={(e: any) => {
+                    setstateid(e.id);
+                    setAddressValue('province', e.name);
+                  }}
                   label="Province"
-                  register={registerAddress("province")}
                   error={address_errors?.province?.message}
+
                 />
-                <Input
-                  type="text"
+                <CitySelectInput
+                  countryid={countryid}
+                  stateid={stateid}
                   label="Ville"
-                  register={registerAddress("city")}
+                  onChange={(e: any) => {
+                    setAddressValue('city', e.name);
+                  }}
                   error={address_errors?.city?.message}
                 />
-                {/* <CitySelect
-                  countryid={countryid} 
-                  stateid={stateid}
-                  label="Ville" /> */}
               </div>
               <div className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full">
                 <Input
@@ -282,18 +284,7 @@ const Profile = () => {
                 Adresse de facturation
               </h2>
               <div>
-                <Checkbox
-                  size={4}
-                  id="billing"
-                  checked={billAsHome}
-                  onChange={() => {
-                    setBillAsHome(!billAsHome);
-                    setAddressValue("billingAsHome", !billAsHome);
-                    unsetBillingInfo();
-                  }}
-                  label={"Même que l'adresse du domicile "}
-                  primaryColor=""
-                />
+                <Checkbox size={4} id='billing' checked={billAsHome} onChange={() => { setBillAsHome(!billAsHome); unsetBillingInfo() }} label={"Même que l'adresse du domicile "} primaryColor="" />
                 {/* {console.log(billAsHome)} */}
                 {address_errors?.billingAsHome && (
                   <InputError
@@ -317,9 +308,11 @@ const Profile = () => {
                         register={registerAddress("billing_address")}
                         error={address_errors?.billing_address?.message}
                       />
-                      <Input
-                        type="text"
-                        label="Pays"
+                      <CountrySelectInput label="Pays"
+                        onChange={(e: any) => {
+                          setbillingcountryid(e.id)
+                          setAddressValue("billing_country", e.name)
+                        }}
                         register={registerAddress("billing_country")}
                         error={address_errors?.billing_country?.message}
                       />
@@ -332,16 +325,23 @@ const Profile = () => {
                       transition={{ duration: 0.75 }}
                       className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
                     >
-                      <Input
-                        type="text"
+                      <StateSelectInput
+                        countryid={billingcountryid}
+                        onChange={(e: any) => {
+                          setbillingstateid(e.id);
+                          setAddressValue('billing_province', e.name);
+                        }}
                         label="Province"
-                        register={registerAddress("billing_province")}
                         error={address_errors?.billing_province?.message}
+
                       />
-                      <Input
-                        type="text"
+                      <CitySelectInput
+                        countryid={billingcountryid}
+                        stateid={billingstateid}
                         label="Ville"
-                        register={registerAddress("billing_city")}
+                        onChange={(e: any) => {
+                          setAddressValue('billing_city', e.name);
+                        }}
                         error={address_errors?.billing_city?.message}
                       />
                     </motion.div>
@@ -370,23 +370,8 @@ const Profile = () => {
                 Adresse de livraison
               </h2>
               <div>
-                <Checkbox
-                  size={4}
-                  id="shipping"
-                  checked={shippAsHome}
-                  onChange={() => {
-                    setShippAsHome(!shippAsHome);
-                    setAddressValue("shippingAsHome", !shippAsHome);
-                    unsetShippingInfo();
-                  }}
-                  label={"Même que l'adresse du domicile "}
-                  primaryColor=""
-                />
-                {address_errors?.shippingAsHome && (
-                  <InputError
-                    message={address_errors?.shippingAsHome?.message}
-                  />
-                )}
+                <Checkbox size={4} id='shipping' checked={shippAsHome} onChange={() => { setShippAsHome(!shippAsHome); unsetShippingInfo() }} label={"Même que l'adresse du domicile "} primaryColor="" />
+                {address_errors?.shippingAsHome && (<InputError message={address_errors?.shippingAsHome?.message} />)}
               </div>
               <AnimatePresence>
                 {!shippAsHome && (
@@ -404,9 +389,11 @@ const Profile = () => {
                         register={registerAddress("shipping_address")}
                         error={address_errors?.shipping_address?.message}
                       />
-                      <Input
-                        type="text"
-                        label="Pays"
+                      <CountrySelectInput label="Pays"
+                        onChange={(e: any) => {
+                          setshippingcountryid(e.id)
+                          setAddressValue("shipping_country", e.name)
+                        }}
                         register={registerAddress("shipping_country")}
                         error={address_errors?.shipping_country?.message}
                       />
@@ -419,16 +406,23 @@ const Profile = () => {
                       transition={{ duration: 0.75 }}
                       className="flex flex-col md:flex-row items-center gap-5 md:items-start w-full"
                     >
-                      <Input
-                        type="text"
+                      <StateSelectInput
+                        countryid={shippingcountryid}
+                        onChange={(e: any) => {
+                          setstateid(e.id);
+                          setAddressValue('shipping_province', e.name);
+                        }}
                         label="Province"
-                        register={registerAddress("shipping_province")}
                         error={address_errors?.shipping_province?.message}
+
                       />
-                      <Input
-                        type="text"
+                      <CitySelectInput
+                        countryid={shippingcountryid}
+                        stateid={stateid}
                         label="Ville"
-                        register={registerAddress("shipping_city")}
+                        onChange={(e: any) => {
+                          setAddressValue('shipping_city', e.name);
+                        }}
                         error={address_errors?.shipping_city?.message}
                       />
                     </motion.div>

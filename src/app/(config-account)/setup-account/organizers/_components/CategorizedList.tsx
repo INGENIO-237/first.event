@@ -122,6 +122,7 @@ const CategorizedList: React.FC<CategorizedListProps> = ({
                           <Image
                             src={item.imageUrl}
                             alt={item.title}
+                            priority
                             height={20}
                             width={20}
                             className="w-10 h-10 rounded-full object-cover"

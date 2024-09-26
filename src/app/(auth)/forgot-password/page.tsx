@@ -55,6 +55,7 @@ const ForgotPassword = () => {
               <Image
                 src={logo}
                 alt="FirstEvent Logo"
+                priority
                 width={150}
                 height={37.5}
                 className="mb-6 w-60"
@@ -112,6 +113,7 @@ const ForgotPassword = () => {
       <div className="w-1/2 h-screen hidden md:flex">
         <Image
           src="/assets/images/auth-image.png"
+          priority
           alt="Next.js Logo"
           className="w-full flex object-cover justify-center "
           width={800}

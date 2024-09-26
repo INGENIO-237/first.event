@@ -1,19 +1,18 @@
+
 "use client";
 import InterestCard from "@/app/_components/config-account/InterestCard";
 import ProgressBar from "@/app/_components/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import { interests as interestsData } from "@/utils/interests";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-interface SelectedInterest {
+export interface SelectedInterest {
   interest: string;
   tags: Array<string>;
 }
 const SecondStep = () => {
-  const router = useRouter();
   const [interests, setInterests] = useState<SelectedInterest[]>([]);
   const handleInterestToggle = (interestName: string, tag: string) => {
     setInterests((prevSelected) => {
@@ -72,6 +71,7 @@ const SecondStep = () => {
     //store interests
     localStorage.setItem("interests", JSON.stringify(interests));
     console.log("Selected interests:", interests);
+    //Select only the interests name and pace them in the payload
     toast.success("OK");
     // TODO: Add the API logic here
   };
@@ -89,17 +89,10 @@ const SecondStep = () => {
               vos interêts.
             </span>
             <div className="w-full">
-              <span className="text-lg font-medium">Étape 2 sur 3</span>
-              <ProgressBar limit={3} step={2} />
+              <ProgressBar limit={2} />
             </div>
           </div>
           <div className="hidden md:flex flex-row justify-between w-full">
-            <Link
-              href={"/setup-account"}
-              className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white"
-            >
-              Précedent
-            </Link>
             <button
               onClick={() => handleSubmit()}
               className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white "

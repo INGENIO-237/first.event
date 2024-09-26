@@ -1,11 +1,12 @@
 "use client";
 import InputError from "@/app/_components/auth/InputError";
 import { cn } from "@/lib/utils";
+import { Search } from "lucide-react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import PhoneInput, { CountryData } from "react-phone-input-2";
 
 interface TextInputProps {
-  label: string;
+  label?: string;
   type: string;
   placeholder?: string | undefined;
   value?: string;
@@ -75,6 +76,21 @@ const Input = ({
         {error && <InputError message={error} />}
       </div>
     );
+  } else if (type == "search") {
+    return (
+      <div className="flex items-center w-full border flex-grow space-x-2 p-2">
+        <Search size={20} />
+        <input
+          type="search"
+          placeholder={placeholder}
+          className=" p-1 focus:outline-none   rounded w-full transition duration-300"
+          aria-label="Rechercher"
+          value={value}
+          onChange={(e) => setState ? setState(e) : ''}
+        />
+      </div>
+    );
+
   } else {
     return (
       <div className="md:w-1/2 w-full flex flex-col  ">
