@@ -12,9 +12,9 @@ const Header = ({ title, subtitle }: HeaderProps) => {
             {/* Head */}
             <div className="flex flex-col w-full gap-2" >
                 <h1 className='md:text-4xl text-2xl font-bold text-first_violet'>
-                    Bonjour, Exemple
+                    {title}
                 </h1>
-                <span className='text-[#5F5E5E]'>Résumé de mes activités</span>
+                <span className='text-[#5F5E5E]'>{subtitle}</span>
             </div >
             {/* Filters */}
             <div  className="grid grid-cols-2 md:grid-cols-6 w-full gap-2 " >
