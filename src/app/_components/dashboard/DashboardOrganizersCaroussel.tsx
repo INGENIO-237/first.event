@@ -65,7 +65,7 @@ const DashboardOrganizersCaroussel = ({ title, organizers }: CarousselProps) => 
                                         </CardTitle>
                                     </CardHeader>
                                     <CardContent className="flex-col flex justify-center space-y-4">
-                                        <div className="flex gap-x-4">
+                                        <div className="flex gap-x-4 items-center justify-center">
                                             <button className={cn("p-3 rounded", organizer.liked ? "bg-first_violet text-white" : "border border-first_violet text-first_violet hover:bg-first_violet hover:text-white")}>{organizer.liked ? "Suivi(e)" : "Suivre"}</button>
                                             <Link href={'#'} className="border border-first_violet text-first_violet hover:bg-first_violet hover:text-white p-3 rounded ">Contact</Link>
                                         </div>
@@ -77,7 +77,7 @@ const DashboardOrganizersCaroussel = ({ title, organizers }: CarousselProps) => 
                                                 événement{organizer.eventsCount > 1 ? "s" : ""} en cours
                                             </p>
                                         </div>
-                                        <div className="" >
+                                        <div className="flex justify-center" >
                                             <Link href={organizer.askLink} className=" underline underline-offset-2 decoration-first_gray hover:decoration-first_violet hover:text-first_violet  ">Envoyer une demande</Link> 
                                         </div>
                                     </CardContent>
