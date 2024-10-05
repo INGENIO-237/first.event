@@ -5,14 +5,14 @@ import ProgressBar from "@/app/_components/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import { interests as interestsData } from "@/utils/interests";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export interface SelectedInterest {
   interest: string;
   tags: Array<string>;
 }
-const SecondStep = () => {
+const FirstStep = () => {
   const [interests, setInterests] = useState<SelectedInterest[]>([]);
   const handleInterestToggle = (interestName: string, tag: string) => {
     setInterests((prevSelected) => {
@@ -30,10 +30,10 @@ const SecondStep = () => {
         // Update the interest object or remove it if no tags are left
         const updatedInterests = updatedTags.length
           ? prevSelected.map((item) =>
-              item.interest === interestName
-                ? { ...item, tags: updatedTags }
-                : item
-            )
+            item.interest === interestName
+              ? { ...item, tags: updatedTags }
+              : item
+          )
           : prevSelected.filter((item) => item.interest !== interestName);
 
         return updatedInterests;
@@ -44,36 +44,34 @@ const SecondStep = () => {
     });
   };
 
+  
   const isButtonDisabled = () => {
     if (interests.length == 0) {
       return true;
     }
-    toast.warn("Veillez selectionner au moins un centre d'intérêts");
     return false;
   };
-  //verify if the location is stored
-  //get the stored interest
 
-  // if (typeof localStorage !== undefined) {
-  //     if (!localStorage.getItem('location')) {
-  //         toast.warn('Veillez preciser une localisation!')
-  //         setTimeout(() => {
-  //            router.push('/setup-account');
-  //         }, 1500)
-  //     }
-  //     let storedInterests = localStorage.getItem('interests')
-  //     if (storedInterests) {
-  //         setInterests(JSON.parse(storedInterests) as object[] as SelectedInterest[]);
-  //     }
-  // }
+  useEffect(() => {
+    setInterests(JSON.parse(localStorage.getItem("interests") || "[]"));
+  }, [])
+  
+  console.log(isButtonDisabled());
 
   const handleSubmit = () => {
-    //store interests
-    localStorage.setItem("interests", JSON.stringify(interests));
-    console.log("Selected interests:", interests);
-    //Select only the interests name and pace them in the payload
-    toast.success("OK");
-    // TODO: Add the API logic here
+    if(isButtonDisabled()){
+
+      toast.warn("Veillez selectionner au moins un centre d'intérêts");
+    }
+    else{
+      //store interests
+      localStorage.setItem("interests", JSON.stringify(interests));
+      console.log("Selected interests:", interests);
+      //Select only the interests name and pace them in the payload
+      toast.success("OK");
+      // TODO: Add the API logic here
+
+    }
   };
 
   return (
@@ -130,12 +128,13 @@ const SecondStep = () => {
               Précedent
             </Link>
             <button
+              disabled={isButtonDisabled()}
               onClick={() => handleSubmit()}
               className={cn(
+                "border border-first_orange bg-white  p-2 rounded text-first_orange  ",
                 isButtonDisabled()
-                  ? "cursor-not-allowed"
+                  ? "cursor-not-allowed "
                   : "hover:bg-first_orange hover:text-white",
-                "border border-first_orange bg-white  p-2 rounded text-first_orange  "
               )}
             >
               Continuer
@@ -147,4 +146,4 @@ const SecondStep = () => {
   );
 };
 
-export default SecondStep;
+export default FirstStep;
