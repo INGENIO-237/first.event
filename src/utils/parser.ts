@@ -1,10 +1,7 @@
-import { LoginData } from "@/app/(auth)/login/page";
 import { SelectedInterest } from "@/app/(config-account)/setup-account/interests/page";
-import {
-  AdressValidationSchema,
-  GeneralInfoSchema,
-} from "@/schema/SettingsValidation";
+import { AdressValidationSchema, GeneralInfoSchema } from "@/schema/SettingsValidation";
 import * as z from "zod";
+import { LoginData, OTPData } from "./types/auth";
 
 type addressDataType = z.infer<typeof AdressValidationSchema>;
 type GeneralInfo = z.infer<typeof GeneralInfoSchema>;
@@ -74,9 +71,10 @@ export const parseInterestToRetrieveOrganizers = (interests: SelectedInterest[])
   });
 }
 
-export const parseLoginInfo = (data: LoginData) => {
+export const parseConfirmOtp = (otp: OTPData, loginInfo: LoginData) => {
   return {
-    "email": data.email,
-    "password": data.password,
+    "email": loginInfo.email,
+    "otp": otp.otp,
+    "password": loginInfo.password,
   };
 }
