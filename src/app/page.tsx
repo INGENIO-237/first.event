@@ -7,19 +7,17 @@ import NavBar from "./_components/profile/NavBar";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { interests } from "@/utils/interests";
-import { Heart, MapPin, Search, Share2 } from "lucide-react";
+import { MapPin, Search } from "lucide-react";
 import MyLocation from "@/components/ui/svg/MyLocation";
-import Link from "next/link";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import topTendances, { topTendanceInterface } from "@/utils/topTendances";
+import topTendances, {
+  HandleLike,
+  topTendanceInterface,
+} from "@/utils/topTendances";
 import ordnung from "@/utils/ordnung";
+import { TendanceCard } from "./_components/TendanceCard";
+import { EventSection } from "./_components/EventSection";
+import Heading from "./_components/HeadingCarousel";
+import Link from "next/link";
 
 interface LatLng {
   lat: number;
@@ -37,7 +35,6 @@ const Marker: React.FC<MarkerProps> = ({ icon, alt }) => (
   </div>
 );
 
-type HandleLike = (id: number) => void;
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userLocation, setUserLocation] = useState<LatLng | null>(null);
@@ -50,6 +47,7 @@ export default function Home() {
   const [locationSearch, setLocationSearch] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("Tous");
   const [likedEvents, setLikedEvents] = useState<Set<number>>(new Set());
+  const [city, setCity] = useState<string>("");
 
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string;
   const [error, setError] = useState<string>("");
@@ -89,6 +87,7 @@ export default function Home() {
   const handleZoomChange = (delta: number) => {
     setZoom((prevZoom) => Math.max(1, Math.min(prevZoom + delta, 21)));
   };
+
   const handleLike: HandleLike = useCallback((id: number) => {
     console.log(id);
     setLikedEvents((prev) => {
@@ -267,120 +266,70 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <CarouselSection
+      <EventSection
+        className="lg:mt-48 mt-16 px-4 py-3"
         topTendances={filteredTopTendances}
         handleLike={handleLike}
         likedEvents={likedEvents}
+        headingTitle="Top de tendance à Montréal"
+        moreLink="/"
+      />
+      <EventSection
+        className="mt-8 px-4 py-3"
+        topTendances={filteredTopTendances}
+        handleLike={handleLike}
+        likedEvents={likedEvents}
+        headingTitle="Événements  à la une"
+        moreLink="/"
+      />
+      <OtherEvents
+        city={city}
+        likedEvents={likedEvents}
+        handleLike={handleLike}
+        datas={filteredTopTendances}
+        headingTitle="Les autres événements à "
+        className="px-4"
       />
     </>
   );
 }
-type CarouselSectionProps = {
-  topTendances: topTendanceInterface[];
+
+type OtherEventsProps = {
+  datas: topTendanceInterface[];
   handleLike: HandleLike;
+  headingTitle: string;
+  city: string;
   likedEvents: Set<number>;
 };
 
-const CarouselSection: React.FC<CarouselSectionProps> = ({
-  topTendances,
-  handleLike,
-  likedEvents,
-}) => (
-  <div className="bg-white w-full lg:mt-48 mt-16 px-4 py-3">
-    <Carousel className="w-full">
-      <div className="flex md:flex-row flex-col gap-x-2 md:gap-x-0 justify-between mb-4">
-        <h2 className="font-bold text-xl text-start">
-          Top de tendance à Montréal
-        </h2>
-        <div className="flex gap-x-2 justify-between md:justify-normal">
-          <Link href={"/"} className="text-[#00BBFC]/90 hover:text-[#00BBFC] ">
-            Tout voir
-          </Link>
-          <div className="flex gap-2">
-            <CarouselPrevious className="text-[#00BBFC]/90 hover:text-[#00BBFC] size-[24px]" />
-            <CarouselNext className="text-[#00BBFC]/90 hover:text-[#00BBFC] size-[24px]" />
-          </div>
-        </div>
-      </div>
-
-      <CarouselContent className="-ml-1">
-        {topTendances.map((topTendance, index) => (
-          <CarouselItem
+const OtherEvents: React.FC<
+  React.HTMLAttributes<HTMLDivElement> & OtherEventsProps
+> = ({ datas, likedEvents, handleLike, headingTitle, city, ...props }) => {
+  return (
+    <div className="w-full" {...props}>
+      <Heading title={headingTitle + city} />
+      {/* <div className="flex gap-4 flex-wrap w-full justify-between"> */}
+      {/* <div className="grid gap-x-4  gap-y-4 lg:grid-cols-4 md:grid-cols-3 grid-cols-1 place-items-center"> */}
+     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
+    
+        {datas.map((data, index) => (
+          <TendanceCard
             key={index}
-            className="pl-1 md:basis-1/3 lg:basis-1/4 basis-1/1"
-          >
-            <div className="p-1">
-              <Card className="w-full max-w-xs">
-                <div className="relative aspect-video">
-                  <Image
-                    src={topTendance.image}
-                    layout="fill"
-                    objectFit="cover"
-                    alt={topTendance.title}
-                    className="rounded-t-lg"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-2 right-2 flex gap-x-2">
-                    <button
-                      title="Aimer l'événement"
-                      className="bg-white/80 p-2 rounded-full transition-colors duration-200 hover:bg-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-300"
-                      onClick={() => handleLike(topTendance.id)}
-                    >
-                      <Heart
-                        size={20}
-                        className={cn(
-                          "transition duration-500 ease-in-out transform",
-                          likedEvents.has(topTendance.id)
-                            ? "fill-first_orange text-first_orange scale-125"
-                            : "text-gray-600 hover:text-first_orange hover:scale-110"
-                        )}
-                      />
-                    </button>
-
-                    <button
-                      title="Partager l'événement"
-                      className="bg-white/80 p-2 rounded-full transition-colors duration-200 hover:bg-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-300"
-                    >
-                      <Share2
-                        size={20}
-                        className="text-gray-600 hover:text-blue-500"
-                        onClick={() => console.log("share")}
-                      />
-                    </button>
-                  </div>
-                </div>
-                <div className="flex-grow flex flex-col p-4">
-                  <CardTitle className="relative group text-lg font-bold text-gray-800 mb-2">
-                    <span className="line-clamp-1 group-hover:line-clamp-none transition-all duration-300">
-                      {topTendance.title}
-                    </span>
-                    <span className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white z-10 p-2 pointer-events-none">
-                      {topTendance.title}
-                    </span>
-                  </CardTitle>
-
-                  <CardContent className="p-0 flex-grow flex flex-col justify-between">
-                    <div className="space-y-2">
-                      <p className="text-sm text-gray-600">
-                        {topTendance.day}: {topTendance.hour}
-                      </p>
-                      <p className="text-sm font-semibold text-blue-600">
-                        {topTendance.price === "Gratuit"
-                          ? "Gratuit"
-                          : `${topTendance.price}$`}
-                      </p>
-                    </div>
-                    <div className="mt-4 flex items-center text-sm text-gray-600">
-                      <MapPin size={16} className="mr-1 flex-shrink-0" />
-                      <span className="truncate">{topTendance.ort}</span>
-                    </div>
-                  </CardContent>
-                </div>
-              </Card>
-            </div>
-          </CarouselItem>
+            topTendance={data}
+            handleLike={handleLike}
+            likedEvents={likedEvents}
+            isGrid
+          />
         ))}
-      </CarouselContent>
-    </Carousel>
-  </div>
-);
+      </div>
+      <div className="flex my-4 justify-center w-full">
+        <Link
+          href={"/"}
+          className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-first_orange/90 h-10 bg-first_orange text-white p-2 rounded-full shadow-lg duration-3000"
+        >
+          Voir tous les événements
+        </Link>
+      </div>
+    </div>
+  );
+};

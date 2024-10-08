@@ -1,3 +1,4 @@
+import { LoginData } from "@/app/(auth)/login/page";
 import { SelectedInterest } from "@/app/(config-account)/setup-account/interests/page";
 import {
   AdressValidationSchema,
@@ -71,4 +72,11 @@ export const parseInterestToRetrieveOrganizers = (interests: SelectedInterest[])
       "tags": interest.tags,
     };
   });
+}
+
+export const parseLoginInfo = (data: LoginData) => {
+  return {
+    "email": data.email,
+    "password": data.password,
+  };
 }

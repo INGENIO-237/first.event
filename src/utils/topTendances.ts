@@ -20,6 +20,7 @@ export interface topTendanceInterface {
   organizer: string;
   website: string;
 }
+export type HandleLike = (id: number) => void;
 
 const topTendances:topTendanceInterface[] = [
   {

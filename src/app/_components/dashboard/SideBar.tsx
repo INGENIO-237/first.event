@@ -67,7 +67,7 @@ const SideBar = () => {
             <motion.div
                 // className='bg-[#F1F1F1] h-svh min-h-svh  w-fit p-4 '
                 className={cn(
-                    "fixed inset-y-0 left-0 z-40 w-fit p-4 bg-[#D9D9D9] overflow-hidden transition-all duration-100",
+                    "fixed inset-y-0 left-0 z-10 w-fit p-4 bg-[#D9D9D9] overflow-hidden transition-all duration-100",
                     "lg:relative  lg:translate-x-0"
                 )}
                 initial={false}
