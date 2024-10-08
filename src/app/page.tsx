@@ -308,8 +308,6 @@ const OtherEvents: React.FC<
   return (
     <div className="w-full" {...props}>
       <Heading title={headingTitle + city} />
-      {/* <div className="flex gap-4 flex-wrap w-full justify-between"> */}
-      {/* <div className="grid gap-x-4  gap-y-4 lg:grid-cols-4 md:grid-cols-3 grid-cols-1 place-items-center"> */}
      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
     
         {datas.map((data, index) => (
