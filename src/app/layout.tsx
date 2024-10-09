@@ -1,15 +1,11 @@
-import Footer from "@/components/partial/Footer";
-import { queryClient } from "@/lib/queryClient";
 import { cn } from "@/lib/utils";
-import { QueryClientProvider } from "@tanstack/react-query";
 import type { Metadata } from "next";
 import { Poppins, Roboto_Mono } from "next/font/google";
 import React from "react";
 import 'react-phone-input-2/lib/style.css';
-import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import "./ReactToastify.css";
-import StripeProvider from "./StripeProvider";
+import ClientProvider from "./ClientProvider";
 
 //TODO: Create a component that will render all the client side 
 const poppins = Poppins({
@@ -44,17 +40,10 @@ export default function RootLayout({
           "overflow-x-hidden mx-auto font-sans h-full min-h-screen"
         )}
       >
-        <QueryClientProvider client={queryClient}>
-          <StripeProvider>
-            {children}
-            <ToastContainer
-              position="bottom-right"
-              theme="colored"
-              autoClose={3000}
-            />
-            <Footer />
-          </StripeProvider>
-        </QueryClientProvider>
+        <ClientProvider>
+          {children}
+        </ClientProvider>
+
       </body>
     </html>
   );
