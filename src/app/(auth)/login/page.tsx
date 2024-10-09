@@ -7,7 +7,7 @@ import { loginSchema } from "@/schema/AuthValidation";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "/public/assets/logo.png";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { cn } from "@/lib/utils";
@@ -26,15 +26,10 @@ const Login = () => {
   const router = useRouter();
 
   const { loginUser, isPending, error, data } = useLogin();
-  const { getCurrentUser, isPending: userPending, error: userError, data: userData } = useGetCurrentUser();
+  const { getCurrentUser, isPending: userPending, error: userError, data: currentUser } = useGetCurrentUser();
   const isButtonDisabled = (): boolean => {
-    if (
-      errors.password ||
-      errors.email ||
-      email === "" ||
-      password === "" ||
-      password.length <= 6
-    ) {
+    if (errors.password || errors.email)
+      {
       return true;
     }
     return false;
@@ -44,29 +39,33 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (payload: LoginData) => {
-    // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect
-    // const payload = parseLoginInfo(data);
-    const { otpGenerated, refreshToken, accessToken } = await loginUser(payload);
+  useEffect(() => {
+    if (data && !isPending) {
+      const { otpGenerated, refreshToken, accessToken } = data;
+      //If otp is generated, we need to redirect to the confirm otp page and submit again
+      if (otpGenerated) {
+        // localStorage.setItem("loginInfo", JSON.stringify(payload));
+        setTimeout(() => {
+          router.push("/confirm-otp");
+        }, 2000);
+      } else {
+        //store in the localStorage the refreshToken and accessToken
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("accessToken", accessToken);
 
-    //If otp is generated, we need to redirect to the confirm otp page and submit again
-    if (otpGenerated) {
-      localStorage.setItem("loginInfo", JSON.stringify(payload));
-      setTimeout(() => {
-        router.push("/confirm-otp");
-      }, 2000);
-    } else {
-      //store in the localStorage the refreshToken and accessToken
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("accessToken", accessToken);
+        //Verify if the user has interests
+        getCurrentUser();
+      }
+    }
+  }, [data, getCurrentUser, router, isPending]);
 
-      //Verify if the user has interests
-      const currentUser = await getCurrentUser();
-
+  useEffect(() => {
+    if (!userPending && !userError && currentUser) {
       if (currentUser.interests.length > 0) {
         setTimeout(() => {
           router.push("/home");
@@ -79,6 +78,13 @@ const Login = () => {
         }, 2000);
       }
     }
+  }, [currentUser, userPending, userError, router]);
+
+  const onSubmit = async (payload: LoginData) => {
+    // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect
+    console.log(payload);
+    loginUser(payload);
+
   };
 
   return (
@@ -108,12 +114,8 @@ const Login = () => {
               <div className="">
                 <input
                   type="email"
-                  id="email"
                   {...register("email")}
                   placeholder="Adresse Email"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setEmail(e.target.value)
-                  }
                   className={cn(
                     errors.email
                       ? "focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300"
@@ -128,12 +130,8 @@ const Login = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  id="password"
-                  {...register("password")}
                   placeholder="Mot de passe"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setPassword(e.target.value)
-                  }
+                  {...register('password')}
                   className={cn(
                     errors.password
                       ? "focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300"
