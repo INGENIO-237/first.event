@@ -6,27 +6,28 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { otpConfirmSchema } from "@/schema/AuthValidation";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { Dot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "react-toastify";
-import * as z from "zod";
-
-type Schema = z.infer<typeof otpConfirmSchema>;
+import { OTPData } from "@/utils/types/auth";
+import { useLoginWithOtp, useResendOtp } from "@/_services/auth.service";
+import { useRouter } from "next/navigation";
 
 const OTPPage = () => {
   const otpLength = 5;
   const [otp, setOtp] = useState<string>("");
   const [timer, setTimer] = useState<number>(59); // Initialisation à 60 secondes
   const [disabled, setDisabled] = useState<boolean>(true); // Bouton désactivé au départ
+  const [loginInfo, setLoginInfo] = useState({ "email": null });
+  const router = useRouter();
+
+  const { resendOtp, data, error, isPending } = useResendOtp();
+  const { confirmOtp, data: confirmData, error: confirmError, isPending: isConfirmPending } = useLoginWithOtp();
 
   const isButtonDisabled = () => {
-    if (otp.length < 5 || errors?.otp) {
+    if (otp.length < 5 || errors?.otp || isConfirmPending) {
       return true;
     }
     return false;
@@ -38,30 +39,38 @@ const OTPPage = () => {
       countdown = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
+    } else if (isPending) {
+      setDisabled(true); // Désactiver à nouveau le bouton
     } else {
       setDisabled(false);
     }
 
-    // Nettoyage de l'intervalle lors du démontage du composant ou lors du changement de timer
     return () => clearInterval(countdown);
-  }, [timer]);
+  }, [timer, isPending]);
 
-  const resendCode = (): void => {
-    setTimer(59); // Réinitialisation à 60 secondes
-    setDisabled(true); // Désactiver à nouveau le bouton
+  useEffect(() => {
+    setLoginInfo(JSON.parse(localStorage.getItem("loginInfo") || "{'email': ''}"));
+  }, []);
+
+
+  const resendCode = async (): Promise<void> => {
+    if (loginInfo.email) {
+      const res = await resendOtp({ email: loginInfo.email });
+      setTimer(59); // Réinitialisation à 60 secondes
+      setDisabled(true); // Désactiver à nouveau le bouton
+    }
+    else {
+      router.push("/login");
+    }
     // Logique supplémentaire pour renvoyer le code OTP (à implémenter)
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Schema>({
+  const { register, handleSubmit, formState: { errors } } = useForm<OTPData>({
     resolver: zodResolver(otpConfirmSchema),
   });
-  const onSubmit = (data: Schema) => {
+  const onSubmit = (data: OTPData) => {
     //get the email store in the local storage
-    const email = localStorage.getItem("email");
+
     // TODO: send data to backend and wait for the response
     //Envoi des infos
 

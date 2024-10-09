@@ -4,15 +4,15 @@ import { useForm } from "react-hook-form";
 import logo from "/public/assets/logo.png";
 import { cn } from "@/lib/utils";
 import { forgotPasswordSchema } from "@/schema/AuthValidation";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { useState } from "react";
 import InputError from "@/app/_components/auth/InputError";
 import { useRouter } from "next/navigation";
+import { forgotPassword } from "@/utils/types/auth";
 
-type Schema = z.infer<typeof forgotPasswordSchema>;
+
 
 const ForgotPassword = () => {
   const router = useRouter();
@@ -29,13 +29,13 @@ const ForgotPassword = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Schema>({
+  } = useForm<forgotPassword>({
     resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const onSubmit = (data: Schema) => {
+  const onSubmit = (data: forgotPassword) => {
     //Save the email in the local storage
-    localStorage.setItem("email", JSON.stringify(email));
+    localStorage.setItem("email", JSON.stringify(data.email));
     // TODO: Send payload to backend and wait for a success response to redirect to the reset password page
     toast.success("OK");
     setTimeout(() => {
