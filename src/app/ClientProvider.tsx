@@ -5,8 +5,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import StripeProvider from "./StripeProvider";
 
-
-
 const ClientProvider = ({ children }: Readonly<{
     children: React.ReactNode;
 }>) => {

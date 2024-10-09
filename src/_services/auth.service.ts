@@ -74,14 +74,9 @@ export function useLoginWithOtp() {
         return response.data;
     }
 
-    const {
-        mutateAsync: confirmlogin,
-        data,
-        error,
-        isPending
-    } = useMutation<confirmLoginResponse, DefaultError, confirmLoginData>({mutationFn: confirmOtp});
+    const { mutateAsync: confirmLogin, data, error, isPending } = useMutation<confirmLoginResponse, DefaultError, confirmLoginData>({ mutationFn: confirmOtp });
 
-    return {confirmOtp, data, error, isPending};
+    return { confirmLogin, data, error, isPending };
 }
 
 export function useResendOtp() {
