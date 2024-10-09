@@ -22,7 +22,8 @@ export type confirmLoginData = {
 
 export type confirmLoginResponse = {
     accessToken: string;
-    refreshToken: string;   
+    refreshToken: string;
+    otpGenerated: boolean;
 }
 
 export type resendOtpData = {
