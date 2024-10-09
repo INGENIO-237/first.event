@@ -1,4 +1,3 @@
-
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,7 +6,7 @@ import { loginSchema } from "@/schema/AuthValidation";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "/public/assets/logo.png";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { cn } from "@/lib/utils";
@@ -18,7 +17,6 @@ import { useGetCurrentUser, useLogin } from "@/_services/auth.service";
 import { useRouter } from "next/navigation";
 import { LoginData } from "@/utils/types/auth";
 
-
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState<string>("");
@@ -26,7 +24,12 @@ const Login = () => {
   const router = useRouter();
 
   const { loginUser, isPending, error, data } = useLogin();
-  const { getCurrentUser, isPending: userPending, error: userError, data: userData } = useGetCurrentUser();
+  const {
+    getCurrentUser,
+    isPending: userPending,
+    error: userError,
+    data: userData,
+  } = useGetCurrentUser();
   const isButtonDisabled = (): boolean => {
     if (
       errors.password ||
@@ -40,6 +43,30 @@ const Login = () => {
     return false;
   };
 
+  useEffect(() => {
+    if (data) {
+      const { accessToken, refreshToken, otpGenerated } = data;
+
+      if (otpGenerated) {
+        router.push("/confirm-otp");
+      } else {
+        //store in the localStorage the refreshToken and accessToken
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("accessToken", accessToken);
+
+        getCurrentUser()
+      }
+    }
+  }, [data, getCurrentUser, router]);
+  
+  useEffect(() => {
+    if(!userPending && userData){
+      // Set redux current user
+    }
+  }, [userData, userPending]);
+
+
+
   const {
     register,
     handleSubmit,
@@ -51,7 +78,8 @@ const Login = () => {
   const onSubmit = async (payload: LoginData) => {
     // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect
     // const payload = parseLoginInfo(data);
-    const { otpGenerated, refreshToken, accessToken } = await loginUser(payload);
+    const { otpGenerated, refreshToken, accessToken } =
+      await loginUser(payload);
 
     //If otp is generated, we need to redirect to the confirm otp page and submit again
     if (otpGenerated) {
@@ -60,19 +88,14 @@ const Login = () => {
         router.push("/confirm-otp");
       }, 2000);
     } else {
-      //store in the localStorage the refreshToken and accessToken
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("accessToken", accessToken);
-
       //Verify if the user has interests
-      const currentUser = await getCurrentUser();
+      getCurrentUser();
 
       if (currentUser.interests.length > 0) {
         setTimeout(() => {
           router.push("/home");
         }, 2000);
-      }
-      else {
+      } else {
         //case if it's the first login
         setTimeout(() => {
           router.push("/welcome");
