@@ -18,6 +18,7 @@ import { TendanceCard } from "./_components/TendanceCard";
 import { EventSection } from "./_components/EventSection";
 import Heading from "./_components/HeadingCarousel";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface LatLng {
   lat: number;
@@ -51,11 +52,6 @@ export default function Home() {
 
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string;
   const [error, setError] = useState<string>("");
-  useEffect(() => {
-    if (navigator.geolocation) {
-      getUserLocation();
-    }
-  }, []);
 
   const getUserLocation = useCallback(() => {
     navigator.geolocation.getCurrentPosition(
@@ -64,20 +60,34 @@ export default function Home() {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
+
+        console.log({ userPos });
+
         setUserLocation(userPos);
-        setMapCenter(userPos);
-        setZoom(14);
       },
       (error: GeolocationPositionError) => {
-        console.error("Erreur de géolocalisation: ", error);
+        if (error.PERMISSION_DENIED) {
+          console.log("Erreur de géolocalisation: Permission denied");
+        }
       }
     );
   }, []);
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      getUserLocation();
+    }
+  }, [getUserLocation]);
+
+  useEffect(() => {
+    if (userLocation) {
+      setMapCenter(userLocation);
+      setZoom(14);
+    }
+  }, [userLocation]);
+
   const handleApiLoaded = ({ map, maps }: { map: any; maps: any }) => {
     setIsLoading(false);
-    console.log(maps);
-    // if (!map) handleApiError();
   };
 
   const handleApiError = () => {
@@ -120,10 +130,10 @@ export default function Home() {
       <div className="flex flex-col relative">
         <div className="flex-grow flex min-h-[70vh] relative">
           {isLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 z-10">
-              <div className="flex flex-col items-center gap-4">
+            <div className="absolute inset-0 flex items-center justify-center bg-background">
+              <div className="flex flex-col items-center justify-center gap-4">
                 <div className="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-orange-500"></div>
-                <p className="text-lg font-semibold text-white">
+                <p className="text-lg font-semibold text-foreground text-center">
                   Chargement en cours, veuillez patienter...
                 </p>
               </div>
@@ -153,7 +163,7 @@ export default function Home() {
                   {userLocation && (
                     <Marker
                       {...userLocation}
-                      icon="/assets/icons/user-location.svg"
+                      icon="/assets/icons/location.svg"
                       alt="Votre position"
                     />
                   )}
@@ -165,8 +175,8 @@ export default function Home() {
                 </GoogleMapReact>
               </div>
               <Button
-                onClick={getUserLocation}
-                className="absolute lg:bottom-32 lg:right-12 right-4 bottom-4 bg-gradient-to-r from-[#E35D07] to-[#F4AA72] text-white p-2 rounded-full shadow-lg z-10 hover:opacity-90 transition-opacity"
+                onClick={() => getUserLocation()}
+                className="absolute lg:bottom-32 lg:right-12 right-4 bottom-4 bg-gradient-to-r from-[#E35D07] to-[#F4AA72] text-white p-2 rounded-full shadow-lg hover:opacity-90 transition-opacity"
               >
                 <MyLocation width={24} height={24} />
               </Button>
@@ -177,7 +187,7 @@ export default function Home() {
                     onClick={() => handleZoomChange(index === 0 ? 1 : -1)}
                     disabled={index === 0 ? zoom === 21 : zoom === 1}
                     className={cn(
-                      "flex justify-center items-center size-10 text-white rounded-full shadow-lg z-10 text-3xl font-medium transition duration-300",
+                      "flex justify-center items-center size-10 text-white rounded-full shadow-lg text-3xl font-medium transition duration-300",
                       index === 0
                         ? zoom === 21
                           ? "bg-gray-300 cursor-not-allowed"
@@ -271,7 +281,7 @@ export default function Home() {
         topTendances={filteredTopTendances}
         handleLike={handleLike}
         likedEvents={likedEvents}
-        headingTitle="Top de tendance à Montréal"
+        headingTitle="Top tendances à Montréal"
         moreLink="/"
       />
       <EventSection
@@ -295,7 +305,7 @@ export default function Home() {
 }
 
 type OtherEventsProps = {
-  datas: topTendanceInterface[];
+  datas: topTendanceInterface[] | null;
   handleLike: HandleLike;
   headingTitle: string;
   city: string;
@@ -305,20 +315,35 @@ type OtherEventsProps = {
 const OtherEvents: React.FC<
   React.HTMLAttributes<HTMLDivElement> & OtherEventsProps
 > = ({ datas, likedEvents, handleLike, headingTitle, city, ...props }) => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (datas !== null) {
+      setLoading(false);
+    }
+  }, [datas]);
   return (
     <div className="w-full" {...props}>
       <Heading title={headingTitle + city} />
-     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
-    
-        {datas.map((data, index) => (
-          <TendanceCard
-            key={index}
-            topTendance={data}
-            handleLike={handleLike}
-            likedEvents={likedEvents}
-            isGrid
-          />
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4">
+        {loading
+          ? Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="min-w-0 shrink-0 grow-0 pl-1 md:basis-1/3 lg:basis-1/5 basis-1/1"
+              >
+                <Skeleton className="h-64 rounded-lg" />
+              </div>
+            ))
+          : datas?.map((data, index) => (
+              <TendanceCard
+                key={index}
+                topTendance={data}
+                handleLike={handleLike}
+                likedEvents={likedEvents}
+                isGrid
+              />
+            ))}
       </div>
       <div className="flex my-4 justify-center w-full">
         <Link

@@ -6,8 +6,9 @@ import "./ReactToastify.css";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/partial/Footer";
 import { ToastContainer } from "react-toastify";
-import 'react-phone-input-2/lib/style.css';
+import "react-phone-input-2/lib/style.css";
 import StripeProvider from "./StripeProvider";
+import { StoreProvider } from "@/store/StoreProvider";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -32,24 +33,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={cn(
-          poppins.variable,
-          roboto_mono.variable,
-          "overflow-x-hidden mx-auto font-sans h-full min-h-screen"
-        )}
-      >
-        <StripeProvider>
-          {children}
-          <ToastContainer
-            position="bottom-right"
-            theme="colored"
-            autoClose={3000}
-          />
-          <Footer />
-        </StripeProvider>
-      </body>
-    </html>
+    <StoreProvider>
+      <html lang="en">
+        <body
+          className={cn(
+            poppins.variable,
+            roboto_mono.variable,
+            "overflow-x-hidden mx-auto font-sans h-full min-h-screen"
+          )}
+        >
+          <StripeProvider>
+            {children}
+            <ToastContainer
+              position="bottom-right"
+              theme="colored"
+              autoClose={3000}
+            />
+            <Footer />
+          </StripeProvider>
+        </body>
+      </html>
+    </StoreProvider>
   );
 }
