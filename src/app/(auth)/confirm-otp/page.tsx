@@ -24,7 +24,7 @@ const OTPPage = () => {
   const router = useRouter();
 
   const { resendOtp, data, error, isPending } = useResendOtp();
-  const { confirmOtp, data: confirmData, error: confirmError, isPending: isConfirmPending } = useLoginWithOtp();
+  const { confirmLogin, data: confirmData, error: confirmError, isPending: isConfirmPending } = useLoginWithOtp();
 
   const isButtonDisabled = () => {
     if (otp.length < 5 || errors?.otp || isConfirmPending) {
@@ -72,13 +72,13 @@ const OTPPage = () => {
     //get the email store in the local storage
 
     // TODO: send data to backend and wait for the response
-    //Envoi des infos
+    
 
     //if the response is ok just redirect to the login page
     toast.success("OK");
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 2000);
+    // setTimeout(() => {
+    //   window.location.href = "/login";
+    // }, 2000);
   };
 
   return (
