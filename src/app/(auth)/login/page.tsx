@@ -23,10 +23,11 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [LoginInfo, setLoginInfo] = useState<LoginData>({email: '', password: ''});
   const router = useRouter();
 
   const { loginUser, isPending, error, data } = useLogin();
-  const { getCurrentUser, isPending: userPending, error: userError, data: currentUser } = useGetCurrentUser();
+  const { getCurrentUser, isPending: userCheckPending, error: userError, data: currentUser } = useGetCurrentUser();
   const isButtonDisabled = (): boolean => {
     if (errors.password || errors.email)
       {
@@ -49,7 +50,7 @@ const Login = () => {
       const { otpGenerated, refreshToken, accessToken } = data;
       //If otp is generated, we need to redirect to the confirm otp page and submit again
       if (otpGenerated) {
-        // localStorage.setItem("loginInfo", JSON.stringify(payload));
+        localStorage.setItem("loginInfo", JSON.stringify(LoginInfo));
         setTimeout(() => {
           router.push("/confirm-otp");
         }, 2000);
@@ -62,10 +63,10 @@ const Login = () => {
         getCurrentUser();
       }
     }
-  }, [data, getCurrentUser, router, isPending]);
+  }, [data, getCurrentUser, router, isPending, LoginInfo]);
 
   useEffect(() => {
-    if (!userPending && !userError && currentUser) {
+    if (!userCheckPending && !userError && currentUser) {
       if (currentUser.interests.length > 0) {
         setTimeout(() => {
           router.push("/home");
@@ -78,10 +79,11 @@ const Login = () => {
         }, 2000);
       }
     }
-  }, [currentUser, userPending, userError, router]);
+  }, [currentUser, userCheckPending, userError, router]);
 
   const onSubmit = async (payload: LoginData) => {
     // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect
+    setLoginInfo(payload)
     console.log(payload);
     loginUser(payload);
 

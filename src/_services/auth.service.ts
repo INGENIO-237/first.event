@@ -1,10 +1,10 @@
 import server from "@/lib/server";
-import { confirmLoginData, confirmLoginResponse, LoginData, LoginResponse, resendOtpData } from "@/utils/types/auth";
+import { confirmLoginData, confirmLoginResponse, forgotPasswordData, LoginData, LoginResponse, resendOtpData, resetPasswordData } from "@/utils/types/auth";
 import { DefaultError, useMutation } from "@tanstack/react-query";
 
 export function useLogin() {
     const login = async (data: LoginData) => {
-        const response = await server({}).post("/auth/login", data);
+        const response = await server().post("/auth/login", data);
         return response.data as LoginResponse;
     }
 
@@ -31,7 +31,6 @@ export function useGetCurrentUser() {
 }
 
 export function useLoginWithOtp() {
-
     const confirmOtp = async (data: confirmLoginData) => {
         const accessToken = localStorage.getItem("accessToken");
         const refreshToken = localStorage.getItem("refreshToken");
@@ -57,6 +56,27 @@ export function useResendOtp() {
         }).post("/auth/resend-otp", data);
         return response.data;
     }
-    const { mutateAsync: resendOtp, data, error, isPending } = useMutation<resendOtpData, DefaultError, resendOtpData>({ mutationFn: askOtp });
+    const { mutateAsync: resendOtp, data, error, isPending } = useMutation<any, DefaultError, resendOtpData>({ mutationFn: askOtp });
     return { resendOtp, data, error, isPending };
 }
+
+export function useForgotPassword() {
+    const forgotPassword = async (data: forgotPasswordData) => {
+        const response = await server().post("/auth/forgot-password", data);
+        return response.data;
+    }
+    const { mutateAsync: askForgotPassword, data, error, isPending } = useMutation<any, DefaultError, forgotPasswordData>({ mutationFn: forgotPassword });
+
+    return { askForgotPassword, data, error, isPending };
+}
+
+export function useResetPassword() {
+    const askResetPassword = async (data: resetPasswordData) => {
+        const response = await server().post("/auth/reset-password", data);
+        return response.data;
+    }
+    const { mutateAsync: resetPassword, data, error, isPending } = useMutation<any, DefaultError, resetPasswordData>({ mutationFn: askResetPassword });
+
+    return { resetPassword, data, error, isPending };
+}
+ 
