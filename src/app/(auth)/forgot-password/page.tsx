@@ -10,7 +10,8 @@ import Link from "next/link";
 import { useState } from "react";
 import InputError from "@/app/_components/auth/InputError";
 import { useRouter } from "next/navigation";
-import { forgotPassword } from "@/utils/types/auth";
+import { forgotPasswordData } from "@/utils/types/auth";
+import { useForgotPassword } from "@/_services/auth.service";
 
 
 
@@ -19,25 +20,33 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState<string>("");
 
   const isButtonDisabled = (): boolean => {
-    if (errors.email || email == "") {
+    if (errors.email || email == "" || isPending) {
       return true;
     }
     return false;
   };
 
+  const { askForgotPassword, data, error, isPending } = useForgotPassword();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<forgotPassword>({
+  } = useForm<forgotPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const onSubmit = (data: forgotPassword) => {
+  const onSubmit = (payload: forgotPasswordData) => {
     //Save the email in the local storage
-    localStorage.setItem("email", JSON.stringify(data.email));
+    localStorage.setItem("email", JSON.stringify(payload.email));
     // TODO: Send payload to backend and wait for a success response to redirect to the reset password page
-    toast.success("OK");
+    askForgotPassword(payload).then((data) => {
+      console.log(data);
+      toast.success('Code OTP envoyé');
+      router.push('/reset-password');
+    }).catch((e) => {
+      console.log(e)
+    })
     setTimeout(() => {
       router.push("/reset-password");
     }, 2000);
@@ -47,10 +56,6 @@ const ForgotPassword = () => {
       <div className="w-full min-h-screen md:w-1/2 p-4 md:p-8 flex flex-col justify-center">
         <div className="max-w-md m-auto w-full">
           <div className="flex d justify-start items-center">
-            {/* <div className='md:min-h-screen md:flex flex-row md:overflow-x-hidden'>
-        <div className='w-full min-h-screen md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
-          <div className="max-w-md mx-auto w-full">
-            <div className="flex justify-start items-center"> */}
             <Link href="/" className="mb-4 md:mb-0">
               <Image
                 src={logo}

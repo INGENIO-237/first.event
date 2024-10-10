@@ -21,23 +21,19 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [LoginInfo, setLoginInfo] = useState<LoginData>({email: '', password: ''});
   const router = useRouter();
 
   const { loginUser, isPending, error, data } = useLogin();
   const {
     getCurrentUser,
-    isPending: userPending,
+    isPending: userCheckPending,
     error: userError,
-    data: userData,
+    data: currentUser,
   } = useGetCurrentUser();
   const isButtonDisabled = (): boolean => {
-    if (
-      errors.password ||
-      errors.email ||
-      email === "" ||
-      password === "" ||
-      password.length <= 6
-    ) {
+    if (errors.password || errors.email)
+      {
       return true;
     }
     return false;
@@ -71,26 +67,33 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (payload: LoginData) => {
-    // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect
-    // const payload = parseLoginInfo(data);
-    const { otpGenerated, refreshToken, accessToken } =
-      await loginUser(payload);
+  useEffect(() => {
+    if (data && !isPending) {
+      const { otpGenerated, refreshToken, accessToken } = data;
+      //If otp is generated, we need to redirect to the confirm otp page and submit again
+      if (otpGenerated) {
+        localStorage.setItem("loginInfo", JSON.stringify(LoginInfo));
+        setTimeout(() => {
+          router.push("/confirm-otp");
+        }, 2000);
+      } else {
+        //store in the localStorage the refreshToken and accessToken
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("accessToken", accessToken);
 
-    //If otp is generated, we need to redirect to the confirm otp page and submit again
-    if (otpGenerated) {
-      localStorage.setItem("loginInfo", JSON.stringify(payload));
-      setTimeout(() => {
-        router.push("/confirm-otp");
-      }, 2000);
-    } else {
-      //Verify if the user has interests
-      getCurrentUser();
+        //Verify if the user has interests
+        getCurrentUser();
+      }
+    }
+  }, [data, getCurrentUser, router, isPending, LoginInfo]);
 
+  useEffect(() => {
+    if (!userCheckPending && !userError && currentUser) {
       if (currentUser.interests.length > 0) {
         setTimeout(() => {
           router.push("/home");
@@ -102,6 +105,14 @@ const Login = () => {
         }, 2000);
       }
     }
+  }, [currentUser, userCheckPending, userError, router]);
+
+  const onSubmit = async (payload: LoginData) => {
+    // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect
+    setLoginInfo(payload)
+    console.log(payload);
+    loginUser(payload);
+
   };
 
   return (
@@ -131,12 +142,8 @@ const Login = () => {
               <div className="">
                 <input
                   type="email"
-                  id="email"
                   {...register("email")}
                   placeholder="Adresse Email"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setEmail(e.target.value)
-                  }
                   className={cn(
                     errors.email
                       ? "focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300"
@@ -151,12 +158,8 @@ const Login = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  id="password"
-                  {...register("password")}
                   placeholder="Mot de passe"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setPassword(e.target.value)
-                  }
+                  {...register('password')}
                   className={cn(
                     errors.password
                       ? "focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300"
