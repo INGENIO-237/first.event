@@ -31,6 +31,7 @@ export type resendOtpData = {
 }
 
 export type resetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+
 export type resetPasswordData = {
     email: string;
     otp: number;
