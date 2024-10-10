@@ -5,7 +5,7 @@ import {AxiosResponse} from "axios";
 
 export function useRegister() {
     const register = async (data: LoginData) => {
-        const response = await ax({}).post("/auth/register", data);
+        const response = await server().post("/auth/register", data);
         return response.data as LoginResponse;
     }
 
