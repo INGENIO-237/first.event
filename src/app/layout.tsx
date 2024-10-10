@@ -3,7 +3,6 @@ import { Poppins, Roboto_Mono } from "next/font/google";
 import React from "react";
 import 'react-phone-input-2/lib/style.css';
 import "./globals.css";
-import "./ReactToastify.css";
 import { cn } from "@/lib/utils";
 import Footer from "@/components/partial/Footer";
 import { ToastContainer } from "react-toastify";
@@ -11,6 +10,7 @@ import "react-phone-input-2/lib/style.css";
 import StripeProvider from "./StripeProvider";
 import { StoreProvider } from "@/store/StoreProvider";
 import ClientProvider from "./ClientProvider";
+import {Toaster} from "@/components/ui/sonner";
 
 //TODO: Create a component that will render all the client side 
 const poppins = Poppins({
@@ -50,7 +50,7 @@ export default function RootLayout({
         <ClientProvider>
           {children}
         </ClientProvider>
-
+        <Toaster />
       </body>
     </html>
     </StoreProvider>
