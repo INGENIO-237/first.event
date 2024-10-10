@@ -27,7 +27,7 @@ const Login = () => {
   const { loginUser, isPending, error, data } = useLogin();
   const {
     getCurrentUser,
-    isPending: userCheckPending,
+    isPending: userPending,
     error: userError,
     data: currentUser,
   } = useGetCurrentUser();
@@ -56,12 +56,10 @@ const Login = () => {
   }, [data, getCurrentUser, router]);
   
   useEffect(() => {
-    if(!userPending && userData){
+    if(!userPending && currentUser){
       // Set redux current user
     }
-  }, [userData, userPending]);
-
-
+  }, [currentUser, userPending]);
 
   const {
     register,
@@ -93,7 +91,7 @@ const Login = () => {
   }, [data, getCurrentUser, router, isPending, LoginInfo]);
 
   useEffect(() => {
-    if (!userCheckPending && !userError && currentUser) {
+    if (!userPending && !userError && currentUser) {
       if (currentUser.interests.length > 0) {
         setTimeout(() => {
           router.push("/home");
@@ -105,7 +103,7 @@ const Login = () => {
         }, 2000);
       }
     }
-  }, [currentUser, userCheckPending, userError, router]);
+  }, [currentUser, userPending, userError, router]);
 
   const onSubmit = async (payload: LoginData) => {
     // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect

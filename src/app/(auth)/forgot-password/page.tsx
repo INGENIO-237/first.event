@@ -1,17 +1,17 @@
 "use client";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import logo from "/public/assets/logo.png";
+import { useForgotPassword } from "@/_services/auth.service";
+import InputError from "@/app/_components/auth/InputError";
 import { cn } from "@/lib/utils";
 import { forgotPasswordSchema } from "@/schema/AuthValidation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "react-toastify";
-import Link from "next/link";
-import { useState } from "react";
-import InputError from "@/app/_components/auth/InputError";
-import { useRouter } from "next/navigation";
 import { forgotPasswordData } from "@/utils/types/auth";
-import { useForgotPassword } from "@/_services/auth.service";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import logo from "/public/assets/logo.png";
 
 
 
@@ -20,7 +20,7 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState<string>("");
 
   const isButtonDisabled = (): boolean => {
-    if (errors.email || email == "" || isPending) {
+    if (email == "" || isPending) {
       return true;
     }
     return false;
@@ -38,7 +38,7 @@ const ForgotPassword = () => {
 
   const onSubmit = (payload: forgotPasswordData) => {
     //Save the email in the local storage
-    localStorage.setItem("email", JSON.stringify(payload.email));
+    localStorage.setItem("email", payload.email);
     // TODO: Send payload to backend and wait for a success response to redirect to the reset password page
     askForgotPassword(payload).then((data) => {
       console.log(data);
