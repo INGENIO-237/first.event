@@ -1,4 +1,4 @@
-import { forgotPasswordSchema, loginSchema, otpConfirmSchema } from "@/schema/AuthValidation";
+import { forgotPasswordSchema, loginSchema, otpConfirmSchema, resetPasswordSchema } from "@/schema/AuthValidation";
 import * as z from "zod";
 
 
@@ -41,4 +41,12 @@ export type confirmLoginResponse = {
 
 export type resendOtpData = {
     email: string;
+}
+
+export type resetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+
+export type resetPasswordData = {
+    email: string;
+    otp: number;
+    password: string;
 }
