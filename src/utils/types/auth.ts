@@ -23,12 +23,14 @@ export interface RegisterResponse {
 }
 export type forgotPassword = z.infer<typeof forgotPasswordSchema>;
 
+export type forgotPasswordData = z.infer<typeof forgotPasswordSchema>;
+
 export type OTPData = z.infer<typeof otpConfirmSchema>;
 
 export type confirmLoginData = {
     email: string;
     password: string;
-    otp: string;
+    otp: number;
 }
 
 export type confirmLoginResponse = {
