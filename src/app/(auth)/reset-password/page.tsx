@@ -1,20 +1,20 @@
 "use client";
-import { resetPasswordSchema } from "@/schema/AuthValidation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import logo from "/public/assets/logo.png";
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import InputError from "@/app/_components/auth/InputError";
-import { Dot, EyeIcon, EyeOffIcon } from "lucide-react";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { resetPasswordFormData } from "@/utils/types/auth";
 import { useResendOtp, useResetPassword } from "@/_services/auth.service";
+import InputError from "@/app/_components/auth/InputError";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { cn } from "@/lib/utils";
+import { resetPasswordSchema } from "@/schema/AuthValidation";
+import { resetPasswordFormData } from "@/utils/types/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { Dot, EyeIcon, EyeOffIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import logo from "/public/assets/logo.png";
 
 
 const ResetPassword = () => {
@@ -40,7 +40,7 @@ const ResetPassword = () => {
   const { resetPassword, data, error, isPending } = useResetPassword();
 
   const isButtonDisabled = (): boolean => {
-    if (errors.password !== undefined || otp.length < 5 || errors?.otp !== undefined || isPending) {
+    if ( otp.length < 5 || isPending || isOtpPending) {
       return true;
     }
     return false;
@@ -53,7 +53,7 @@ const ResetPassword = () => {
       countdown = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
-    } else if (isOtpPending) {
+    } else if (isOtpPending || isPending) {
       setDisabled(true);
     }
     else {
@@ -61,11 +61,13 @@ const ResetPassword = () => {
     }
     // Nettoyage de l'intervalle lors du démontage du composant ou lors du changement de timer
     return () => clearInterval(countdown);
-  }, [timer, isOtpPending]);
+  }, [timer, isOtpPending, isPending]);
 
   useEffect(() => {
     setEmail(localStorage.getItem("email"));
   }, []);
+
+  
 
   const resendCode = (): void => {
     setTimer(59)
@@ -179,6 +181,9 @@ const ResetPassword = () => {
                 {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </span>
             </div>
+            {errors?.password && (
+              <InputError message={errors?.password?.message} />
+            )}
             {timer > 0 ? (<div className="flex justify-end text-[#484848]">
               {`00:${timer < 10 ? `0${timer}` : timer}`}
             </div>) : ''}
@@ -195,10 +200,6 @@ const ResetPassword = () => {
                 Renvoyer le code
               </button>
             </div>
-
-            {errors?.password && (
-              <InputError message={errors?.password?.message} />
-            )}
             <div className="">
               <button
                 type="submit"
