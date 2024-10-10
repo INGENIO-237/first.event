@@ -33,8 +33,6 @@ const ResetPassword = () => {
   } = useForm<resetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
   });
-  //TODO: initialize the State and add the otp input and also ad the validation
-
 
   const { resendOtp, data: otpData, error: otpError, isPending: isOtpPending } = useResendOtp();
   const { resetPassword, data, error, isPending } = useResetPassword();
@@ -46,7 +44,6 @@ const ResetPassword = () => {
     return false;
   };
 
-  //timer
   useEffect((): (() => void) => {
     let countdown: NodeJS.Timeout | undefined;
     if (timer > 0) {
