@@ -1,4 +1,10 @@
-import { forgotPasswordSchema, loginSchema, otpConfirmSchema, resetPasswordSchema } from "@/schema/AuthValidation";
+import {
+    forgotPasswordSchema,
+    loginSchema,
+    otpConfirmSchema,
+    registerSchema,
+    resetPasswordSchema
+} from "@/schema/AuthValidation";
 import * as z from "zod";
 
 

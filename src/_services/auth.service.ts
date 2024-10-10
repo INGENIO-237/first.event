@@ -5,7 +5,7 @@ import {
     LoginData,
     LoginResponse,
     RegisterData, RegisterResponse,
-    resendOtpData
+    resendOtpData, resetPasswordData
 } from "@/utils/types/auth";
 import {DefaultError, useMutation} from "@tanstack/react-query";
 import {AxiosResponse} from "axios";
