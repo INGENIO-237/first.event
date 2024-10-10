@@ -1,4 +1,3 @@
-
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,7 +17,6 @@ import { useGetCurrentUser, useLogin } from "@/_services/auth.service";
 import { useRouter } from "next/navigation";
 import { LoginData } from "@/utils/types/auth";
 
-
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState<string>("");
@@ -27,7 +25,12 @@ const Login = () => {
   const router = useRouter();
 
   const { loginUser, isPending, error, data } = useLogin();
-  const { getCurrentUser, isPending: userCheckPending, error: userError, data: currentUser } = useGetCurrentUser();
+  const {
+    getCurrentUser,
+    isPending: userCheckPending,
+    error: userError,
+    data: currentUser,
+  } = useGetCurrentUser();
   const isButtonDisabled = (): boolean => {
     if (errors.password || errors.email)
       {
@@ -35,6 +38,30 @@ const Login = () => {
     }
     return false;
   };
+
+  useEffect(() => {
+    if (data) {
+      const { accessToken, refreshToken, otpGenerated } = data;
+
+      if (otpGenerated) {
+        router.push("/confirm-otp");
+      } else {
+        //store in the localStorage the refreshToken and accessToken
+        localStorage.setItem("refreshToken", refreshToken);
+        localStorage.setItem("accessToken", accessToken);
+
+        getCurrentUser()
+      }
+    }
+  }, [data, getCurrentUser, router]);
+  
+  useEffect(() => {
+    if(!userPending && userData){
+      // Set redux current user
+    }
+  }, [userData, userPending]);
+
+
 
   const {
     register,
@@ -71,8 +98,7 @@ const Login = () => {
         setTimeout(() => {
           router.push("/home");
         }, 2000);
-      }
-      else {
+      } else {
         //case if it's the first login
         setTimeout(() => {
           router.push("/welcome");

@@ -1,10 +1,15 @@
-import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Poppins, Roboto_Mono } from "next/font/google";
 import React from "react";
 import 'react-phone-input-2/lib/style.css';
 import "./globals.css";
 import "./ReactToastify.css";
+import { cn } from "@/lib/utils";
+import Footer from "@/components/partial/Footer";
+import { ToastContainer } from "react-toastify";
+import "react-phone-input-2/lib/style.css";
+import StripeProvider from "./StripeProvider";
+import { StoreProvider } from "@/store/StoreProvider";
 import ClientProvider from "./ClientProvider";
 
 //TODO: Create a component that will render all the client side 
@@ -32,6 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    
+    <StoreProvider>
     <html lang="en">
       <body
         className={cn(
@@ -46,5 +53,6 @@ export default function RootLayout({
 
       </body>
     </html>
+    </StoreProvider>
   );
 }
