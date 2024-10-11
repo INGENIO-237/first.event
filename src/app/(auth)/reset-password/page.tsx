@@ -72,7 +72,7 @@ const ResetPassword = () => {
     if(email) {
       resendOtp({ email: email })
         .then((data) => {
-          toast.success('Code OTP renvoyé')
+          toast.success('Code OTP renvoyé', { autoClose: 4000 });
         })
         .catch((e) => {
           console.log(e);
@@ -95,7 +95,8 @@ const ResetPassword = () => {
       }
       resetPassword(payload)
         .then((data) => {
-          toast.success('Mot de passe reinitialisé')
+          toast.success('Mot de passe reinitialisé', { autoClose: 4000 });
+          router.push('/login');
         })
         .catch((e) => {
           console.log(e);
@@ -148,7 +149,7 @@ const ResetPassword = () => {
                           index={index}
                           className={cn(
                             errors.otp &&
-                            "border-red-500 focus:border-blue-500 "
+                            "border-red-500 focus:border-blue-500 border-2 "
                           )}
                         />
                       </InputOTPGroup>
