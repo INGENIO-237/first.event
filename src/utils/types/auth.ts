@@ -1,14 +1,33 @@
-import { forgotPasswordSchema, loginSchema, otpConfirmSchema, resetPasswordSchema } from "@/schema/AuthValidation";
+import {
+    forgotPasswordSchema,
+    loginSchema,
+    otpConfirmSchema,
+    registerSchema,
+    resetPasswordSchema
+} from "@/schema/AuthValidation";
 import * as z from "zod";
 
 
 export type LoginData = z.infer<typeof loginSchema>;
+export type RegisterData = z.infer<typeof registerSchema>
 
 export type LoginResponse = {
     accessToken: string;
     refreshToken: string;
     otpGenerated: boolean;
 };
+export interface RegisterResponse {
+    _id: string;
+    email: string;
+    firstname: string;
+    lastname: string;
+    isVerified: boolean;
+    hasBeenDeleted: boolean;
+    interests: unknown[];
+    createdAt: Date;
+    updatedAt: Date;
+}
+export type forgotPassword = z.infer<typeof forgotPasswordSchema>;
 
 export type forgotPasswordData = z.infer<typeof forgotPasswordSchema>;
 
