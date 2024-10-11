@@ -32,11 +32,8 @@ const Login = () => {
     data: currentUser,
   } = useGetCurrentUser();
   const isButtonDisabled = (): boolean => {
-    if (errors.password || errors.email)
-      {
-      return true;
-    }
-    return false;
+    return !!(errors.password || errors.email);
+
   };
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 "use client"
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useForm, SubmitHandler} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import Link from "next/link";
 import {EyeIcon, EyeOffIcon} from "lucide-react";
 import {FaApple, FaFacebook} from "react-icons/fa";
 import {FcGoogle} from "react-icons/fc";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {z} from "zod";
 
 import {cn} from "@/lib/utils";
@@ -17,16 +17,18 @@ import {registerUser} from "@/features/auth/authThunks";
 import InputError from "@/app/_components/auth/InputError";
 import Checkbox from "@/app/_components/Checkbox";
 import {AppDispatch} from "@/store/store";
-import {RootState} from "@/store/rootReducer";
 import {toast} from "sonner";
+import {LoginData} from "@/utils/types/auth";
+import {useGetCurrentUser, useLogin} from "@/_services/auth.service";
+import {useRouter} from "next/navigation";
 
 // Zod schema for form validation
 const registerSchema = z.object({
     email: z.string().email("Adresse email invalide"),
     lastname: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
     firstname: z.string().min(2, "Le prénom doit contenir au moins 2 caractères"),
-    password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
-    passwordConfirm: z.string(),
+    password: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractères"),
+    passwordConfirm: z.string().min(6, "Le mot de passe doit contenir au moins 6 caractères"),
     acceptedTerms: z.boolean().refine((val) => val, {
         message: "Vous devez accepter les conditions d'utilisation",
     }),
@@ -39,8 +41,10 @@ type RegisterSchemaType = z.infer<typeof registerSchema>;
 
 export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     // const {error, status} = useSelector((state: RootState) => state.auth);
+    const router = useRouter();
 
     const {
         register,
@@ -51,6 +55,36 @@ export default function Register() {
         resolver: zodResolver(registerSchema),
     });
 
+    const {loginUser, isPending, error, data} = useLogin();
+
+    const {
+        getCurrentUser,
+        isPending: userPending,
+        error: userError,
+        data: currentUser,
+    } = useGetCurrentUser();
+
+    useEffect(() => {
+        if (data) {
+            const { accessToken, refreshToken, otpGenerated } = data;
+
+            if (otpGenerated) {
+                router.push("/confirm-otp");
+            } else {
+                //store in the localStorage the refreshToken and accessToken
+                localStorage.setItem("refreshToken", refreshToken);
+                localStorage.setItem("accessToken", accessToken);
+
+                getCurrentUser()
+            }
+        }
+    }, [data, getCurrentUser, router]);
+
+    useEffect(() => {
+        if(!userPending && currentUser){
+            // Set redux current user
+        }
+    }, [currentUser, userPending]);
 
     const onSubmit: SubmitHandler<RegisterSchemaType> = async (data) => {
         try {
@@ -67,8 +101,16 @@ export default function Register() {
                 }
             }
             if (registerUser.fulfilled.match(action) && action.payload) {
-                console.log(action.payload);
                 toast.success('Compte créé avec succès');
+                // TODO : Begin with the login process
+                //     On recupere l'email et le mot de passe puis on fait un login qui va renvoyer un accessToken On  recupère le refreshToken
+                const {email, password} = data;
+                const loginData: LoginData = {
+                    email,
+                    password
+                }
+                await loginUser(loginData)
+
             }
 
         } catch (error) {
@@ -164,9 +206,9 @@ export default function Register() {
                         </div>
                         {errors.password && <InputError message={errors.password.message}/>}
 
-                        <div>
+                        <div className="relative">
                             <input
-                                type={showPassword ? "text" : "password"}
+                                type={showPasswordConfirm ? "text" : "password"}
                                 {...register("passwordConfirm")}
                                 placeholder="Confirmer le mot de passe"
                                 className={cn(
@@ -176,8 +218,15 @@ export default function Register() {
                                         : "border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
                                 )}
                             />
-                            {errors.passwordConfirm && <InputError message={errors.passwordConfirm.message}/>}
+                            <button
+                                type="button"
+                                onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                            >
+                                {showPasswordConfirm ? <EyeOffIcon size={20}/> : <EyeIcon size={20}/>}
+                            </button>
                         </div>
+                        {errors.passwordConfirm && <InputError message={errors.passwordConfirm.message}/>}
 
                         <div className="flex items-start mb-4">
                             <div className="flex items-center h-5 mr-2">

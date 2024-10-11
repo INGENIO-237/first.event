@@ -19,7 +19,6 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
                                                                   className,
                                                                   primaryColor = "text-blue-500",
                                                                   inputBorderColor = "border-gray-300",
-                                                                  bgColor = 'bg-current',
                                                                   size = 6,
                                                                   register,
                                                                   ...props
@@ -42,7 +41,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
                     className={cn(
                         className,
                         `flex items-center justify-center w-${size} h-${size} border ${inputBorderColor} rounded cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110`,
-                        `peer-checked:${primaryColor} peer-checked:${bgColor} bg-white`
+                        `peer-checked:text-current peer-checked:bg-indigo-500 bg-white`
                     )}
                 >
                     <svg

@@ -2,11 +2,11 @@
 "use client";
 import InterestCard from "@/app/_components/config-account/InterestCard";
 import ProgressBar from "@/app/_components/config-account/ProgressBar";
-import { cn } from "@/lib/utils";
-import { interests as interestsData } from "@/utils/interests";
+import {cn} from "@/lib/utils";
+import {interests as interestsData} from "@/utils/interests";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import React, {useEffect, useState} from "react";
+import {toast} from "sonner";
 
 export interface SelectedInterest {
   interest: string;
@@ -28,15 +28,13 @@ const FirstStep = () => {
           : [...existingInterest.tags, tag];
 
         // Update the interest object or remove it if no tags are left
-        const updatedInterests = updatedTags.length
-          ? prevSelected.map((item) =>
-            item.interest === interestName
-              ? { ...item, tags: updatedTags }
-              : item
-          )
-          : prevSelected.filter((item) => item.interest !== interestName);
-
-        return updatedInterests;
+        return updatedTags.length
+            ? prevSelected.map((item) =>
+                item.interest === interestName
+                    ? {...item, tags: updatedTags}
+                    : item
+            )
+            : prevSelected.filter((item) => item.interest !== interestName);
       } else {
         // If the category does not exist, add it with the selected tag
         return [...prevSelected, { interest: interestName, tags: [tag] }];
@@ -46,10 +44,8 @@ const FirstStep = () => {
 
   
   const isButtonDisabled = () => {
-    if (interests.length == 0) {
-      return true;
-    }
-    return false;
+    return interests.length == 0;
+
   };
 
   useEffect(() => {
@@ -61,7 +57,7 @@ const FirstStep = () => {
   const handleSubmit = () => {
     if(isButtonDisabled()){
 
-      toast.warn("Veillez selectionner au moins un centre d'intérêts");
+      toast.warning("Veillez sélectionner au moins un centre d'intérêts");
     }
     else{
       //store interests
@@ -83,8 +79,8 @@ const FirstStep = () => {
               Dites nous ce que vous aimez.
             </h1>
             <span>
-              Personnalisez vos recommandations d&apos;évenements en fonction de
-              vos interêts.
+              Personnalisez vos recommandations d&apos;évènements en fonction de
+              vos interets.
             </span>
             <div className="w-full">
               <ProgressBar limit={2} />
