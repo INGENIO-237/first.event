@@ -96,6 +96,7 @@ const ResetPassword = () => {
       resetPassword(payload)
         .then((data) => {
           toast.success('Mot de passe reinitialisé', { autoClose: 4000 });
+          localStorage.removeItem("email");
           router.push('/login');
         })
         .catch((e) => {

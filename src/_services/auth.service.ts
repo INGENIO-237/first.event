@@ -6,7 +6,7 @@ import {AxiosResponse} from "axios";
 export function useRegister() {
     const register = async (data: LoginData) => {
         const response = await server().post("/auth/register", data);
-        return response.data as LoginResponse;
+        return response.data ;
     }
 
     const {
@@ -14,7 +14,7 @@ export function useRegister() {
         data,
         error,
         isPending
-    } = useMutation<LoginResponse, DefaultError, LoginData>({mutationFn: register});
+    } = useMutation<any, DefaultError, LoginData>({mutationFn: register});
 
     return {registerUser, data, error, isPending};
 }

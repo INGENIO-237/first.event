@@ -4,14 +4,12 @@ import InterestCard from "@/app/_components/config-account/InterestCard";
 import ProgressBar from "@/app/_components/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import { interests as interestsData } from "@/utils/interests";
+import { SelectedInterest, SetupInterests } from "@/utils/types/setup";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export interface SelectedInterest {
-  interest: string;
-  tags: Array<string>;
-}
+
 const FirstStep = () => {
   const [interests, setInterests] = useState<SelectedInterest[]>([]);
   const handleInterestToggle = (interestName: string, tag: string) => {
@@ -44,7 +42,7 @@ const FirstStep = () => {
     });
   };
 
-  
+
   const isButtonDisabled = () => {
     if (interests.length == 0) {
       return true;
@@ -55,20 +53,27 @@ const FirstStep = () => {
   useEffect(() => {
     setInterests(JSON.parse(localStorage.getItem("interests") || "[]"));
   }, [])
-  
+
   console.log(isButtonDisabled());
 
   const handleSubmit = () => {
-    if(isButtonDisabled()){
+    if (isButtonDisabled()) {
 
-      toast.warn("Veillez selectionner au moins un centre d'intérêts");
+      toast.warn("Veillez selectionner au moins un centre d'intérêts", { autoClose: 4000 });
     }
-    else{
+    else {
       //store interests
       localStorage.setItem("interests", JSON.stringify(interests));
       console.log("Selected interests:", interests);
-      //Select only the interests name and pace them in the payload
-      toast.success("OK");
+      //Select only the interests name and place them in the payload
+      const interestsName: Array<string> = [];
+      interests.forEach((interest, index) => {
+        interestsName.push(interest.interest);
+      });
+      const payload: SetupInterests = {
+        interests: interestsName 
+      }
+      
       // TODO: Add the API logic here
 
     }
