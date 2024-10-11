@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+import {toast} from "sonner";
 import logo from "/public/assets/logo.png";
 
 
@@ -72,7 +72,7 @@ const ResetPassword = () => {
     if(email) {
       resendOtp({ email: email })
         .then((data) => {
-          toast.success('Code OTP renvoyé')
+          toast.success('Code OTP renvoyé');
         })
         .catch((e) => {
           console.log(e);
@@ -95,7 +95,9 @@ const ResetPassword = () => {
       }
       resetPassword(payload)
         .then((data) => {
-          toast.success('Mot de passe reinitialisé')
+          toast.success('Mot de passe reinitialisé');
+          localStorage.removeItem("email");
+          router.push('/login');
         })
         .catch((e) => {
           console.log(e);
@@ -148,7 +150,7 @@ const ResetPassword = () => {
                           index={index}
                           className={cn(
                             errors.otp &&
-                            "border-red-500 focus:border-blue-500 "
+                            "border-red-500 focus:border-blue-500 border-2 "
                           )}
                         />
                       </InputOTPGroup>
