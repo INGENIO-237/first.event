@@ -60,3 +60,15 @@ export const registerSchema = z
     message: "Les mots de passe ne correspondent pas",
     path: ["passwordConfirm"],
   });
+
+export const registerResponseSchema = z.object({
+  _id: z.string(),
+  email: z.string().email(),
+  firstname: z.string(),
+  lastname: z.string(),
+  isVerified: z.boolean(),
+  hasBeenDeleted: z.boolean(),
+  interests: z.array(z.unknown()),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date()
+});

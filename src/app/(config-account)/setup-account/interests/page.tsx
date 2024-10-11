@@ -7,7 +7,8 @@ import { interests as interestsData } from "@/utils/interests";
 import { SelectedInterest, SetupInterests } from "@/utils/types/setup";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import {toast} from "sonner";
+
 
 
 const FirstStep = () => {
@@ -59,7 +60,7 @@ const FirstStep = () => {
   const handleSubmit = () => {
     if (isButtonDisabled()) {
 
-      toast.warn("Veillez selectionner au moins un centre d'intérêts", { autoClose: 4000 });
+      toast.warning("Veillez selectionner au moins un centre d'intérêts");
     }
     else {
       //store interests
@@ -73,7 +74,7 @@ const FirstStep = () => {
       const payload: SetupInterests = {
         interests: interestsName 
       }
-      
+
       // TODO: Add the API logic here
 
     }

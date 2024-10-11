@@ -2,6 +2,7 @@ import {
     forgotPasswordSchema,
     loginSchema,
     otpConfirmSchema,
+    registerResponseSchema,
     registerSchema,
     resetPasswordSchema
 } from "@/schema/AuthValidation";
@@ -16,17 +17,7 @@ export type LoginResponse = {
     refreshToken: string;
     otpGenerated: boolean;
 };
-export interface RegisterResponse {
-    _id: string;
-    email: string;
-    firstname: string;
-    lastname: string;
-    isVerified: boolean;
-    hasBeenDeleted: boolean;
-    interests: unknown[];
-    createdAt: Date;
-    updatedAt: Date;
-}
+export type RegisterResponse = z.infer<typeof registerResponseSchema>;
 export type forgotPassword = z.infer<typeof forgotPasswordSchema>;
 
 export type forgotPasswordData = z.infer<typeof forgotPasswordSchema>;

@@ -1,5 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import ax from "@/lib/server";
+import server from "@/lib/server";
+import { LoginResponse } from '@/utils/types/auth';
 
 interface RegisterData {
     email: string;
@@ -32,12 +33,27 @@ export const registerUser = createAsyncThunk<
     'auth/register',
     async (data, {rejectWithValue}) => {
         try {
-            const accessToken = localStorage.getItem("accessToken");
-            const refreshToken = localStorage.getItem("refreshToken");
-            const response = await ax({
-                'Authorization': accessToken ? `Bearer ${accessToken}` : null,
-                ["x-refresh"]: refreshToken ? refreshToken : null
-            }).post<User>('/accounts/register', data);
+            const response = await server()
+            .post<User>('/accounts/register', data);
+            return response.data;
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                return rejectWithValue({
+                    message: error.response.data[0]?.message || "Une erreur est survenue",
+                    field: error.response.data[0]?.field
+                });
+            }
+            return rejectWithValue({message: "Une erreur est survenue"});
+        }
+    }
+);
+
+export const loginUser = createAsyncThunk<
+    LoginResponse,
+    { email: string; password: string },
+    { rejectValue: ErrorResponse }>('auth/login', async (data, {rejectWithValue}) => {
+        try {
+            const response = await server().post<LoginResponse>('/auth/login', data);
             return response.data;
         } catch (error: any) {
             if (error.response && error.response.data) {

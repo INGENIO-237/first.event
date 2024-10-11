@@ -1,9 +1,13 @@
 
-export type SetupInterests ={
+export type SetupInterests = {
     interests: Array<string>;
 }
 
-export interface SelectedInterest {
+export type SelectedInterest = {
     interest: string;
     tags: Array<string>;
-  }
+}
+
+export type SetupInterestsData = {
+    interests: Array<SelectedInterest>;
+}
