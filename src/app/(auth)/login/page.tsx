@@ -16,12 +16,14 @@ import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useGetCurrentUser, useLogin } from "@/_services/auth.service";
 import { useRouter } from "next/navigation";
 import { LoginData } from "@/utils/types/auth";
+import { toast } from "sonner";
+
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [LoginInfo, setLoginInfo] = useState<LoginData>({email: '', password: ''});
+  const [LoginInfo, setLoginInfo] = useState<LoginData>({ email: '', password: '' });
   const router = useRouter();
 
   const { loginUser, isPending, error, data } = useLogin();
@@ -31,32 +33,11 @@ const Login = () => {
     error: userError,
     data: currentUser,
   } = useGetCurrentUser();
+
   const isButtonDisabled = (): boolean => {
     return !!(errors.password || errors.email);
 
   };
-
-  useEffect(() => {
-    if (data) {
-      const { accessToken, refreshToken, otpGenerated } = data;
-
-      if (otpGenerated) {
-        router.push("/confirm-otp");
-      } else {
-        //store in the localStorage the refreshToken and accessToken
-        localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("accessToken", accessToken);
-
-        getCurrentUser()
-      }
-    }
-  }, [data, getCurrentUser, router]);
-  
-  useEffect(() => {
-    if(!userPending && currentUser){
-      // Set redux current user
-    }
-  }, [currentUser, userPending]);
 
   const {
     register,
@@ -67,8 +48,10 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  useEffect(() => {
-    if (data && !isPending) {
+  const onSubmit = async (payload: LoginData) => {
+    setLoginInfo(payload)
+    console.log(payload);
+    loginUser(payload).then((data) => {
       const { otpGenerated, refreshToken, accessToken } = data;
       //If otp is generated, we need to redirect to the confirm otp page and submit again
       if (otpGenerated) {
@@ -82,31 +65,29 @@ const Login = () => {
         localStorage.setItem("accessToken", accessToken);
 
         //Verify if the user has interests
-        getCurrentUser();
+        getCurrentUser()
+          .then((data) => {
+            if (currentUser.interests.length > 0) {
+              setTimeout(() => {
+                router.push("/home");
+              }, 2000);
+            } else {
+              setTimeout(() => {
+                router.push("/welcome");
+              }, 2000);
+            }
+          }).catch((e) => {
+            console.log(e);
+            for (const error of e.response.data) {
+              toast.error(error.message);
+            }
+          });
       }
-    }
-  }, [data, getCurrentUser, router, isPending, LoginInfo]);
-
-  useEffect(() => {
-    if (!userPending && !userError && currentUser) {
-      if (currentUser.interests.length > 0) {
-        setTimeout(() => {
-          router.push("/home");
-        }, 2000);
-      } else {
-        //case if it's the first login
-        setTimeout(() => {
-          router.push("/welcome");
-        }, 2000);
+    }).catch((e) => {
+      for (const error of e.response.data) {
+        toast.error(error.message);
       }
-    }
-  }, [currentUser, userPending, userError, router]);
-
-  const onSubmit = async (payload: LoginData) => {
-    // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect
-    setLoginInfo(payload)
-    console.log(payload);
-    loginUser(payload);
+    })
 
   };
 
