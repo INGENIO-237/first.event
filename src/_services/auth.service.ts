@@ -1,7 +1,6 @@
 import server from "@/lib/server";
 import {
     confirmLoginData,
-    confirmLoginResponse,
     forgotPasswordData,
     LoginData,
     LoginResponse,
@@ -42,7 +41,6 @@ export function useRegister() {
 }
 
 export function useLogin() {
-    const dispatch = useDispatch();
     const login = async (data: LoginData) => {
         const response = await server().post("/auth/login", data);
         return response.data as LoginResponse;
@@ -53,7 +51,13 @@ export function useLogin() {
         data,
         error,
         isPending
-    } = useMutation<LoginResponse, DefaultError, LoginData>({ mutationFn: login });
+    } = useMutation<LoginResponse, DefaultError, LoginData>({
+        mutationFn: login,
+        onSuccess: ((data)=>{
+            
+        })
+
+    });
 
     return { loginUser, data, error, isPending };
 }
@@ -88,7 +92,7 @@ export function useLoginWithOtp() {
         return response.data;
     }
 
-    const { mutateAsync: confirmLogin, data, error, isPending } = useMutation<confirmLoginResponse, DefaultError, confirmLoginData>({ mutationFn: confirmOtp });
+    const { mutateAsync: confirmLogin, data, error, isPending } = useMutation<LoginResponse, DefaultError, confirmLoginData>({ mutationFn: confirmOtp });
 
     return { confirmLogin, data, error, isPending };
 }
