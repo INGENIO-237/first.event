@@ -6,6 +6,7 @@ import { act } from "react";
 
 const initialState: AuthState = {
     status: 'idle',// inactif
+
     error: null,
     accessToken: null,
     refreshToken: null,

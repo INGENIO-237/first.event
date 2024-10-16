@@ -27,15 +27,13 @@ const FirstStep = () => {
           : [...existingInterest.tags, tag];
 
         // Update the interest object or remove it if no tags are left
-        const updatedInterests = updatedTags.length
-          ? prevSelected.map((item) =>
-            item.interest === interestName
-              ? { ...item, tags: updatedTags }
-              : item
-          )
-          : prevSelected.filter((item) => item.interest !== interestName);
-
-        return updatedInterests;
+        return updatedTags.length
+            ? prevSelected.map((item) =>
+                item.interest === interestName
+                    ? {...item, tags: updatedTags}
+                    : item
+            )
+            : prevSelected.filter((item) => item.interest !== interestName);
       } else {
         // If the category does not exist, add it with the selected tag
         return [...prevSelected, { interest: interestName, tags: [tag] }];
@@ -45,10 +43,8 @@ const FirstStep = () => {
 
 
   const isButtonDisabled = () => {
-    if (interests.length == 0) {
-      return true;
-    }
-    return false;
+    return interests.length == 0;
+
   };
 
   useEffect(() => {
@@ -60,7 +56,7 @@ const FirstStep = () => {
   const handleSubmit = () => {
     if (isButtonDisabled()) {
 
-      toast.warning("Veillez selectionner au moins un centre d'intérêts");
+      toast.warning("Veuillez sélectionner au moins un centre d'intérêts");
     }
     else {
       //store interests
@@ -72,7 +68,7 @@ const FirstStep = () => {
         interestsName.push(interest.interest);
       });
       const payload: SetupInterests = {
-        interests: interestsName 
+        interests: interestsName
       }
 
       // TODO: Add the API logic here
@@ -89,8 +85,8 @@ const FirstStep = () => {
               Dites nous ce que vous aimez.
             </h1>
             <span>
-              Personnalisez vos recommandations d&apos;évenements en fonction de
-              vos interêts.
+              Personnalisez vos recommandations d&apos;évènements en fonction de
+              vos interets.
             </span>
             <div className="w-full">
               <ProgressBar limit={2} />
