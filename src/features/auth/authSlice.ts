@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { registerUser } from "./authThunks";
 
 interface User {
@@ -16,6 +16,7 @@ interface AuthState {
 const initialState: AuthState = {
     user: null,
     status: 'idle',// inactif
+
     error: null,
 };
 
@@ -38,9 +39,8 @@ const authSlice = createSlice({
                 state.status = 'loading';
                 state.error = null;
             })
-            .addCase(registerUser.fulfilled, (state, action: PayloadAction<User>) => {
+            .addCase(registerUser.fulfilled, (state) => {
                 state.status = 'succeeded';
-                state.user = action.payload;
                 state.error = null;
             })
             .addCase(registerUser.rejected, (state, action) => {

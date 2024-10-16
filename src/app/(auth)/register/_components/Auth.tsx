@@ -64,28 +64,6 @@ export default function Register() {
         data: currentUser,
     } = useGetCurrentUser();
 
-    useEffect(() => {
-        if (data) {
-            const { accessToken, refreshToken, otpGenerated } = data;
-
-            if (otpGenerated) {
-                router.push("/confirm-otp");
-            } else {
-                //store in the localStorage the refreshToken and accessToken
-                localStorage.setItem("refreshToken", refreshToken);
-                localStorage.setItem("accessToken", accessToken);
-
-                getCurrentUser()
-            }
-        }
-    }, [data, getCurrentUser, router]);
-
-    useEffect(() => {
-        if(!userPending && currentUser){
-            // Set redux current user
-        }
-    }, [currentUser, userPending]);
-
     const onSubmit: SubmitHandler<RegisterSchemaType> = async (data) => {
         try {
             const action = await dispatch(registerUser(data));
@@ -102,14 +80,22 @@ export default function Register() {
             }
             if (registerUser.fulfilled.match(action) && action.payload) {
                 toast.success('Compte créé avec succès');
-                // TODO : Begin with the login process
-                //     On recupere l'email et le mot de passe puis on fait un login qui va renvoyer un accessToken On  recupère le refreshToken
                 const {email, password} = data;
-                const loginData: LoginData = {
+                const LoginInfo: LoginData = {
                     email,
                     password
                 }
-                await loginUser(loginData)
+                loginUser(LoginInfo).then((data) => {
+                    localStorage.setItem("loginInfo", JSON.stringify(LoginInfo));
+                    setTimeout(() => {
+                        router.push("/confirm-otp");
+                    }, 2000);
+
+                }).catch((e) => {
+                    for (const error of e.response.data) {
+                        toast.error(error.message);
+                    }
+                })
 
             }
 
@@ -301,7 +287,7 @@ export default function Register() {
                     </div>
                 </div>
             </div>
-            <div className="w-1/2 h-full hidden lg:flex">
+            <div className="w-1/2 max-h-[120vh] hidden lg:flex">
                 <Image
                     src={login.src}
                     alt="first event"
