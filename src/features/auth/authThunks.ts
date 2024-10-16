@@ -1,6 +1,6 @@
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import server from "@/lib/server";
-import { LoginResponse } from '@/utils/types/auth';
+import { LoginResponse, User } from '@/utils/types/auth';
 
 interface RegisterData {
     email: string;
@@ -8,17 +8,7 @@ interface RegisterData {
     lastname: string;
     password: string;
 }
-interface User {
-    _v: number;
-    _id: string;
-    email: string;
-    firstname: string;
-    lastname: string;
-    hasBeenDeleted: boolean;
-    interests: unknown[];
-    createdAt: Date;
-    updatedAt: Date;
-}
+
 
 interface ErrorResponse {
     message: string;
@@ -31,10 +21,10 @@ export const registerUser = createAsyncThunk<
     { rejectValue: ErrorResponse }
 >(
     'auth/register',
-    async (data, {rejectWithValue}) => {
+    async (data, { rejectWithValue }) => {
         try {
             const response = await server()
-            .post<User>('/accounts/register', data);
+                .post('/accounts/register', data);
             return response.data;
         } catch (error: any) {
             if (error.response && error.response.data) {
@@ -43,7 +33,7 @@ export const registerUser = createAsyncThunk<
                     field: error.response.data[0]?.field
                 });
             }
-            return rejectWithValue({message: "Une erreur est survenue"});
+            return rejectWithValue({ message: "Une erreur est survenue" });
         }
     }
 );
@@ -51,7 +41,7 @@ export const registerUser = createAsyncThunk<
 export const loginUser = createAsyncThunk<
     LoginResponse,
     { email: string; password: string },
-    { rejectValue: ErrorResponse }>('auth/login', async (data, {rejectWithValue}) => {
+    { rejectValue: ErrorResponse }>('auth/login', async (data, { rejectWithValue }) => {
         try {
             const response = await server().post<LoginResponse>('/auth/login', data);
             return response.data;
@@ -62,7 +52,31 @@ export const loginUser = createAsyncThunk<
                     field: error.response.data[0]?.field
                 });
             }
-            return rejectWithValue({message: "Une erreur est survenue"});
+            return rejectWithValue({ message: "Une erreur est survenue" });
         }
     }
-);
+    );
+
+export const getCurrentUser = createAsyncThunk<
+    any,
+    void,
+    { rejectValue: ErrorResponse }>('auth/getCurrentUser', async (data, { rejectWithValue }) => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            const refreshToken = localStorage.getItem("refreshToken");
+            const response = await server({
+                'Authorization': accessToken ? `Bearer ${accessToken}` : null,
+                ["x-refresh"]: refreshToken ? refreshToken : null
+            }).get("/auth/current");
+            return response.data as User;
+        } catch (error: any) {
+            if (error.response && error.response.data) {
+                return rejectWithValue({
+                    message: error.response.data[0]?.message || "Une erreur est survenue",
+                    field: error.response.data[0]?.field
+                });
+            }
+            return rejectWithValue({ message: "Une erreur est survenue" });
+        }
+    }
+    );

@@ -1,45 +1,59 @@
 "use client";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import InputError from "@/app/_components/auth/InputError";
+import Loading from "@/components/Loading";
+import { getCurrentUser, loginUser } from "@/features/auth/authThunks";
+import { cn } from "@/lib/utils";
 import { loginSchema } from "@/schema/AuthValidation";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { LoginData } from "@/utils/types/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "/public/assets/logo.png";
-import React, { Suspense, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { cn } from "@/lib/utils";
-import Loading from "@/components/Loading";
-import InputError from "@/app/_components/auth/InputError";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { useGetCurrentUser, useLogin } from "@/_services/auth.service";
-import { useRouter } from "next/navigation";
-import { LoginData } from "@/utils/types/auth";
 import { toast } from "sonner";
-
+import logo from "/public/assets/logo.png";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [LoginInfo, setLoginInfo] = useState<LoginData>({ email: '', password: '' });
+  const dispatch = useAppDispatch();
+  const { accessToken, otpGenerated, error, currentUser, userFetched } = useAppSelector((state) => state.auth);
   const router = useRouter();
 
-  const { loginUser, isPending, error, data } = useLogin();
-  const {
-    getCurrentUser,
-    isPending: userPending,
-    error: userError,
-    data: currentUser,
-  } = useGetCurrentUser();
-
   const isButtonDisabled = (): boolean => {
-    if (errors.password || errors.email) {
+    if (errors.password || errors.email || otpGenerated) {
       return true;
     }
     return false;
   };
+
+  useEffect(() => {
+    if (!error) {
+      if (otpGenerated) {
+        setTimeout(() => {
+          router.push("/confirm-otp");
+        }, 2000);
+      } else if (!userFetched && accessToken) {
+        dispatch(getCurrentUser());
+        if (currentUser && currentUser.interests.length > 0) {
+          setTimeout(() => {
+            router.push("/home");
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            router.push("/welcome");
+          }, 2000);
+        }
+      }
+    } else {
+      console.log(error);
+      toast.error(error);
+    }
+  }, [otpGenerated, accessToken, router, dispatch, currentUser, error, userFetched])
 
   const {
     register,
@@ -51,45 +65,25 @@ const Login = () => {
   });
 
   const onSubmit = async (payload: LoginData) => {
-    setLoginInfo(payload)
-    console.log(payload);
-    loginUser(payload).then((data) => {
-      const { otpGenerated, refreshToken, accessToken } = data;
-      //If otp is generated, we need to redirect to the confirm otp page and submit again
-      if (otpGenerated) {
-        localStorage.setItem("loginInfo", JSON.stringify(LoginInfo));
-        setTimeout(() => {
-          router.push("/confirm-otp");
-        }, 2000);
-      } else {
-        //store in the localStorage the refreshToken and accessToken
-        localStorage.setItem("refreshToken", refreshToken);
-        localStorage.setItem("accessToken", accessToken);
+   
+    dispatch(loginUser(payload));
 
-        //Verify if the user has interests
-        getCurrentUser()
-          .then((data) => {
-            if (currentUser.interests.length > 0) {
-              setTimeout(() => {
-                router.push("/home");
-              }, 2000);
-            } else {
-              setTimeout(() => {
-                router.push("/welcome");
-              }, 2000);
-            }
-          }).catch((e) => {
-            console.log(e);
-            for (const error of e.response.data) {
-              toast.error(error.message);
-            }
-          });
-      }
-    }).catch((e) => {
-      for (const error of e.response.data) {
-        toast.error(error.message);
-      }
-    })
+    //     //Verify if the user has interests
+    //     getCurrentUser()
+    //       .then((data) => {
+    //         
+    //       }).catch((e) => {
+    //         console.log(e);
+    //         for (const error of e.response.data) {
+    //           toast.error(error.message);
+    //         }
+    //       });
+    //   }
+    // }).catch((e) => {
+    //   for (const error of e.response.data) {
+    //     toast.error(error.message);
+    //   }
+    // })
 
   };
 
