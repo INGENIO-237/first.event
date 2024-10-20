@@ -21,6 +21,7 @@
     "@vis.gl/react-google-maps": "^1.2.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "first.event": "file:",
     "framer-motion": "^11.3.27",
     "input-otp": "^1.2.4",
     "libphonenumber-js": "^1.11.8",
