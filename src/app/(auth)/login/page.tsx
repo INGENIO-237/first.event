@@ -1,59 +1,90 @@
 "use client";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import InputError from "@/app/_components/auth/InputError";
+import Loading from "@/components/Loading";
+import { getCurrentUser, loginUser } from "@/features/auth/authThunks";
+import { cn } from "@/lib/utils";
 import { loginSchema } from "@/schema/AuthValidation";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { LoginData } from "@/utils/types/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "/public/assets/logo.png";
-import React, { Suspense, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { cn } from "@/lib/utils";
-import Loading from "@/components/Loading";
-import InputError from "@/app/_components/auth/InputError";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { toast } from "sonner";
+import logo from "/public/assets/logo.png";
 
-type Schema = z.infer<typeof loginSchema>;
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const { accessToken, otpGenerated, error, currentUser, userFetched } = useAppSelector((state) => state.auth);
+  const router = useRouter();
 
   const isButtonDisabled = (): boolean => {
-    if (
-      errors.password ||
-      errors.email ||
-      email === "" ||
-      password === "" ||
-      password.length <= 6
-    ) {
+    if (errors.password || errors.email || otpGenerated) {
       return true;
     }
     return false;
   };
 
+  useEffect(() => {
+    if (!error) {
+      if (otpGenerated) {
+        setTimeout(() => {
+          router.push("/confirm-otp");
+        }, 2000);
+      } else if (!userFetched && accessToken) {
+        dispatch(getCurrentUser());
+        if (currentUser && currentUser.interests.length > 0) {
+          setTimeout(() => {
+            router.push("/home");
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            router.push("/welcome");
+          }, 2000);
+        }
+      }
+    } else {
+      console.log(error);
+      toast.error(error);
+    }
+  }, [otpGenerated, accessToken, router, dispatch, currentUser, error, userFetched])
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Schema>({
+    setValue
+  } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: Schema) => {
-    console.log(data);
+  const onSubmit = async (payload: LoginData) => {
+   
+    dispatch(loginUser(payload));
 
-    // TODO: send to backend and wait for the response to verify if it's the first login like that we know where we should redirect
+    //     //Verify if the user has interests
+    //     getCurrentUser()
+    //       .then((data) => {
+    //         
+    //       }).catch((e) => {
+    //         console.log(e);
+    //         for (const error of e.response.data) {
+    //           toast.error(error.message);
+    //         }
+    //       });
+    //   }
+    // }).catch((e) => {
+    //   for (const error of e.response.data) {
+    //     toast.error(error.message);
+    //   }
+    // })
 
-    //case if it's the first login
-    setTimeout(() => {
-      window.location.href = "/welcome";
-    }, 2000);
-    //case if it's not the first login
-    // setTimeout(() => {
-    //   window.location.href = '/home'
-    // }, 2000);
   };
 
   return (
@@ -83,12 +114,8 @@ const Login = () => {
               <div className="">
                 <input
                   type="email"
-                  id="email"
                   {...register("email")}
                   placeholder="Adresse Email"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setEmail(e.target.value)
-                  }
                   className={cn(
                     errors.email
                       ? "focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300"
@@ -103,12 +130,8 @@ const Login = () => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  id="password"
-                  {...register("password")}
                   placeholder="Mot de passe"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setPassword(e.target.value)
-                  }
+                  {...register('password')}
                   className={cn(
                     errors.password
                       ? "focus:border-red-500 focus:ring-2 focus:ring-offset-2 focus:ring-red-600 transition duration-300"
@@ -179,7 +202,8 @@ const Login = () => {
         <div className="bg-white w-1/2 h-screen min-h-md hidden md:flex">
           <Image
             src="/assets/images/auth-image.png"
-            alt="Next.js Logo"
+            alt="image"
+            priority
             className="w-full flex object-cover justify-center h-auto"
             width={800}
             height={0}

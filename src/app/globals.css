@@ -2,11 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+@layer base {
+    :root {
+      --background: 228 70% 100%;
+      --foreground: 228 69% 3%;
+      --muted: 330 1.03% 61.96%;
+      --muted-foreground: 228 8% 40%;
+      --popover: 228 70% 100%;
+      --popover-foreground: 228 69% 3%;
+      --card: 0 0% 99%;
+      --card-foreground: 228 69% 2%;
+      --border: 228 2% 95%;
+      --input: 228 2% 95%;
+      --primary: 253.55 84.93% 28.63%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 23.73 94.02% 45.88%;
+      --secondary-foreground: 228 0% 100%;
+      --accent: 228 8% 91%;
+      --accent-foreground: 228 8% 31%;
+      --destructive: 8 90% 36%;
+      --destructive-foreground: 8 90% 96%;
+      --ring: 228 70% 61%;
+      --radius: 0.5rem;
+    }
+  
+    .dark {
+      --background: 228 32% 1%;
+      --foreground: 228 28% 100%;
+      --muted: 228 8% 7%;
+      --muted-foreground: 228 8% 60%;
+      --popover: 228 32% 1%;
+      --popover-foreground: 228 28% 100%;
+      --card: 228 32% 2%;
+      --card-foreground: 0 0% 100%;
+      --border: 228 2% 13%;
+      --input: 228 2% 13%;
+      --primary: 228 70% 61%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 228 5% 15%;
+      --secondary-foreground: 228 5% 75%;
+      --accent: 228 5% 15%;
+      --accent-foreground: 228 5% 75%;
+      --destructive: 8 90% 56%;
+      --destructive-foreground: 0 0% 100%;
+      --ring: 228 70% 61%;
+    }
+  }
+  
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -47,3 +89,4 @@ body{
 .navContainer {
   padding: 0.7rem;
 }
+

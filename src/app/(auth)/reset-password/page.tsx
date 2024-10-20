@@ -1,80 +1,112 @@
 "use client";
-import { resetPasswordSchema } from "@/schema/AuthValidation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
-import logo from "/public/assets/logo.png";
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { z } from "zod";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { useResendOtp, useResetPassword } from "@/_services/auth.service";
 import InputError from "@/app/_components/auth/InputError";
-import { Dot, EyeIcon, EyeOffIcon } from "lucide-react";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { cn } from "@/lib/utils";
+import { resetPasswordSchema } from "@/schema/AuthValidation";
+import { resetPasswordFormData } from "@/utils/types/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { Dot, EyeIcon, EyeOffIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import {toast} from "sonner";
+import logo from "/public/assets/logo.png";
 
-type Schema = z.infer<typeof resetPasswordSchema>;
 
 const ResetPassword = () => {
   const otpLength = 5;
   const [showPassword, setShowPassword] = useState(false);
   const [otp, setOtp] = useState<string>("");
   const [timer, setTimer] = useState<number>(59); // Initialisation à 60 secondes
-  const [disabled, setDisabled] = useState<boolean>(true); // Bouton désactivé au départ
-  const [password, setPassword] = useState<string>("");
+  const [disabled, setDisabled] = useState<boolean>(true);
+  const [email, setEmail] = useState<string | null>("");
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Schema>({
+  } = useForm<resetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
   });
-  //TODO: initialize the State and add the otp input and also ad the validation
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-  };
+  const { resendOtp, data: otpData, error: otpError, isPending: isOtpPending } = useResendOtp();
+  const { resetPassword, data, error, isPending } = useResetPassword();
 
   const isButtonDisabled = (): boolean => {
-    if (
-      errors.password !== undefined ||
-      password == "" ||
-      otp.length < 5 ||
-      errors?.otp !== undefined ||
-      password.length <= 6
-    ) {
+    if ( otp.length < 5 || isPending || isOtpPending) {
       return true;
     }
     return false;
   };
+
   useEffect((): (() => void) => {
     let countdown: NodeJS.Timeout | undefined;
     if (timer > 0) {
       countdown = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
-    } else {
+    } else if (isOtpPending || isPending) {
+      setDisabled(true);
+    }
+    else {
       setDisabled(false);
     }
-
     // Nettoyage de l'intervalle lors du démontage du composant ou lors du changement de timer
     return () => clearInterval(countdown);
-  }, [timer]);
+  }, [timer, isOtpPending, isPending]);
+
+  useEffect(() => {
+    setEmail(localStorage.getItem("email"));
+  }, []);
+
+  
 
   const resendCode = (): void => {
-    setTimer(59); // Réinitialisation à 60 secondes
-    setDisabled(true); // Désactiver à nouveau le bouton
-    // Logique supplémentaire pour renvoyer le code OTP (à implémenter)
+    setTimer(59)
+    setDisabled(true);
+    if(email) {
+      resendOtp({ email: email })
+        .then((data) => {
+          toast.success('Code OTP renvoyé');
+        })
+        .catch((e) => {
+          console.log(e);
+          for (const error of e.response.data) {
+            toast.error(error.message);
+          }
+        });
+    }
+    else {
+      router.push("/forgot-password");
+    }
   };
-  const onSubmit = (data: Schema) => {
-    toast.success("OK");
-    //TODO: Send data to backend and wait for the response
+
+  const onSubmit = (data: resetPasswordFormData) => {
+    if (email) {
+      const payload = {
+        email: email,
+        otp: parseInt(data.otp),
+        password: data.password
+      }
+      resetPassword(payload)
+        .then((data) => {
+          toast.success('Mot de passe reinitialisé');
+          localStorage.removeItem("email");
+          router.push('/login');
+        })
+        .catch((e) => {
+          console.log(e);
+          for (const error of e.response.data) {
+            toast.error(error.message);
+          }
+        });
+
+    }
   };
   return (
     <div className="min-h-screen flex flex-row md:overflow-x-hidden">
@@ -88,6 +120,7 @@ const ResetPassword = () => {
                 width={150}
                 height={37.5}
                 className="mb-6 w-60"
+                priority
               />
             </Link>
           </div>
@@ -117,7 +150,7 @@ const ResetPassword = () => {
                           index={index}
                           className={cn(
                             errors.otp &&
-                              "border-red-500 focus:border-blue-500 "
+                            "border-red-500 focus:border-blue-500 border-2 "
                           )}
                         />
                       </InputOTPGroup>
@@ -133,7 +166,6 @@ const ResetPassword = () => {
             <div className="relative">
               <input
                 {...register("password")}
-                onChange={handlePasswordChange}
                 type={showPassword ? "text" : "password"}
                 placeholder="Nouveau mot de passe"
                 className={cn(
@@ -148,10 +180,12 @@ const ResetPassword = () => {
                 {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </span>
             </div>
-            <div className="flex justify-end text-[#484848]">
+            {errors?.password && (
+              <InputError message={errors?.password?.message} />
+            )}
+            {timer > 0 ? (<div className="flex justify-end text-[#484848]">
               {`00:${timer < 10 ? `0${timer}` : timer}`}
-            </div>
-
+            </div>) : ''}
             <div className="flex items-start md:items-center justify-between">
               <span className="font-bold text-lg text-[#484848] ">
                 Je n&apos;ai pas reçu de code
@@ -165,10 +199,6 @@ const ResetPassword = () => {
                 Renvoyer le code
               </button>
             </div>
-
-            {errors?.password && (
-              <InputError message={errors?.password?.message} />
-            )}
             <div className="">
               <button
                 type="submit"
@@ -193,6 +223,7 @@ const ResetPassword = () => {
           className="w-full flex object-cover justify-center h-screen"
           width={800}
           height={0}
+          priority
         />
       </div>
     </div>
