@@ -1,7 +1,7 @@
 "use client";
-import InputError from "@/app/_components/auth/InputError";
+import InputError from "@/components/custom/auth/InputError";
 import Loading from "@/components/Loading";
-import { getCurrentUser, loginUser } from "@/features/auth/authThunks";
+import { getCurrentUser, loginUser } from "@/store/slices/auth/authThunks";
 import { cn } from "@/lib/utils";
 import { loginSchema } from "@/schema/AuthValidation";
 import { useAppDispatch, useAppSelector } from "@/store/store";

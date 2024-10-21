@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import SideBar from "../_components/dashboard/SideBar";
-import NavBar from "../_components/profile/NavBar";
-import MobNavBar from "../_components/profile/MobNavBar";
+import SideBar from "../../components/custom/dashboard/SideBar";
+import NavBar from "../../components/custom/profile/NavBar";
+import MobNavBar from "../../components/custom/profile/MobNavBar";
 
 export default function RootLayout({
     children,

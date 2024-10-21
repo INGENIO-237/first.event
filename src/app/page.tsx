@@ -2,8 +2,8 @@
 import React, { useState, useCallback, useEffect } from "react";
 import GoogleMapReact from "google-map-react";
 import Image from "next/image";
-import MobNavBar from "./_components/profile/MobNavBar";
-import NavBar from "./_components/profile/NavBar";
+import MobNavBar from "../components/custom/profile/MobNavBar";
+import NavBar from "../components/custom/profile/NavBar";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { interests } from "@/utils/interests";
@@ -14,9 +14,9 @@ import topTendances, {
   topTendanceInterface,
 } from "@/utils/topTendances";
 import ordnung from "@/utils/ordnung";
-import { TendanceCard } from "./_components/TendanceCard";
-import { EventSection } from "./_components/EventSection";
-import Heading from "./_components/HeadingCarousel";
+import { TendanceCard } from "../components/custom/TendanceCard";
+import { EventSection } from "../components/custom/EventSection";
+import Heading from "../components/custom/HeadingCarousel";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn, generateKey } from "@/lib/utils";
-import Card, { PMCard } from "../_components/Card";
+import Card, { PMCard } from "../../../components/custom/profile/Card";
 import { StripeCardElement } from "@stripe/stripe-js";
 import { toast } from "sonner";
 import ProgressButton from "@/components/ui/progress-button";

@@ -1,6 +1,6 @@
-import DashboardEventCaroussel from '@/app/_components/dashboard/DashboardEventCaroussel'
+import DashboardEventCaroussel from '@/components/custom/dashboard/DashboardEventCaroussel'
 import Header from '../_components/Header'
-import DashboardOrganizersCaroussel from '@/app/_components/dashboard/DashboardOrganizersCaroussel';
+import DashboardOrganizersCaroussel from '@/components/custom/dashboard/DashboardOrganizersCaroussel';
 import { PencilLine, WandSparkles } from 'lucide-react';
 import Link from 'next/link';
 

@@ -3,8 +3,8 @@ import { interests } from '@/utils/interests'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import React, { useState } from 'react'
-import Checkbox from '@/app/_components/Checkbox'
-import EventBanner from '@/app/_components/event/EventBanner'
+import Checkbox from '@/components/custom/Checkbox'
+import EventBanner from '@/components/custom/event/EventBanner'
 import event from '/public/assets/images/event-image.png'
 
 const Search = () => {

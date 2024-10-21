@@ -1,8 +1,8 @@
 "use client";
-import InputError from "@/app/_components/auth/InputError";
-import Checkbox from "@/app/_components/Checkbox";
-import CitySelectInput from "@/app/_components/CitySelect";
-import StateSelectInput from "@/app/_components/StateSelect";
+import InputError from "@/components/custom/auth/InputError";
+import Checkbox from "@/components/custom/Checkbox";
+import CitySelectInput from "@/components/custom/CitySelect";
+import StateSelectInput from "@/components/custom/StateSelect";
 import { cn } from "@/lib/utils";
 import {
   AdressValidationSchema,
@@ -17,8 +17,8 @@ import { useForm } from "react-hook-form";
 import { FiUser } from "react-icons/fi";
 import { toast } from "sonner";
 import * as z from "zod";
-import Input from "../../_components/Input";
-import CountrySelectInput from "@/app/_components/CountrySelect";
+import Input from "../../../components/custom/Input";
+import CountrySelectInput from "@/components/custom/CountrySelect";
 
 type GeneralInfo = z.infer<typeof GeneralInfoSchema>;
 type AddressType = z.infer<typeof AdressValidationSchema>;
@@ -29,7 +29,7 @@ const Profile = () => {
   const [billAsHome, setBillAsHome] = useState<boolean>(true);
   const [shippAsHome, setShippAsHome] = useState<boolean>(true);
   const [countryid, setcountryid] = useState<number>(0);
-  const [stateid, setstateid] = useState<number>(0);
+  const [stateid, setStateId] = useState<number>(0);
   const [shippingcountryid, setshippingcountryid] = useState<number>(0);
   const [billingcountryid, setbillingcountryid] = useState<number>(0);
   const [shippingstateid, setshippingstateid] = useState<number>(0);
@@ -120,7 +120,7 @@ const Profile = () => {
             Compte créé le {date}
           </span>
           <h1 className="md:text-3xl text-2xl text-center md:text-start font-bold text-first_violet">
-            Informations Personnels
+            Informations Personnelles
           </h1>
         </div>
         <div className="flex flex-col items-center  md:items-start space-y-4">
@@ -251,7 +251,7 @@ const Profile = () => {
                 <StateSelectInput
                   countryid={countryid}
                   onChange={(e: any) => {
-                    setstateid(e.id);
+                    setStateId(e.id);
                     setAddressValue('province', e.name);
                   }}
                   label="Province"
@@ -409,7 +409,7 @@ const Profile = () => {
                       <StateSelectInput
                         countryid={shippingcountryid}
                         onChange={(e: any) => {
-                          setstateid(e.id);
+                          setStateId(e.id);
                           setAddressValue('shipping_province', e.name);
                         }}
                         label="Province"

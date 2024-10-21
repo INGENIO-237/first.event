@@ -1,6 +1,6 @@
 "use client";
 import { useForgotPassword } from "@/_services/auth.service";
-import InputError from "@/app/_components/auth/InputError";
+import InputError from "@/components/custom/auth/InputError";
 import { cn } from "@/lib/utils";
 import { forgotPasswordSchema } from "@/schema/AuthValidation";
 import { forgotPasswordData } from "@/utils/types/auth";

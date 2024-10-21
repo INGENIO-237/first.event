@@ -1,15 +1,12 @@
-
 "use client";
-import InterestCard from "@/app/_components/config-account/InterestCard";
-import ProgressBar from "@/app/_components/config-account/ProgressBar";
+import InterestCard from "@/components/custom/config-account/InterestCard";
+import ProgressBar from "@/components/custom/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import { interests as interestsData } from "@/utils/interests";
 import { SelectedInterest, SetupInterests } from "@/utils/types/setup";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import {toast} from "sonner";
-
-
+import { toast } from "sonner";
 
 const FirstStep = () => {
   const [interests, setInterests] = useState<SelectedInterest[]>([]);
@@ -28,12 +25,12 @@ const FirstStep = () => {
 
         // Update the interest object or remove it if no tags are left
         return updatedTags.length
-            ? prevSelected.map((item) =>
-                item.interest === interestName
-                    ? {...item, tags: updatedTags}
-                    : item
+          ? prevSelected.map((item) =>
+              item.interest === interestName
+                ? { ...item, tags: updatedTags }
+                : item
             )
-            : prevSelected.filter((item) => item.interest !== interestName);
+          : prevSelected.filter((item) => item.interest !== interestName);
       } else {
         // If the category does not exist, add it with the selected tag
         return [...prevSelected, { interest: interestName, tags: [tag] }];
@@ -41,24 +38,20 @@ const FirstStep = () => {
     });
   };
 
-
   const isButtonDisabled = () => {
     return interests.length == 0;
-
   };
 
   useEffect(() => {
     setInterests(JSON.parse(localStorage.getItem("interests") || "[]"));
-  }, [])
+  }, []);
 
   console.log(isButtonDisabled());
 
   const handleSubmit = () => {
     if (isButtonDisabled()) {
-
       toast.warning("Veuillez sélectionner au moins un centre d'intérêts");
-    }
-    else {
+    } else {
       //store interests
       localStorage.setItem("interests", JSON.stringify(interests));
       console.log("Selected interests:", interests);
@@ -68,11 +61,10 @@ const FirstStep = () => {
         interestsName.push(interest.interest);
       });
       const payload: SetupInterests = {
-        interests: interestsName
-      }
+        interests: interestsName,
+      };
 
       // TODO: Add the API logic here
-
     }
   };
 
@@ -136,7 +128,7 @@ const FirstStep = () => {
                 "border border-first_orange bg-white  p-2 rounded text-first_orange  ",
                 isButtonDisabled()
                   ? "cursor-not-allowed "
-                  : "hover:bg-first_orange hover:text-white",
+                  : "hover:bg-first_orange hover:text-white"
               )}
             >
               Continuer

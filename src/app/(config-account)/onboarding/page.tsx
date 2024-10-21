@@ -1,4 +1,4 @@
-import Card from "@/app/_components/config-account/Card";
+import Card from "@/components/custom/config-account/Card";
 import Image, { StaticImageData } from "next/image";
 import image2 from "/public/assets/images/auth-event.png";
 import image3 from "/public/assets/images/auth-planification.png";

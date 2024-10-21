@@ -1,6 +1,6 @@
 "use client";
 import { useResendOtp, useResetPassword } from "@/_services/auth.service";
-import InputError from "@/app/_components/auth/InputError";
+import InputError from "@/components/custom/auth/InputError";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { cn } from "@/lib/utils";
 import { resetPasswordSchema } from "@/schema/AuthValidation";
