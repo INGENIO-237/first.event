@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn, generateKey } from "@/lib/utils";
-import Card, { PMCard } from "../_components/Card";
+import Card, { PMCard } from "../../../components/custom/profile/Card";
 import { StripeCardElement } from "@stripe/stripe-js";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import ProgressButton from "@/components/ui/progress-button";
 
 type Props = {};
@@ -116,8 +116,7 @@ const PaymentMethod = ({}: Props) => {
       // TODO: Send data to the backend
       toast.success(
         "Moyen de paiement ajouté avec succès: " +
-          paymentMethod.paymentMethodId,
-        { hideProgressBar: true }
+          paymentMethod.paymentMethodId
       );
       setIsProcessing(false);
       setAddCardMode(false);

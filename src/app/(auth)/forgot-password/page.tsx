@@ -1,43 +1,52 @@
 "use client";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import logo from "/public/assets/logo.png";
+import { useForgotPassword } from "@/_services/auth.service";
+import InputError from "@/components/custom/auth/InputError";
 import { cn } from "@/lib/utils";
 import { forgotPasswordSchema } from "@/schema/AuthValidation";
-import * as z from "zod";
+import { forgotPasswordData } from "@/utils/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "react-toastify";
+import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import InputError from "@/app/_components/auth/InputError";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import logo from "/public/assets/logo.png";
 
-type Schema = z.infer<typeof forgotPasswordSchema>;
+
 
 const ForgotPassword = () => {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
 
   const isButtonDisabled = (): boolean => {
-    if (errors.email || email == "") {
+    if (email == "" || isPending) {
       return true;
     }
     return false;
   };
 
+  const { askForgotPassword, data, error, isPending } = useForgotPassword();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Schema>({
+  } = useForm<forgotPasswordData>({
     resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const onSubmit = (data: Schema) => {
+  const onSubmit = (payload: forgotPasswordData) => {
     //Save the email in the local storage
-    localStorage.setItem("email", JSON.stringify(email));
+    localStorage.setItem("email", payload.email);
     // TODO: Send payload to backend and wait for a success response to redirect to the reset password page
-    toast.success("OK");
+    askForgotPassword(payload).then((data) => {
+      console.log(data);
+      toast.success('Code OTP envoyé');
+      router.push('/reset-password');
+    }).catch((e) => {
+      console.log(e)
+    })
     setTimeout(() => {
       router.push("/reset-password");
     }, 2000);
@@ -47,14 +56,11 @@ const ForgotPassword = () => {
       <div className="w-full min-h-screen md:w-1/2 p-4 md:p-8 flex flex-col justify-center">
         <div className="max-w-md m-auto w-full">
           <div className="flex d justify-start items-center">
-            {/* <div className='md:min-h-screen md:flex flex-row md:overflow-x-hidden'>
-        <div className='w-full min-h-screen md:w-1/2 p-4 md:p-8 flex flex-col justify-center' >
-          <div className="max-w-md mx-auto w-full">
-            <div className="flex justify-start items-center"> */}
             <Link href="/" className="mb-4 md:mb-0">
               <Image
                 src={logo}
                 alt="FirstEvent Logo"
+                priority
                 width={150}
                 height={37.5}
                 className="mb-6 w-60"
@@ -112,6 +118,7 @@ const ForgotPassword = () => {
       <div className="w-1/2 h-screen hidden md:flex">
         <Image
           src="/assets/images/auth-image.png"
+          priority
           alt="Next.js Logo"
           className="w-full flex object-cover justify-center "
           width={800}

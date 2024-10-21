@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import FloatingInput from "../_components/FloatingInput";
+import FloatingInput from "../../../components/custom/profile/FloatingInput";
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

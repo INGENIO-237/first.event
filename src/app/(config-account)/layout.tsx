@@ -1,4 +1,4 @@
-import Navbar from "../_components/config-account/Navbar";
+import Navbar from "../../components/custom/config-account/Navbar";
 
 export default function RootLayout({
   children,

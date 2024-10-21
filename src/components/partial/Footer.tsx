@@ -7,7 +7,7 @@ import logo from "/public/assets/logo-white.png";
 import { IconType } from "react-icons";
 import { FaFacebookF, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { ListUrl } from "@/app/_components/auth/ListUrl";
+import { ListUrl } from "@/components/custom/auth/ListUrl";
 
 const Footer: React.FC = () => {
   interface Social {
@@ -64,7 +64,13 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between gap-10 lg:px-8">
           <div className="flex flex-col justify-center items-center mb-8">
             <Link href="/" className="my-4 md:my-0">
-              <Image src={logo} alt="FirstEvent Logo" width={250} height={40} />
+              <Image
+                src={logo}
+                alt="FirstEvent Logo"
+                priority
+                width={250}
+                height={40}
+              />
             </Link>
             <div className="flex space-x-4">
               {socials.map((social, index) => {

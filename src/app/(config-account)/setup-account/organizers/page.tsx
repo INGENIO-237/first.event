@@ -1,15 +1,16 @@
 "use client";
 
-import Checkbox from "@/app/_components/Checkbox";
-import ProgressBar from "@/app/_components/config-account/ProgressBar";
+import Checkbox from "@/components/custom/Checkbox";
+import ProgressBar from "@/components/custom/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { FaBriefcase, FaMusic, FaPlus, FaCheck } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import CategorySkeleton from "./_components/CategorySkeleton";
 import AutoLayout from "./_components/AutoLayout";
+import { useRouter } from "next/navigation";
 
 interface ListItem {
   _id: number;
@@ -30,71 +31,72 @@ const ThirdStep = () => {
   const [categoryData, setCategoryData] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-  const initialOrganizers: Category[] = [
-    {
-      name: "Affaires",
-      icon: <FaBriefcase />,
-      items: [
-        {
-          _id: 1,
-          title: "Simplykart Inc",
-          subtitle: "Site informatique et outils",
-          imageUrl:
-            "https://plus.unsplash.com/premium_photo-1675088136456-4eb83fc5b827?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          isFollowed: true,
-        },
-        {
-          _id: 2,
-          title: "Simplykart Inc",
-          subtitle: "Site informatique et outils",
-          imageUrl:
-            "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
-          isFollowed: false,
-        },
-        {
-          _id: 3,
-          title: "Simplykart Inc",
-          subtitle: "Site informatique et outils",
-          imageUrl:
-            "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
-          isFollowed: false,
-        },
-        {
-          _id: 4,
-          title: "Simplykart Incr",
-          subtitle:
-            "Site informatique et outils kwdhbjehbfjwherbfjwhberfjhwbrjdhfbjwhrbfdjwhbrfdjwhbrjdfhbwjrhmbfjehbfh",
-          imageUrl:
-            "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
-          isFollowed: false,
-        },
-        {
-          _id: 5,
-          title: "Simplykart Inc",
-          subtitle: "Site informatique et outils",
-          imageUrl:
-            "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
-          isFollowed: false,
-        },
-      ],
-    },
-    {
-      name: "Musique",
-      icon: <FaMusic />,
-      items: [
-        {
-          _id: 10,
-          title: "Simplykart Inc",
-          subtitle: "Site informatique et outils",
-          imageUrl: "/assets/images/auth-event.png",
-          isFollowed: false,
-        },
-      ],
-    },
-  ];
+  const router = useRouter();
 
   useEffect(() => {
+    const initialOrganizers: Category[] = [
+      {
+        name: "Affaires",
+        icon: <FaBriefcase />,
+        items: [
+          {
+            _id: 1,
+            title: "Simplykart Inc",
+            subtitle: "Site informatique et outils",
+            imageUrl:
+              "https://plus.unsplash.com/premium_photo-1675088136456-4eb83fc5b827?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            isFollowed: true,
+          },
+          {
+            _id: 2,
+            title: "Simplykart Inc",
+            subtitle: "Site informatique et outils",
+            imageUrl:
+              "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
+            isFollowed: false,
+          },
+          {
+            _id: 3,
+            title: "Simplykart Inc",
+            subtitle: "Site informatique et outils",
+            imageUrl:
+              "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
+            isFollowed: false,
+          },
+          {
+            _id: 4,
+            title: "Simplykart Incr",
+            subtitle:
+              "Site informatique et outils kwdhbjehbfjwherbfjwhberfjhwbrjdhfbjwhrbfdjwhbrfdjwhbrjdfhbwjrhmbfjehbfh",
+            imageUrl:
+              "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
+            isFollowed: false,
+          },
+          {
+            _id: 5,
+            title: "Simplykart Inc",
+            subtitle: "Site informatique et outils",
+            imageUrl:
+              "https://images.unsplash.com/photo-1725961476494-efa87ae3106a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8",
+            isFollowed: false,
+          },
+        ],
+      },
+      {
+        name: "Musique",
+        icon: <FaMusic />,
+        items: [
+          {
+            _id: 10,
+            title: "Simplykart Inc",
+            subtitle: "Site informatique et outils",
+            imageUrl: "/assets/images/auth-event.png",
+            isFollowed: false,
+          },
+        ],
+      },
+    ];
+
     setTimeout(() => {
       setCategoryData(initialOrganizers.slice(0, 3));
       setLoading(false);
@@ -154,6 +156,12 @@ const ThirdStep = () => {
     } else {
       toast.error("Aucun organisateur suivi");
     }
+
+    let nextLink = localStorage.getItem("redirect-after-setup-account");
+    if (nextLink) {
+      router.push(nextLink);
+    }
+    router.push("/");
   };
 
   const renderCategoryList = () => {
@@ -238,16 +246,13 @@ const ThirdStep = () => {
               pour être averti lorsqu&apos;ils ajoutent un nouvel événement
             </span>
             <div className="w-full">
-              <span className="font-medium text-sm md:text-base">
-                Étape 3 sur 3
-              </span>
-              <ProgressBar limit={3} step={3} />
+              <ProgressBar limit={2} step={2} />
             </div>
             <div className="w-full flex items-center justify-between">
               <Checkbox
                 id="email-send"
                 checked={isChecked}
-                onChange={setIsChecked}
+                onChange={() => setIsChecked(!isChecked)}
                 primaryColor="text-first_orange"
                 inputBorderColor="border-first_orange"
               />

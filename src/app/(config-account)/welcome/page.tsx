@@ -1,9 +1,9 @@
+"use client";
 import Image from "next/image";
-import image1 from "/public/assets/images/auth-experience.png";
-import hand from "/public/assets/images/hand.png";
 import Link from "next/link";
+import image1 from "/public/assets/images/auth-experience.png";
 
-const FirstLoginPage = () => {
+const Welcome = () => {
   return (
     <div className="mx-auto my-auto p-4 flex flex-col items-center justify-center">
       <div className="flex flex-col items-center">
@@ -28,7 +28,7 @@ const FirstLoginPage = () => {
         </div>
         <div className="flex justify-end items-end w-full">
           <Link
-            href={"/setup-account"}
+            href={"/setup-account/interests"}
             className="text-first_gray border  border-first_gray  p-3 hover:bg-first_orange rounded hover:text-white  transition duration-300 text-wrap "
           >
             Dites nous en plus sur vous
@@ -39,4 +39,4 @@ const FirstLoginPage = () => {
   );
 };
 
-export default FirstLoginPage;
+export default Welcome;

@@ -1,19 +1,14 @@
 "use client";
-import InterestCard from "@/app/_components/config-account/InterestCard";
-import ProgressBar from "@/app/_components/config-account/ProgressBar";
+import InterestCard from "@/components/custom/config-account/InterestCard";
+import ProgressBar from "@/components/custom/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import { interests as interestsData } from "@/utils/interests";
+import { SelectedInterest, SetupInterests } from "@/utils/types/setup";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-interface SelectedInterest {
-  interest: string;
-  tags: Array<string>;
-}
-const SecondStep = () => {
-  const router = useRouter();
+const FirstStep = () => {
   const [interests, setInterests] = useState<SelectedInterest[]>([]);
   const handleInterestToggle = (interestName: string, tag: string) => {
     setInterests((prevSelected) => {
@@ -29,15 +24,13 @@ const SecondStep = () => {
           : [...existingInterest.tags, tag];
 
         // Update the interest object or remove it if no tags are left
-        const updatedInterests = updatedTags.length
+        return updatedTags.length
           ? prevSelected.map((item) =>
               item.interest === interestName
                 ? { ...item, tags: updatedTags }
                 : item
             )
           : prevSelected.filter((item) => item.interest !== interestName);
-
-        return updatedInterests;
       } else {
         // If the category does not exist, add it with the selected tag
         return [...prevSelected, { interest: interestName, tags: [tag] }];
@@ -46,34 +39,33 @@ const SecondStep = () => {
   };
 
   const isButtonDisabled = () => {
-    if (interests.length == 0) {
-      return true;
-    }
-    toast.warn("Veillez selectionner au moins un centre d'intérêts");
-    return false;
+    return interests.length == 0;
   };
-  //verify if the location is stored
-  //get the stored interest
 
-  // if (typeof localStorage !== undefined) {
-  //     if (!localStorage.getItem('location')) {
-  //         toast.warn('Veillez preciser une localisation!')
-  //         setTimeout(() => {
-  //            router.push('/setup-account');
-  //         }, 1500)
-  //     }
-  //     let storedInterests = localStorage.getItem('interests')
-  //     if (storedInterests) {
-  //         setInterests(JSON.parse(storedInterests) as object[] as SelectedInterest[]);
-  //     }
-  // }
+  useEffect(() => {
+    setInterests(JSON.parse(localStorage.getItem("interests") || "[]"));
+  }, []);
+
+  console.log(isButtonDisabled());
 
   const handleSubmit = () => {
-    //store interests
-    localStorage.setItem("interests", JSON.stringify(interests));
-    console.log("Selected interests:", interests);
-    toast.success("OK");
-    // TODO: Add the API logic here
+    if (isButtonDisabled()) {
+      toast.warning("Veuillez sélectionner au moins un centre d'intérêts");
+    } else {
+      //store interests
+      localStorage.setItem("interests", JSON.stringify(interests));
+      console.log("Selected interests:", interests);
+      //Select only the interests name and place them in the payload
+      const interestsName: Array<string> = [];
+      interests.forEach((interest, index) => {
+        interestsName.push(interest.interest);
+      });
+      const payload: SetupInterests = {
+        interests: interestsName,
+      };
+
+      // TODO: Add the API logic here
+    }
   };
 
   return (
@@ -85,21 +77,14 @@ const SecondStep = () => {
               Dites nous ce que vous aimez.
             </h1>
             <span>
-              Personnalisez vos recommandations d&apos;évenements en fonction de
-              vos interêts.
+              Personnalisez vos recommandations d&apos;évènements en fonction de
+              vos interets.
             </span>
             <div className="w-full">
-              <span className="text-lg font-medium">Étape 2 sur 3</span>
-              <ProgressBar limit={3} step={2} />
+              <ProgressBar limit={2} />
             </div>
           </div>
           <div className="hidden md:flex flex-row justify-between w-full">
-            <Link
-              href={"/setup-account"}
-              className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white"
-            >
-              Précedent
-            </Link>
             <button
               onClick={() => handleSubmit()}
               className="border border-first_orange bg-white hover:bg-first_orange p-2 rounded text-first_orange hover:text-white "
@@ -137,12 +122,13 @@ const SecondStep = () => {
               Précedent
             </Link>
             <button
+              disabled={isButtonDisabled()}
               onClick={() => handleSubmit()}
               className={cn(
+                "border border-first_orange bg-white  p-2 rounded text-first_orange  ",
                 isButtonDisabled()
-                  ? "cursor-not-allowed"
-                  : "hover:bg-first_orange hover:text-white",
-                "border border-first_orange bg-white  p-2 rounded text-first_orange  "
+                  ? "cursor-not-allowed "
+                  : "hover:bg-first_orange hover:text-white"
               )}
             >
               Continuer
@@ -154,4 +140,4 @@ const SecondStep = () => {
   );
 };
 
-export default SecondStep;
+export default FirstStep;
