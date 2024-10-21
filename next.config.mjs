@@ -1,28 +1,27 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images:{
-        // domains:['',''],
-        remotePatterns: [
-          {
-            protocol: 'http',
-            hostname: 'localhost',
-            port: '3000',
-            pathname: '',
-          },
-          {
-            protocol: 'https',
-            hostname: 'images.unsplash.com',
-            port: '',
-            pathname: '',
-          },
-          {
-            protocol: 'https',
-            hostname: 'plus.unsplash.com',
-            port: '',
-            pathname: '',
-          },
-        ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/**', // Match all paths on localhost
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**', // Match all paths under Unsplash
+      },
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com',
+        port: '',
+        pathname: '/**', // Match all paths under plus.unsplash.com
+      },
+    ],
+  },
 };
 
 export default nextConfig;

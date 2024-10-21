@@ -5,15 +5,17 @@ import ProgressBar from "@/components/custom/config-account/ProgressBar";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import image from "/public/assets/images/setup-account/first-step.png";
 
 const FirstStep = () => {
-  const [experience, setExperience] = useState<string>(
-    localStorage.getItem("experience") ?? ""
-  );
+  const [experience, setExperience] = useState<string>("");
   const router = useRouter();
+
+  useEffect(() => {
+    setExperience(localStorage.getItem("experience") ?? "");
+  }, []);
 
   let condition = false;
   if (condition) {

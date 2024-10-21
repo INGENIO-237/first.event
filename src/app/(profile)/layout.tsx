@@ -1,7 +1,6 @@
 import MobNavBar from "../../components/custom/profile/MobNavBar";
 import NavBar from "../../components/custom/profile/NavBar";
 import SideBar from "../../components/custom/profile/SideBar";
-import "react-country-state-city/dist/react-country-state-city.css";
 
 export default function RootLayout({
   children,

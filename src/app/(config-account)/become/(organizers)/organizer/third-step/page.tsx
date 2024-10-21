@@ -6,15 +6,17 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import image from "/public/assets/images/setup-account/third-step.png";
 
 const ThirdStep = () => {
-  const [targetYearlyEvents, setTargetYearlyEvents] = useState<string>(
-    localStorage.getItem("targetYearlyEvents") ?? ""
-  );
+  const [targetYearlyEvents, setTargetYearlyEvents] = useState<string>("");
   const router = useRouter();
+
+  useEffect(() => {
+    setTargetYearlyEvents(localStorage.getItem("targetYearlyEvents") || "");
+  }, []);
 
   const handleSubmit = () => {
     localStorage.setItem("targetYearlyEvents", targetYearlyEvents);

@@ -1,7 +1,7 @@
-import { SelectedInterest } from "@/app/(config-account)/setup-account/interests/page";
 import { AdressValidationSchema, GeneralInfoSchema } from "@/schema/SettingsValidation";
 import * as z from "zod";
 import { LoginData, OTPData } from "./types/auth";
+import { SelectedInterest } from "./types/setup";
 
 type addressDataType = z.infer<typeof AdressValidationSchema>;
 type GeneralInfo = z.infer<typeof GeneralInfoSchema>;

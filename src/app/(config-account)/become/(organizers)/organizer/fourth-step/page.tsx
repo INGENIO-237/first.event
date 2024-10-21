@@ -6,14 +6,21 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import image from "/public/assets/images/setup-account/fourth-step.png";
 
 const FourthStep = () => {
   const [participationEvaluation, setParticipationEvaluation] =
-    useState<string>(localStorage.getItem("participationEvaluation") ?? "");
+    useState<string>("");
   const router = useRouter();
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem("participationEvaluation");
+    if (storedValue) {
+      setParticipationEvaluation(storedValue);
+    }
+  }, []);
 
   const handleSubmit = () => {
     localStorage.setItem("participationEvaluation", participationEvaluation);

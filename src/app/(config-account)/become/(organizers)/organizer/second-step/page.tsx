@@ -6,15 +6,17 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import image from "/public/assets/images/setup-account/second-step.png";
 
 const SecondStep = () => {
-  const [pastTeam, setPastTeam] = useState<string>(
-    localStorage.getItem("pastTeam") ?? ""
-  );
+  const [pastTeam, setPastTeam] = useState<string>("");
   const router = useRouter();
+
+  useEffect(() => {
+    setPastTeam(localStorage.getItem("pastTeam") ?? "");
+  }, []);
 
   const handleSubmit = () => {
     localStorage.setItem("pastTeam", pastTeam);

@@ -18,6 +18,7 @@ interface TextInputProps {
   register?: UseFormRegisterReturn;
   setState?: (e: React.ChangeEvent) => void;
   error?: string;
+  className?: string;
 }
 
 const Input = ({
@@ -29,6 +30,7 @@ const Input = ({
   register,
   setState,
   error,
+  className,
 }: TextInputProps) => {
   const changePhoneValue = (
     e: React.ChangeEvent,
@@ -92,7 +94,7 @@ const Input = ({
     );
   } else {
     return (
-      <div className="md:w-1/2 w-full flex flex-col  ">
+      <div className={cn("md:w-1/2 w-full flex flex-col", className)}>
         <>
           <label className="font-medium">{label}</label>
           <input

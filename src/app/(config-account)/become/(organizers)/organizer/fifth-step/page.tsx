@@ -6,16 +6,21 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import image from "/public/assets/images/setup-account/fourth-step.png";
 import { ParseOrganizerData } from "@/utils/parser";
 
 const FifthStep = () => {
-  const [goals, setGoals] = useState<string[]>(
-    JSON.parse(localStorage.getItem("goals") ?? "[]")
-  );
+  const [goals, setGoals] = useState<string[]>([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const storedGoals = localStorage.getItem("goals");
+    if (storedGoals) {
+      setGoals(JSON.parse(storedGoals ?? "[]"));
+    }
+  }, []);
 
   const handleSubmit = () => {
     // retrieve other elements for validation
